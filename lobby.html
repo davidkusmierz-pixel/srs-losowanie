@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
@@ -244,359 +243,310 @@
       }
     }
   </style>
-
 </head>
 
 <body>
 
   <div class="container">
 
-```
-<h1>🎮 SRS LOBBY COMBO</h1>
+    <h1>🎮 SRS LOBBY COMBO</h1>
 
-<div class="card">
+    <div class="card">
 
-  <div class="admin-row">
+      <div class="admin-row">
 
-    <input
-      type="password"
-      id="adminPin"
-      placeholder="🔒 PIN administratora"
-    >
+        <input
+          type="password"
+          id="adminPin"
+          placeholder="🔒 PIN administratora"
+        >
 
-    <button id="newRoundBtn">
-      🔄 NOWA RUNDA
-    </button>
+        <button id="newRoundBtn">
+          🔄 NOWA RUNDA
+        </button>
+
+      </div>
+
+      <div id="adminInfo">
+        Wpisz PIN, aby rozpocząć rundę.
+      </div>
+
+    </div>
+
+
+    <div class="card status-card">
+
+      <div id="phaseStatus">
+        ⏳ BRAK AKTYWNEJ RUNDY
+      </div>
+
+      <div id="countdown">
+        00:00
+      </div>
+
+      <div id="phaseInfo">
+        Czekamy na rozpoczęcie nowej rundy.
+      </div>
+
+    </div>
+
+
+    <div id="comboSection" class="card hidden">
+
+      <div class="section-title">
+        ➕ DODAJ SWOJE COMBO
+      </div>
+
+
+      <label class="label">
+        🏁 WYBIERZ TOR
+      </label>
+
+      <select id="trackSelect">
+
+        <option value="">-- WYBIERZ TOR --</option>
+
+        <option>Autodrome Lago Maggiore</option>
+        <option>Autopolis</option>
+        <option>Blue Moon Bay Speedway</option>
+        <option>Brands Hatch</option>
+        <option>Circuit de Barcelona-Catalunya</option>
+        <option>Circuit de la Sarthe</option>
+        <option>Circuit de Spa-Francorchamps</option>
+        <option>Daytona Road Course</option>
+        <option>Deep Forest Raceway</option>
+        <option>Dragon Trail - Seaside</option>
+        <option>Fuji International Speedway</option>
+        <option>Goodwood Motor Circuit</option>
+        <option>Grand Valley</option>
+        <option>High Speed Ring</option>
+        <option>Interlagos</option>
+        <option>Kyoto Driving Park</option>
+        <option>Monza Circuit</option>
+        <option>Mount Panorama</option>
+        <option>Nürburgring GP</option>
+        <option>Nürburgring Nordschleife</option>
+        <option>Nürburgring 24h</option>
+        <option>Red Bull Ring</option>
+        <option>Road Atlanta</option>
+        <option>Sardegna Road Track</option>
+        <option>Sardegna Windmills</option>
+        <option>Suzuka Circuit</option>
+        <option>Tokyo Expressway</option>
+        <option>Trial Mountain Circuit</option>
+        <option>Watkins Glen</option>
+        <option>WeatherTech Raceway Laguna Seca</option>
+
+      </select>
+
+
+      <label class="label">
+        🏎️ WYBIERZ KLASĘ / MULTIKLASĘ
+      </label>
+
+      <div class="classes">
+
+        <button type="button" class="class-btn" data-class="Gr.1">
+          🏎️ Gr.1
+        </button>
+
+        <button type="button" class="class-btn" data-class="Gr.2">
+          🏁 Gr.2
+        </button>
+
+        <button type="button" class="class-btn" data-class="Gr.3">
+          🚗 Gr.3
+        </button>
+
+        <button type="button" class="class-btn" data-class="Gr.4">
+          🚙 Gr.4
+        </button>
+
+      </div>
+
+
+      <label class="label">
+        🔢 LICZBA OKRĄŻEŃ
+      </label>
+
+      <input
+        type="number"
+        id="lapsInput"
+        min="1"
+        max="200"
+        placeholder="Np. 15"
+      >
+
+
+      <label class="label">
+        🌦️ POGODA
+      </label>
+
+      <select id="weatherSelect">
+        <option value="">-- WYBIERZ POGODĘ --</option>
+        <option>☀️ Słonecznie</option>
+        <option>🌤️ Lekko pochmurno</option>
+        <option>🌥️ Pochmurno</option>
+        <option>🌦️ Zmienna pogoda</option>
+        <option>🌧️ Deszcz</option>
+      </select>
+
+
+      <label class="label">
+        🌅 PORA DNIA
+      </label>
+
+      <select id="timeOfDaySelect">
+        <option value="">-- WYBIERZ PORĘ DNIA --</option>
+        <option>🌄 Świt</option>
+        <option>☀️ Rano</option>
+        <option>🌞 Dzień</option>
+        <option>🌇 Popołudnie</option>
+        <option>🌅 Zachód słońca</option>
+        <option>🌙 Noc</option>
+      </select>
+
+
+      <label class="label">
+        🛞 OPONY
+      </label>
+
+      <select id="tireSelect">
+        <option value="">-- WYBIERZ OPONY --</option>
+        <option>RH – Twarde</option>
+        <option>RM – Średnie</option>
+        <option>RS – Miękkie</option>
+        <option>RH + RM</option>
+        <option>RM + RS</option>
+        <option>RH + RM + RS</option>
+        <option>SH – Sport Hard</option>
+        <option>SM – Sport Medium</option>
+        <option>SS – Sport Soft</option>
+        <option>Dowolne opony</option>
+      </select>
+
+
+      <label class="label">
+        🔧 PIT STOP
+      </label>
+
+      <select id="pitSelect">
+        <option value="">-- WYBIERZ PIT STOP --</option>
+        <option>Brak obowiązkowego PIT STOP</option>
+        <option>1 obowiązkowy PIT STOP</option>
+        <option>2 obowiązkowe PIT STOPY</option>
+      </select>
+
+
+      <label class="label">
+        ⛽ ZUŻYCIE PALIWA
+      </label>
+
+      <select id="fuelSelect">
+        <option value="">-- WYBIERZ ZUŻYCIE PALIWA --</option>
+        <option>x1</option>
+        <option>x2</option>
+        <option>x3</option>
+        <option>x4</option>
+        <option>x5</option>
+        <option>x6</option>
+        <option>x8</option>
+        <option>x10</option>
+      </select>
+
+
+      <label class="label">
+        🛞 ZUŻYCIE OPON
+      </label>
+
+      <select id="tireWearSelect">
+        <option value="">-- WYBIERZ ZUŻYCIE OPON --</option>
+        <option>x1</option>
+        <option>x2</option>
+        <option>x3</option>
+        <option>x4</option>
+        <option>x5</option>
+        <option>x6</option>
+        <option>x7</option>
+        <option>x8</option>
+        <option>x10</option>
+      </select>
+
+
+      <label class="label">
+        🚦 TYP STARTU
+      </label>
+
+      <select id="startTypeSelect">
+        <option value="">-- WYBIERZ TYP STARTU --</option>
+        <option>🚦 Start zatrzymany</option>
+        <option>🏁 Start lotny</option>
+      </select>
+
+
+      <label class="label">
+        ⏱️ KWALIFIKACJE
+      </label>
+
+      <select id="qualifyingSelect">
+        <option value="">-- WYBIERZ KWALIFIKACJE --</option>
+        <option>Brak kwalifikacji</option>
+        <option>5 minut</option>
+        <option>10 minut</option>
+        <option>15 minut</option>
+        <option>20 minut</option>
+      </select>
+
+
+      <label class="label">
+        ⚖️ BOP
+      </label>
+
+      <select id="bopSelect">
+        <option value="">-- WYBIERZ BOP --</option>
+        <option>🟢 BOP Włączony</option>
+        <option>🔴 BOP Wyłączony</option>
+      </select>
+
+
+      <button id="saveComboBtn">
+        ➕ DODAJ MOJE COMBO
+      </button>
+
+      <div id="comboInfo"></div>
+
+      <div id="myCombo" class="my-combo"></div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="section-title">
+        👥 UCZESTNICY
+      </div>
+
+      <div id="participantCount" class="participant-count">
+        👥 0 osób dodało COMBO
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="section-title">
+        🏆 WYLOSOWANE COMBO
+      </div>
+
+      <div id="officialResult" class="result">
+        Wynik pojawi się automatycznie po zakończeniu czasu.
+      </div>
+
+    </div>
 
   </div>
 
-  <div id="adminInfo">
-    Wpisz PIN, aby rozpocząć rundę.
-  </div>
-
-</div>
-
-
-<div class="card status-card">
-
-  <div id="phaseStatus">
-    ⏳ BRAK AKTYWNEJ RUNDY
-  </div>
-
-  <div id="countdown">
-    00:00
-  </div>
-
-  <div id="phaseInfo">
-    Czekamy na rozpoczęcie nowej rundy.
-  </div>
-
-</div>
-
-
-<div id="comboSection" class="card hidden">
-
-  <div class="section-title">
-    ➕ DODAJ SWOJE COMBO
-  </div>
-
-
-  <label class="label">
-    🏁 WYBIERZ TOR
-  </label>
-
-  <select id="trackSelect">
-
-    <option value="">-- WYBIERZ TOR --</option>
-
-    <option>Autodrome Lago Maggiore</option>
-    <option>Autopolis</option>
-    <option>Blue Moon Bay Speedway</option>
-    <option>Brands Hatch</option>
-    <option>Circuit de Barcelona-Catalunya</option>
-    <option>Circuit de la Sarthe</option>
-    <option>Circuit de Spa-Francorchamps</option>
-    <option>Daytona Road Course</option>
-    <option>Deep Forest Raceway</option>
-    <option>Dragon Trail - Seaside</option>
-    <option>Fuji International Speedway</option>
-    <option>Goodwood Motor Circuit</option>
-    <option>Grand Valley</option>
-    <option>High Speed Ring</option>
-    <option>Interlagos</option>
-    <option>Kyoto Driving Park</option>
-    <option>Monza Circuit</option>
-    <option>Mount Panorama</option>
-    <option>Nürburgring GP</option>
-    <option>Nürburgring Nordschleife</option>
-    <option>Nürburgring 24h</option>
-    <option>Red Bull Ring</option>
-    <option>Road Atlanta</option>
-    <option>Sardegna Road Track</option>
-    <option>Sardegna Windmills</option>
-    <option>Suzuka Circuit</option>
-    <option>Tokyo Expressway</option>
-    <option>Trial Mountain Circuit</option>
-    <option>Watkins Glen</option>
-    <option>WeatherTech Raceway Laguna Seca</option>
-
-  </select>
-
-
-  <label class="label">
-    🏎️ WYBIERZ KLASĘ / MULTIKLASĘ
-  </label>
-
-  <div class="classes">
-
-    <button
-      type="button"
-      class="class-btn"
-      data-class="Gr.1"
-    >
-      🏎️ Gr.1
-    </button>
-
-    <button
-      type="button"
-      class="class-btn"
-      data-class="Gr.2"
-    >
-      🏁 Gr.2
-    </button>
-
-    <button
-      type="button"
-      class="class-btn"
-      data-class="Gr.3"
-    >
-      🚗 Gr.3
-    </button>
-
-    <button
-      type="button"
-      class="class-btn"
-      data-class="Gr.4"
-    >
-      🚙 Gr.4
-    </button>
-
-  </div>
-
-
-  <label class="label">
-    🔢 LICZBA OKRĄŻEŃ
-  </label>
-
-  <input
-    type="number"
-    id="lapsInput"
-    min="1"
-    max="200"
-    placeholder="Np. 15"
-  >
-
-
-  <label class="label">
-    🌦️ POGODA
-  </label>
-
-  <select id="weatherSelect">
-
-    <option value="">-- WYBIERZ POGODĘ --</option>
-    <option>☀️ Słonecznie</option>
-    <option>🌤️ Lekko pochmurno</option>
-    <option>🌥️ Pochmurno</option>
-    <option>🌦️ Zmienna pogoda</option>
-    <option>🌧️ Deszcz</option>
-
-  </select>
-
-
-  <label class="label">
-    🌅 PORA DNIA
-  </label>
-
-  <select id="timeOfDaySelect">
-
-    <option value="">-- WYBIERZ PORĘ DNIA --</option>
-    <option>🌄 Świt</option>
-    <option>☀️ Rano</option>
-    <option>🌞 Dzień</option>
-    <option>🌇 Popołudnie</option>
-    <option>🌅 Zachód słońca</option>
-    <option>🌙 Noc</option>
-
-  </select>
-
-
-  <label class="label">
-    🛞 OPONY
-  </label>
-
-  <select id="tireSelect">
-
-    <option value="">-- WYBIERZ OPONY --</option>
-    <option>RH – Twarde</option>
-    <option>RM – Średnie</option>
-    <option>RS – Miękkie</option>
-    <option>RH + RM</option>
-    <option>RM + RS</option>
-    <option>RH + RM + RS</option>
-    <option>SH – Sport Hard</option>
-    <option>SM – Sport Medium</option>
-    <option>SS – Sport Soft</option>
-    <option>Dowolne opony</option>
-
-  </select>
-
-
-  <label class="label">
-    🔧 PIT STOP
-  </label>
-
-  <select id="pitSelect">
-
-    <option value="">-- WYBIERZ PIT STOP --</option>
-    <option>Brak obowiązkowego PIT STOP</option>
-    <option>1 obowiązkowy PIT STOP</option>
-    <option>2 obowiązkowe PIT STOPY</option>
-
-  </select>
-
-
-  <label class="label">
-    ⛽ ZUŻYCIE PALIWA
-  </label>
-
-  <select id="fuelSelect">
-
-    <option value="">-- WYBIERZ ZUŻYCIE PALIWA --</option>
-    <option>x1</option>
-    <option>x2</option>
-    <option>x3</option>
-    <option>x4</option>
-    <option>x5</option>
-    <option>x6</option>
-    <option>x8</option>
-    <option>x10</option>
-
-  </select>
-
-
-  <label class="label">
-    🛞 ZUŻYCIE OPON
-  </label>
-
-  <select id="tireWearSelect">
-
-    <option value="">-- WYBIERZ ZUŻYCIE OPON --</option>
-    <option>x1</option>
-    <option>x2</option>
-    <option>x3</option>
-    <option>x4</option>
-    <option>x5</option>
-    <option>x6</option>
-    <option>x7</option>
-    <option>x8</option>
-    <option>x10</option>
-
-  </select>
-
-
-  <label class="label">
-    🚦 TYP STARTU
-  </label>
-
-  <select id="startTypeSelect">
-
-    <option value="">-- WYBIERZ TYP STARTU --</option>
-    <option>🚦 Start zatrzymany</option>
-    <option>🏁 Start lotny</option>
-
-  </select>
-
-
-  <label class="label">
-    ⏱️ KWALIFIKACJE
-  </label>
-
-  <select id="qualifyingSelect">
-
-    <option value="">-- WYBIERZ KWALIFIKACJE --</option>
-    <option>Brak kwalifikacji</option>
-    <option>5 minut</option>
-    <option>10 minut</option>
-    <option>15 minut</option>
-    <option>20 minut</option>
-
-  </select>
-
-
-  <label class="label">
-    ⚖️ BOP
-  </label>
-
-  <select id="bopSelect">
-
-    <option value="">-- WYBIERZ BOP --</option>
-    <option>🟢 BOP Włączony</option>
-    <option>🔴 BOP Wyłączony</option>
-
-  </select>
-
-
-  <button id="saveComboBtn">
-    ➕ DODAJ MOJE COMBO
-  </button>
-
-  <div id="comboInfo"></div>
-
-  <div
-    id="myCombo"
-    class="my-combo"
-  ></div>
-
-</div>
-
-
-<div class="card">
-
-  <div class="section-title">
-    👥 UCZESTNICY
-  </div>
-
-  <div
-    id="participantCount"
-    class="participant-count"
-  >
-    👥 0 osób dodało COMBO
-  </div>
-
-  <div style="text-align:center;color:#aaa">
-    Każda osoba może zapisać swoje COMBO.
-  </div>
-
-</div>
-
-
-<div class="card">
-
-  <div class="section-title">
-    🏆 WYLOSOWANE COMBO
-  </div>
-
-  <div
-    id="officialResult"
-    class="result"
-  >
-    Wynik pojawi się automatycznie po zakończeniu czasu.
-  </div>
-
-</div>
-```
-
-  </div>
 
   <script type="module">
 
@@ -617,28 +567,13 @@
 
 
     const firebaseConfig = {
-
-      apiKey:
-        "AIzaSyDRDAiSlJBPOG8N_c4ctBRLYrwx3ER5rKw",
-
-      authDomain:
-        "srs-losowanie.firebaseapp.com",
-
-      databaseURL:
-        "https://srs-losowanie-default-rtdb.firebaseio.com",
-
-      projectId:
-        "srs-losowanie",
-
-      storageBucket:
-        "srs-losowanie.firebasestorage.app",
-
-      messagingSenderId:
-        "212959687651",
-
-      appId:
-        "1:212959687651:web:0a9a5e647450767bc026d6"
-
+      apiKey: "AIzaSyDRDAiSlJBPOG8N_c4ctBRLYrwx3ER5rKw",
+      authDomain: "srs-losowanie.firebaseapp.com",
+      databaseURL: "https://srs-losowanie-default-rtdb.firebaseio.com",
+      projectId: "srs-losowanie",
+      storageBucket: "srs-losowanie.firebasestorage.app",
+      messagingSenderId: "212959687651",
+      appId: "1:212959687651:web:0a9a5e647450767bc026d6"
     };
 
 
@@ -650,71 +585,33 @@
     const ROUND_TIME = 5 * 60 * 1000;
 
 
-    const adminPin =
-      document.getElementById("adminPin");
+    const adminPin = document.getElementById("adminPin");
+    const newRoundBtn = document.getElementById("newRoundBtn");
+    const adminInfo = document.getElementById("adminInfo");
 
-    const newRoundBtn =
-      document.getElementById("newRoundBtn");
+    const phaseStatus = document.getElementById("phaseStatus");
+    const countdown = document.getElementById("countdown");
+    const phaseInfo = document.getElementById("phaseInfo");
 
-    const adminInfo =
-      document.getElementById("adminInfo");
+    const comboSection = document.getElementById("comboSection");
 
-    const phaseStatus =
-      document.getElementById("phaseStatus");
+    const trackSelect = document.getElementById("trackSelect");
+    const classButtons = document.querySelectorAll(".class-btn");
+    const lapsInput = document.getElementById("lapsInput");
 
-    const countdown =
-      document.getElementById("countdown");
+    const weatherSelect = document.getElementById("weatherSelect");
+    const timeOfDaySelect = document.getElementById("timeOfDaySelect");
+    const tireSelect = document.getElementById("tireSelect");
+    const pitSelect = document.getElementById("pitSelect");
+    const fuelSelect = document.getElementById("fuelSelect");
+    const tireWearSelect = document.getElementById("tireWearSelect");
+    const startTypeSelect = document.getElementById("startTypeSelect");
+    const qualifyingSelect = document.getElementById("qualifyingSelect");
+    const bopSelect = document.getElementById("bopSelect");
 
-    const phaseInfo =
-      document.getElementById("phaseInfo");
-
-    const comboSection =
-      document.getElementById("comboSection");
-
-    const trackSelect =
-      document.getElementById("trackSelect");
-
-    const classButtons =
-      document.querySelectorAll(".class-btn");
-
-    const lapsInput =
-      document.getElementById("lapsInput");
-
-    const weatherSelect =
-      document.getElementById("weatherSelect");
-
-    const timeOfDaySelect =
-      document.getElementById("timeOfDaySelect");
-
-    const tireSelect =
-      document.getElementById("tireSelect");
-
-    const pitSelect =
-      document.getElementById("pitSelect");
-
-    const fuelSelect =
-      document.getElementById("fuelSelect");
-
-    const tireWearSelect =
-      document.getElementById("tireWearSelect");
-
-    const startTypeSelect =
-      document.getElementById("startTypeSelect");
-
-    const qualifyingSelect =
-      document.getElementById("qualifyingSelect");
-
-    const bopSelect =
-      document.getElementById("bopSelect");
-
-    const saveComboBtn =
-      document.getElementById("saveComboBtn");
-
-    const comboInfo =
-      document.getElementById("comboInfo");
-
-    const myCombo =
-      document.getElementById("myCombo");
+    const saveComboBtn = document.getElementById("saveComboBtn");
+    const comboInfo = document.getElementById("comboInfo");
+    const myCombo = document.getElementById("myCombo");
 
     const participantCount =
       document.getElementById("participantCount");
@@ -737,9 +634,7 @@
 
 
     let playerId =
-      localStorage.getItem(
-        "srsLobbyPlayerId"
-      );
+      localStorage.getItem("srsLobbyPlayerId");
 
     if (!playerId) {
 
@@ -755,6 +650,40 @@
         "srsLobbyPlayerId",
         playerId
       );
+
+    }
+
+
+    function resetComboForm() {
+
+      trackSelect.value = "";
+
+      selectedClasses = [];
+
+      classButtons.forEach(button => {
+        button.classList.remove("selected");
+      });
+
+      lapsInput.value = "";
+
+      weatherSelect.value = "";
+      timeOfDaySelect.value = "";
+      tireSelect.value = "";
+      pitSelect.value = "";
+      fuelSelect.value = "";
+      tireWearSelect.value = "";
+      startTypeSelect.value = "";
+      qualifyingSelect.value = "";
+      bopSelect.value = "";
+
+      myCombo.innerHTML = "";
+
+      comboInfo.textContent = "";
+
+      saveComboBtn.disabled = false;
+
+      saveComboBtn.textContent =
+        "➕ DODAJ MOJE COMBO";
 
     }
 
@@ -776,8 +705,7 @@
       async () => {
 
         if (
-          adminPin.value.trim() !==
-          ADMIN_PIN
+          adminPin.value.trim() !== ADMIN_PIN
         ) {
 
           adminInfo.textContent =
@@ -806,7 +734,15 @@
 
           newRoundBtn.disabled = true;
 
+          adminInfo.textContent =
+            "⏳ Usuwanie starej rundy...";
+
+          adminInfo.style.color =
+            "#ffe000";
+
+
           await remove(combosRef);
+
 
           const now = Date.now();
 
@@ -817,17 +753,29 @@
               id: String(now),
               status: "voting",
               startTime: now,
-              endTime:
-                now + ROUND_TIME,
+              endTime: now + ROUND_TIME,
               winner: null
             }
           );
 
 
+          /* WYCZYŚĆ CAŁY FORMULARZ */
+
+          resetComboForm();
+
           adminPin.value = "";
 
+
+          participantCount.textContent =
+            "👥 0 osób dodało COMBO";
+
+
+          officialResult.textContent =
+            "🎰 Losowanie odbędzie się automatycznie po zakończeniu czasu.";
+
+
           adminInfo.textContent =
-            "🟢 Runda rozpoczęta na 5 minut.";
+            "🟢 Nowa runda rozpoczęta od zera.";
 
           adminInfo.style.color =
             "#4ade80";
@@ -868,32 +816,23 @@
 
 
             if (
-              selectedClasses.includes(
-                className
-              )
+              selectedClasses.includes(className)
             ) {
 
               selectedClasses =
                 selectedClasses.filter(
-                  item =>
-                    item !== className
+                  item => item !== className
                 );
 
-              button.classList.remove(
-                "selected"
-              );
+              button.classList.remove("selected");
 
             }
 
             else {
 
-              selectedClasses.push(
-                className
-              );
+              selectedClasses.push(className);
 
-              button.classList.add(
-                "selected"
-              );
+              button.classList.add("selected");
 
             }
 
@@ -910,49 +849,26 @@
 
         if (!roundIsActive()) {
 
-          comboInfo.textContent =
-            "❌ Runda nie jest aktywna.";
-
-          comboInfo.style.color =
-            "#ff5555";
+          showError(
+            "❌ Runda nie jest aktywna."
+          );
 
           return;
 
         }
 
 
-        const track =
-          trackSelect.value;
-
-        const laps =
-          Number(lapsInput.value);
-
-        const weather =
-          weatherSelect.value;
-
-        const timeOfDay =
-          timeOfDaySelect.value;
-
-        const tires =
-          tireSelect.value;
-
-        const pit =
-          pitSelect.value;
-
-        const fuel =
-          fuelSelect.value;
-
-        const tireWear =
-          tireWearSelect.value;
-
-        const startType =
-          startTypeSelect.value;
-
-        const qualifying =
-          qualifyingSelect.value;
-
-        const bop =
-          bopSelect.value;
+        const track = trackSelect.value;
+        const laps = Number(lapsInput.value);
+        const weather = weatherSelect.value;
+        const timeOfDay = timeOfDaySelect.value;
+        const tires = tireSelect.value;
+        const pit = pitSelect.value;
+        const fuel = fuelSelect.value;
+        const tireWear = tireWearSelect.value;
+        const startType = startTypeSelect.value;
+        const qualifying = qualifyingSelect.value;
+        const bop = bopSelect.value;
 
 
         if (!track) {
@@ -960,9 +876,7 @@
           return;
         }
 
-        if (
-          selectedClasses.length === 0
-        ) {
+        if (selectedClasses.length === 0) {
           showError("❌ Wybierz klasę.");
           return;
         }
@@ -1013,7 +927,7 @@
         }
 
         if (!bop) {
-          showError("❌ Wybierz ustawienie BOP.");
+          showError("❌ Wybierz BOP.");
           return;
         }
 
@@ -1026,19 +940,14 @@
           await set(
             ref(
               database,
-              "srsLobbyCombos/" +
-              playerId
+              "srsLobbyCombos/" + playerId
             ),
-
             {
               playerId: playerId,
               roundId: currentRound.id,
 
               track: track,
-
-              classes:
-                selectedClasses,
-
+              classes: selectedClasses,
               laps: laps,
               weather: weather,
               timeOfDay: timeOfDay,
@@ -1085,8 +994,7 @@
 
     function showError(message) {
 
-      comboInfo.textContent =
-        message;
+      comboInfo.textContent = message;
 
       comboInfo.style.color =
         "#ff5555";
@@ -1098,8 +1006,7 @@
 
       return array[
         Math.floor(
-          Math.random() *
-          array.length
+          Math.random() * array.length
         )
       ];
 
@@ -1157,9 +1064,7 @@
             );
 
 
-        if (
-          combos.length === 0
-        ) {
+        if (combos.length === 0) {
 
           await set(
             roundRef,
@@ -1228,6 +1133,7 @@
           "00:00";
 
         finishRound();
+
         return;
 
       }
@@ -1378,6 +1284,7 @@
           <div class="result-title">
             🏁 WYBRANY TOR
           </div>
+
           <div class="result-value">
             ${winner.track}
           </div>
@@ -1385,6 +1292,7 @@
           <div class="result-title">
             ${classType}
           </div>
+
           <div class="result-value">
             ${classes}
           </div>
@@ -1392,6 +1300,7 @@
           <div class="result-title">
             🔢 OKRĄŻENIA
           </div>
+
           <div class="result-value">
             ${winner.laps}
           </div>
@@ -1399,6 +1308,7 @@
           <div class="result-title">
             🌦️ POGODA
           </div>
+
           <div class="result-value">
             ${winner.weather}
           </div>
@@ -1406,6 +1316,7 @@
           <div class="result-title">
             🌅 PORA DNIA
           </div>
+
           <div class="result-value">
             ${winner.timeOfDay}
           </div>
@@ -1413,6 +1324,7 @@
           <div class="result-title">
             🛞 OPONY
           </div>
+
           <div class="result-value">
             ${winner.tires}
           </div>
@@ -1420,6 +1332,7 @@
           <div class="result-title">
             🔧 PIT STOP
           </div>
+
           <div class="result-value">
             ${winner.pit}
           </div>
@@ -1427,6 +1340,7 @@
           <div class="result-title">
             ⛽ ZUŻYCIE PALIWA
           </div>
+
           <div class="result-value">
             ${winner.fuel}
           </div>
@@ -1434,6 +1348,7 @@
           <div class="result-title">
             🛞 ZUŻYCIE OPON
           </div>
+
           <div class="result-value">
             ${winner.tireWear}
           </div>
@@ -1441,6 +1356,7 @@
           <div class="result-title">
             🚦 TYP STARTU
           </div>
+
           <div class="result-value">
             ${winner.startType}
           </div>
@@ -1448,6 +1364,7 @@
           <div class="result-title">
             ⏱️ KWALIFIKACJE
           </div>
+
           <div class="result-value">
             ${winner.qualifying}
           </div>
@@ -1455,6 +1372,7 @@
           <div class="result-title">
             ⚖️ BOP
           </div>
+
           <div class="result-value">
             ${winner.bop}
           </div>
@@ -1524,9 +1442,7 @@
         ) {
 
           const myClasses =
-            Array.isArray(
-              mySavedCombo.classes
-            )
+            Array.isArray(mySavedCombo.classes)
               ? mySavedCombo.classes.join(" + ")
               : mySavedCombo.classes;
 
