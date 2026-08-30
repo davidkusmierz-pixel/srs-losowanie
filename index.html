@@ -54,6 +54,10 @@
     #trackName {
       font-size: 31px;
       font-weight: bold;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     button {
@@ -66,12 +70,11 @@
       cursor: pointer;
       background: #ffffff;
       color: #171717;
+      transition: transform 0.2s;
     }
 
-    button:disabled {
-      background: #414141;
-      color: #888;
-      cursor: not-allowed;
+    button:hover {
+      transform: scale(1.02);
     }
 
     #message {
@@ -81,12 +84,6 @@
       font-size: 18px;
       font-weight: bold;
       color: #ffffff;
-    }
-
-    #timer {
-      text-align: center;
-      color: #f0c24b;
-      margin-bottom: 20px;
     }
 
     .ranking {
@@ -141,8 +138,6 @@
 
     <div id="message"></div>
 
-    <div id="timer"></div>
-
     <div class="ranking">
       <h2>🏆 NAJCZĘŚCIEJ LOSOWANE TORY</h2>
 
@@ -171,78 +166,16 @@
     const button = document.getElementById("drawButton");
     const trackName = document.getElementById("trackName");
     const message = document.getElementById("message");
-    const timer = document.getElementById("timer");
     const rankingList = document.getElementById("rankingList");
 
-    // BLOKADA NA 5 DNI
-    const FIVE_DAYS = 5 * 24 * 60 * 60 * 1000;
-
-    // WKLEJ TUTAJ SWÓJ ADRES WEBHOOKA
+    // WKLEJ SWÓJ ADRES WEBHOOKA
     const DISCORD_WEBHOOK_URL = "WKLEJ_TUTAJ_ADRES_WEBHOOKA";
 
 
-    function checkDrawStatus() {
-
-      const lastDraw = localStorage.getItem("srsLastDraw");
-
-      if (!lastDraw) {
-        button.disabled = false;
-        button.textContent = "🎲 LOSUJ TOR";
-        timer.textContent = "";
-        return;
-      }
-
-      const now = Date.now();
-      const lastDrawTime = Number(lastDraw);
-      const nextDrawTime = lastDrawTime + FIVE_DAYS;
-      const remaining = nextDrawTime - now;
-
-      if (remaining <= 0) {
-
-        localStorage.removeItem("srsLastDraw");
-
-        button.disabled = false;
-        button.textContent = "🎲 LOSUJ TOR";
-
-        timer.textContent = "🎉 Możesz ponownie wylosować tor!";
-        message.textContent = "";
-
-      } else {
-
-        button.disabled = true;
-        button.textContent = "🔒 JUŻ WZIĄŁEŚ UDZIAŁ";
-
-        const days = Math.floor(
-          remaining / (1000 * 60 * 60 * 24)
-        );
-
-        const hours = Math.floor(
-          (remaining % (1000 * 60 * 60 * 24)) /
-          (1000 * 60 * 60)
-        );
-
-        const minutes = Math.floor(
-          (remaining % (1000 * 60 * 60)) /
-          (1000 * 60)
-        );
-
-        const seconds = Math.floor(
-          (remaining % (1000 * 60)) /
-          1000
-        );
-
-        timer.textContent =
-          `⏳ Następne losowanie za: ${days}d ${hours}g ${minutes}m ${seconds}s`;
-      }
-    }
-
-
     function getRanking() {
-
       return JSON.parse(
         localStorage.getItem("srsTrackRanking")
       ) || {};
-
     }
 
 
@@ -262,7 +195,6 @@
       );
 
       renderRanking();
-
     }
 
 
@@ -299,24 +231,21 @@
         `;
 
         rankingList.appendChild(div);
-
       });
-
     }
 
 
-    // WYSYŁANIE WYNIKU NA DISCORD
     function sendToDiscord(track) {
 
       if (
         !DISCORD_WEBHOOK_URL ||
         DISCORD_WEBHOOK_URL === "https://discord.com/api/webhooks/1543558910227513385/bzl4FcRUTWUn0J2kpna8VvVU60ITGtiaBTn87MzSzqQBItctf2uPWJ5SzoBaLJO2VWA_"
       ) {
-        console.log("Nie ustawiono webhooka Discord.");
+        console.log("Nie ustawiono webhooka.");
         return;
       }
 
-      fetch(DISCORD_WEBHOOK_URL, {
+      fetch(DISCORD_WEBHOOK_URL + "?wait=true", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -325,17 +254,19 @@
           username: "SRS LOSOWANIE TORU",
           content:
             "🎲 **NOWE LOSOWANIE TORU SRS**\n\n" +
-            "🏁 **Wylosowany tor:** **" + track + "**\n\n" +
-            "⏳ Kolejne losowanie dostępne za **5 dni**."
+            "🏁 **Wylosowany tor:** **" + track + "**"
         })
       })
-      .then(() => {
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Błąd Discord: " + response.status);
+        }
+
         console.log("Wynik wysłany na Discord.");
       })
-      .catch((error) => {
-        console.error("Błąd wysyłania:", error);
+      .catch(error => {
+        console.error(error);
       });
-
     }
 
 
@@ -343,36 +274,22 @@
 
       const randomTrack =
         tracks[
-          Math.floor(
-            Math.random() * tracks.length
-          )
+          Math.floor(Math.random() * tracks.length)
         ];
 
       trackName.textContent =
         "🏆 " + randomTrack;
 
       message.textContent =
-        "🎉 TWÓJ WYLOSOWANY TOR! WYNIK ZOSTAŁ WYSŁANY NA DISCORD.";
-
-      localStorage.setItem(
-        "srsLastDraw",
-        Date.now()
-      );
+        "🎉 TOR ZOSTAŁ WYLOSOWANY!";
 
       updateRanking(randomTrack);
 
-      // WYSŁANIE WYNIKU NA DISCORD
       sendToDiscord(randomTrack);
-
-      checkDrawStatus();
-
     });
 
 
-    checkDrawStatus();
     renderRanking();
-
-    setInterval(checkDrawStatus, 1000);
 
   </script>
 
