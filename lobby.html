@@ -27,6 +27,7 @@
           rgba(5, 6, 12, 0.94)
         ),
         url("background.png.png");
+
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -51,6 +52,7 @@
       border-radius: 18px;
       padding: 22px;
       margin-bottom: 20px;
+
       box-shadow:
         0 10px 35px rgba(0,0,0,0.6),
         0 0 30px rgba(180,0,0,0.08);
@@ -107,7 +109,11 @@
       min-width: 260px;
       height: 58px;
       font-size: 17px;
-      background: linear-gradient(135deg, #e30000, #850000);
+      background: linear-gradient(
+        135deg,
+        #e30000,
+        #850000
+      );
     }
 
     #adminInfo {
@@ -168,7 +174,7 @@
 
     .classes {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 10px;
     }
 
@@ -181,7 +187,11 @@
 
     .class-btn.selected {
       border-color: #ff2020;
-      background: linear-gradient(135deg, #5e0000, #210000);
+      background: linear-gradient(
+        135deg,
+        #5e0000,
+        #210000
+      );
     }
 
     #saveComboBtn {
@@ -189,7 +199,11 @@
       min-height: 58px;
       margin-top: 25px;
       font-size: 18px;
-      background: linear-gradient(135deg, #e30000, #850000);
+      background: linear-gradient(
+        135deg,
+        #e30000,
+        #850000
+      );
     }
 
     #comboInfo {
@@ -228,7 +242,13 @@
       color: #ff6666;
     }
 
-    @media (max-width: 650px) {
+    @media (max-width: 750px) {
+      .classes {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 500px) {
       .classes {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -346,20 +366,44 @@
 
       <div class="classes">
 
-        <button type="button" class="class-btn" data-class="Gr.1">
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Gr.1"
+        >
           🏎️ Gr.1
         </button>
 
-        <button type="button" class="class-btn" data-class="Gr.2">
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Gr.2"
+        >
           🏁 Gr.2
         </button>
 
-        <button type="button" class="class-btn" data-class="Gr.3">
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Gr.3"
+        >
           🚗 Gr.3
         </button>
 
-        <button type="button" class="class-btn" data-class="Gr.4">
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Gr.4"
+        >
           🚙 Gr.4
+        </button>
+
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Hypercar"
+        >
+          🔥 Hypercar
         </button>
 
       </div>
@@ -526,7 +570,10 @@
         👥 UCZESTNICY
       </div>
 
-      <div id="participantCount" class="participant-count">
+      <div
+        id="participantCount"
+        class="participant-count"
+      >
         👥 0 osób dodało COMBO
       </div>
 
@@ -539,7 +586,10 @@
         🏆 WYLOSOWANE COMBO
       </div>
 
-      <div id="officialResult" class="result">
+      <div
+        id="officialResult"
+        class="result"
+      >
         Wynik pojawi się automatycznie po zakończeniu czasu.
       </div>
 
@@ -582,36 +632,77 @@
 
 
     const ADMIN_PIN = "840416";
+
+    /* CZAS RUNDY – 5 MINUT */
+
     const ROUND_TIME = 5 * 60 * 1000;
 
 
-    const adminPin = document.getElementById("adminPin");
-    const newRoundBtn = document.getElementById("newRoundBtn");
-    const adminInfo = document.getElementById("adminInfo");
+    const adminPin =
+      document.getElementById("adminPin");
 
-    const phaseStatus = document.getElementById("phaseStatus");
-    const countdown = document.getElementById("countdown");
-    const phaseInfo = document.getElementById("phaseInfo");
+    const newRoundBtn =
+      document.getElementById("newRoundBtn");
 
-    const comboSection = document.getElementById("comboSection");
+    const adminInfo =
+      document.getElementById("adminInfo");
 
-    const trackSelect = document.getElementById("trackSelect");
-    const classButtons = document.querySelectorAll(".class-btn");
-    const lapsInput = document.getElementById("lapsInput");
+    const phaseStatus =
+      document.getElementById("phaseStatus");
 
-    const weatherSelect = document.getElementById("weatherSelect");
-    const timeOfDaySelect = document.getElementById("timeOfDaySelect");
-    const tireSelect = document.getElementById("tireSelect");
-    const pitSelect = document.getElementById("pitSelect");
-    const fuelSelect = document.getElementById("fuelSelect");
-    const tireWearSelect = document.getElementById("tireWearSelect");
-    const startTypeSelect = document.getElementById("startTypeSelect");
-    const qualifyingSelect = document.getElementById("qualifyingSelect");
-    const bopSelect = document.getElementById("bopSelect");
+    const countdown =
+      document.getElementById("countdown");
 
-    const saveComboBtn = document.getElementById("saveComboBtn");
-    const comboInfo = document.getElementById("comboInfo");
-    const myCombo = document.getElementById("myCombo");
+    const phaseInfo =
+      document.getElementById("phaseInfo");
+
+    const comboSection =
+      document.getElementById("comboSection");
+
+    const trackSelect =
+      document.getElementById("trackSelect");
+
+    const classButtons =
+      document.querySelectorAll(".class-btn");
+
+    const lapsInput =
+      document.getElementById("lapsInput");
+
+    const weatherSelect =
+      document.getElementById("weatherSelect");
+
+    const timeOfDaySelect =
+      document.getElementById("timeOfDaySelect");
+
+    const tireSelect =
+      document.getElementById("tireSelect");
+
+    const pitSelect =
+      document.getElementById("pitSelect");
+
+    const fuelSelect =
+      document.getElementById("fuelSelect");
+
+    const tireWearSelect =
+      document.getElementById("tireWearSelect");
+
+    const startTypeSelect =
+      document.getElementById("startTypeSelect");
+
+    const qualifyingSelect =
+      document.getElementById("qualifyingSelect");
+
+    const bopSelect =
+      document.getElementById("bopSelect");
+
+    const saveComboBtn =
+      document.getElementById("saveComboBtn");
+
+    const comboInfo =
+      document.getElementById("comboInfo");
+
+    const myCombo =
+      document.getElementById("myCombo");
 
     const participantCount =
       document.getElementById("participantCount");
@@ -635,6 +726,7 @@
 
     let playerId =
       localStorage.getItem("srsLobbyPlayerId");
+
 
     if (!playerId) {
 
@@ -660,9 +752,11 @@
 
       selectedClasses = [];
 
-      classButtons.forEach(button => {
-        button.classList.remove("selected");
-      });
+      classButtons.forEach(
+        button => {
+          button.classList.remove("selected");
+        }
+      );
 
       lapsInput.value = "";
 
@@ -705,7 +799,8 @@
       async () => {
 
         if (
-          adminPin.value.trim() !== ADMIN_PIN
+          adminPin.value.trim() !==
+          ADMIN_PIN
         ) {
 
           adminInfo.textContent =
@@ -724,6 +819,7 @@
             "Rozpocząć nową rundę na 5 minut?\n\n" +
             "Stare COMBO zostaną usunięte."
           );
+
 
         if (!confirmStart) {
           return;
@@ -744,7 +840,8 @@
           await remove(combosRef);
 
 
-          const now = Date.now();
+          const now =
+            Date.now();
 
 
           await set(
@@ -753,13 +850,12 @@
               id: String(now),
               status: "voting",
               startTime: now,
-              endTime: now + ROUND_TIME,
+              endTime:
+                now + ROUND_TIME,
               winner: null
             }
           );
 
-
-          /* WYCZYŚĆ CAŁY FORMULARZ */
 
           resetComboForm();
 
@@ -793,6 +889,7 @@
 
         }
 
+
         newRoundBtn.disabled = false;
 
       }
@@ -821,18 +918,25 @@
 
               selectedClasses =
                 selectedClasses.filter(
-                  item => item !== className
+                  item =>
+                    item !== className
                 );
 
-              button.classList.remove("selected");
+              button.classList.remove(
+                "selected"
+              );
 
             }
 
             else {
 
-              selectedClasses.push(className);
+              selectedClasses.push(
+                className
+              );
 
-              button.classList.add("selected");
+              button.classList.add(
+                "selected"
+              );
 
             }
 
@@ -858,17 +962,38 @@
         }
 
 
-        const track = trackSelect.value;
-        const laps = Number(lapsInput.value);
-        const weather = weatherSelect.value;
-        const timeOfDay = timeOfDaySelect.value;
-        const tires = tireSelect.value;
-        const pit = pitSelect.value;
-        const fuel = fuelSelect.value;
-        const tireWear = tireWearSelect.value;
-        const startType = startTypeSelect.value;
-        const qualifying = qualifyingSelect.value;
-        const bop = bopSelect.value;
+        const track =
+          trackSelect.value;
+
+        const laps =
+          Number(lapsInput.value);
+
+        const weather =
+          weatherSelect.value;
+
+        const timeOfDay =
+          timeOfDaySelect.value;
+
+        const tires =
+          tireSelect.value;
+
+        const pit =
+          pitSelect.value;
+
+        const fuel =
+          fuelSelect.value;
+
+        const tireWear =
+          tireWearSelect.value;
+
+        const startType =
+          startTypeSelect.value;
+
+        const qualifying =
+          qualifyingSelect.value;
+
+        const bop =
+          bopSelect.value;
 
 
         if (!track) {
@@ -876,58 +1001,80 @@
           return;
         }
 
-        if (selectedClasses.length === 0) {
+        if (
+          selectedClasses.length === 0
+        ) {
           showError("❌ Wybierz klasę.");
           return;
         }
 
         if (!laps || laps < 1) {
-          showError("❌ Podaj liczbę okrążeń.");
+          showError(
+            "❌ Podaj liczbę okrążeń."
+          );
           return;
         }
 
         if (!weather) {
-          showError("❌ Wybierz pogodę.");
+          showError(
+            "❌ Wybierz pogodę."
+          );
           return;
         }
 
         if (!timeOfDay) {
-          showError("❌ Wybierz porę dnia.");
+          showError(
+            "❌ Wybierz porę dnia."
+          );
           return;
         }
 
         if (!tires) {
-          showError("❌ Wybierz opony.");
+          showError(
+            "❌ Wybierz opony."
+          );
           return;
         }
 
         if (!pit) {
-          showError("❌ Wybierz PIT STOP.");
+          showError(
+            "❌ Wybierz PIT STOP."
+          );
           return;
         }
 
         if (!fuel) {
-          showError("❌ Wybierz zużycie paliwa.");
+          showError(
+            "❌ Wybierz zużycie paliwa."
+          );
           return;
         }
 
         if (!tireWear) {
-          showError("❌ Wybierz zużycie opon.");
+          showError(
+            "❌ Wybierz zużycie opon."
+          );
           return;
         }
 
         if (!startType) {
-          showError("❌ Wybierz typ startu.");
+          showError(
+            "❌ Wybierz typ startu."
+          );
           return;
         }
 
         if (!qualifying) {
-          showError("❌ Wybierz kwalifikacje.");
+          showError(
+            "❌ Wybierz kwalifikacje."
+          );
           return;
         }
 
         if (!bop) {
-          showError("❌ Wybierz BOP.");
+          showError(
+            "❌ Wybierz BOP."
+          );
           return;
         }
 
@@ -940,26 +1087,54 @@
           await set(
             ref(
               database,
-              "srsLobbyCombos/" + playerId
+              "srsLobbyCombos/" +
+              playerId
             ),
             {
-              playerId: playerId,
-              roundId: currentRound.id,
+              playerId:
+                playerId,
 
-              track: track,
-              classes: selectedClasses,
-              laps: laps,
-              weather: weather,
-              timeOfDay: timeOfDay,
-              tires: tires,
-              pit: pit,
-              fuel: fuel,
-              tireWear: tireWear,
-              startType: startType,
-              qualifying: qualifying,
-              bop: bop,
+              roundId:
+                currentRound.id,
 
-              time: Date.now()
+              track:
+                track,
+
+              classes:
+                selectedClasses,
+
+              laps:
+                laps,
+
+              weather:
+                weather,
+
+              timeOfDay:
+                timeOfDay,
+
+              tires:
+                tires,
+
+              pit:
+                pit,
+
+              fuel:
+                fuel,
+
+              tireWear:
+                tireWear,
+
+              startType:
+                startType,
+
+              qualifying:
+                qualifying,
+
+              bop:
+                bop,
+
+              time:
+                Date.now()
             }
           );
 
@@ -994,7 +1169,8 @@
 
     function showError(message) {
 
-      comboInfo.textContent = message;
+      comboInfo.textContent =
+        message;
 
       comboInfo.style.color =
         "#ff5555";
@@ -1006,7 +1182,8 @@
 
       return array[
         Math.floor(
-          Math.random() * array.length
+          Math.random() *
+          array.length
         )
       ];
 
@@ -1064,18 +1241,23 @@
             );
 
 
-        if (combos.length === 0) {
+        if (
+          combos.length === 0
+        ) {
 
           await set(
             roundRef,
             {
               ...latestRound,
-              status: "finished",
-              winner: null
+              status:
+                "finished",
+              winner:
+                null
             }
           );
 
           finishingRound = false;
+
           return;
 
         }
@@ -1089,9 +1271,15 @@
           roundRef,
           {
             ...latestRound,
-            status: "finished",
-            winner: winner,
-            finishedAt: Date.now()
+
+            status:
+              "finished",
+
+            winner:
+              winner,
+
+            finishedAt:
+              Date.now()
           }
         );
 
@@ -1123,8 +1311,9 @@
 
 
       const left =
-        Number(currentRound.endTime) -
-        Date.now();
+        Number(
+          currentRound.endTime
+        ) - Date.now();
 
 
       if (left <= 0) {
@@ -1150,9 +1339,11 @@
 
 
       countdown.textContent =
-        String(minutes).padStart(2, "0") +
+        String(minutes)
+          .padStart(2, "0") +
         ":" +
-        String(remainingSeconds).padStart(2, "0");
+        String(remainingSeconds)
+          .padStart(2, "0");
 
     }
 
@@ -1186,7 +1377,8 @@
 
 
       if (
-        currentRound.status === "voting"
+        currentRound.status ===
+        "voting"
       ) {
 
         if (roundIsActive()) {
@@ -1232,7 +1424,8 @@
 
 
       if (
-        currentRound.status === "finished"
+        currentRound.status ===
+        "finished"
       ) {
 
         phaseStatus.textContent =
@@ -1392,6 +1585,7 @@
           snapshot.val();
 
         renderRound();
+
         updateCountdown();
 
       }
@@ -1438,29 +1632,62 @@
         if (
           mySavedCombo &&
           mySavedCombo.roundId ===
-            currentRound.id
+          currentRound.id
         ) {
 
           const myClasses =
-            Array.isArray(mySavedCombo.classes)
+            Array.isArray(
+              mySavedCombo.classes
+            )
               ? mySavedCombo.classes.join(" + ")
               : mySavedCombo.classes;
 
 
           myCombo.innerHTML = `
-            <strong>✅ TWOJE COMBO:</strong><br>
-            🏁 ${mySavedCombo.track}<br>
-            🏎️ ${myClasses}<br>
-            🔢 ${mySavedCombo.laps} okr.<br>
-            🌦️ ${mySavedCombo.weather}<br>
-            🌅 ${mySavedCombo.timeOfDay}<br>
-            🛞 ${mySavedCombo.tires}<br>
-            🔧 ${mySavedCombo.pit}<br>
-            ⛽ Paliwo ${mySavedCombo.fuel}<br>
-            🛞 Zużycie opon ${mySavedCombo.tireWear}<br>
-            🚦 ${mySavedCombo.startType}<br>
-            ⏱️ Kwalifikacje: ${mySavedCombo.qualifying}<br>
+
+            <strong>
+              ✅ TWOJE COMBO:
+            </strong>
+            <br>
+
+            🏁 ${mySavedCombo.track}
+            <br>
+
+            🏎️ ${myClasses}
+            <br>
+
+            🔢 ${mySavedCombo.laps} okr.
+            <br>
+
+            🌦️ ${mySavedCombo.weather}
+            <br>
+
+            🌅 ${mySavedCombo.timeOfDay}
+            <br>
+
+            🛞 ${mySavedCombo.tires}
+            <br>
+
+            🔧 ${mySavedCombo.pit}
+            <br>
+
+            ⛽ Paliwo
+            ${mySavedCombo.fuel}
+            <br>
+
+            🛞 Zużycie opon
+            ${mySavedCombo.tireWear}
+            <br>
+
+            🚦 ${mySavedCombo.startType}
+            <br>
+
+            ⏱️ Kwalifikacje:
+            ${mySavedCombo.qualifying}
+            <br>
+
             ⚖️ ${mySavedCombo.bop}
+
           `;
 
         }
@@ -1482,7 +1709,8 @@
 
         if (
           currentRound &&
-          currentRound.status === "voting" &&
+          currentRound.status ===
+          "voting" &&
           !roundIsActive()
         ) {
 
