@@ -97,11 +97,34 @@ h1 {
   text-align: center;
 }
 
-#newRoundBtn {
-  width: min(100%, 450px);
-  min-height: 60px;
+.admin-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
 
-  font-size: 18px;
+#adminPin {
+  width: 220px;
+  height: 58px;
+
+  background: #15151d;
+  color: white;
+
+  border: 1px solid #555;
+  border-radius: 11px;
+
+  padding: 0 15px;
+  text-align: center;
+  font-size: 17px;
+}
+
+#newRoundBtn {
+  min-width: 280px;
+  height: 58px;
+
+  font-size: 17px;
 
   background:
     linear-gradient(
@@ -111,8 +134,9 @@ h1 {
     );
 }
 
-#roundButtonInfo {
+#adminInfo {
   margin-top: 12px;
+  min-height: 20px;
   color: #aaa;
   font-size: 14px;
 }
@@ -251,10 +275,19 @@ h1 {
 
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
 
   .card {
     padding: 17px 13px;
+  }
+
+  .admin-row {
+    flex-direction: column;
+  }
+
+  #adminPin,
+  #newRoundBtn {
+    width: 100%;
   }
 
 }
@@ -266,21 +299,29 @@ h1 {
 
 <div class="container">
 
-  <h1>
-    🏁 SRS LOSOWANIE TORU
-  </h1>
+  <h1>🏁 SRS LOSOWANIE TORU</h1>
 
 
-  <!-- NOWA RUNDA -->
+  <!-- ADMIN / NOWA RUNDA -->
 
   <div class="card new-round-card">
 
-    <button id="newRoundBtn">
-      🔄 NOWA RUNDA – 30 MINUT
-    </button>
+    <div class="admin-row">
 
-    <div id="roundButtonInfo">
-      Kliknij, aby rozpocząć nową rundę.
+      <input
+        type="password"
+        id="adminPin"
+        placeholder="🔒 PIN administratora"
+      >
+
+      <button id="newRoundBtn">
+        🔄 NOWA RUNDA – 30 MINUT
+      </button>
+
+    </div>
+
+    <div id="adminInfo">
+      Wpisz PIN, aby rozpocząć nową rundę.
     </div>
 
   </div>
@@ -299,7 +340,7 @@ h1 {
     </div>
 
     <div id="phaseInfo">
-      Kliknij NOWA RUNDA, aby rozpocząć głosowanie.
+      Czekamy na rozpoczęcie nowej rundy.
     </div>
 
   </div>
@@ -307,10 +348,7 @@ h1 {
 
   <!-- WYBÓR -->
 
-  <div
-    id="votingSection"
-    class="card hidden"
-  >
+  <div id="votingSection" class="card hidden">
 
     <div class="section-title">
       🏎️ WYBIERZ GRUPĘ AUTA
@@ -347,18 +385,14 @@ h1 {
         WYBRANA GRUPA AUT
       </div>
 
-      <div id="drawnGroup">
-        —
-      </div>
+      <div id="drawnGroup">—</div>
 
 
       <div class="result-label">
         WYLOSOWANY TOR
       </div>
 
-      <div id="drawnTrack">
-        —
-      </div>
+      <div id="drawnTrack">—</div>
 
     </div>
 
@@ -436,6 +470,8 @@ const database = getDatabase(app);
 
 /* USTAWIENIA */
 
+const ADMIN_PIN = "840416";
+
 const ROUND_TIME = 30 * 60 * 1000;
 
 
@@ -479,11 +515,14 @@ const tracks = [
 
 /* ELEMENTY */
 
+const adminPin =
+  document.getElementById("adminPin");
+
 const newRoundBtn =
   document.getElementById("newRoundBtn");
 
-const roundButtonInfo =
-  document.getElementById("roundButtonInfo");
+const adminInfo =
+  document.getElementById("adminInfo");
 
 const phaseStatus =
   document.getElementById("phaseStatus");
@@ -525,7 +564,9 @@ const votesRef =
 /* ZMIENNE */
 
 let currentRound = null;
+
 let selectedGroup = null;
+
 let finishingRound = false;
 
 
@@ -559,14 +600,32 @@ newRoundBtn.addEventListener(
   async () => {
 
     if (
+      adminPin.value.trim() !==
+      ADMIN_PIN
+    ) {
+
+      adminInfo.textContent =
+        "❌ Nieprawidłowy PIN.";
+
+      adminInfo.style.color =
+        "#ff5555";
+
+      return;
+
+    }
+
+
+    if (
       currentRound &&
       currentRound.status === "voting" &&
       Date.now() < Number(currentRound.endTime)
     ) {
 
-      alert(
-        "Runda już trwa!"
-      );
+      adminInfo.textContent =
+        "❌ Runda już trwa.";
+
+      adminInfo.style.color =
+        "#ff5555";
 
       return;
 
@@ -587,7 +646,14 @@ newRoundBtn.addEventListener(
         true;
 
 
-      /* USUWA STARE GŁOSY */
+      adminInfo.textContent =
+        "⏳ Rozpoczynanie nowej rundy...";
+
+      adminInfo.style.color =
+        "#ffe000";
+
+
+      /* USUŃ STARE GŁOSY */
 
       await remove(votesRef);
 
@@ -661,14 +727,27 @@ newRoundBtn.addEventListener(
         "Wynik pojawi się po zakończeniu rundy.";
 
 
+      adminPin.value =
+        "";
+
+
+      adminInfo.textContent =
+        "🟢 Nowa runda została rozpoczęta.";
+
+      adminInfo.style.color =
+        "#4ade80";
+
+
     }
 
     catch (error) {
 
-      alert(
-        "Błąd rozpoczęcia rundy: " +
-        error.message
-      );
+      adminInfo.textContent =
+        "❌ Błąd: " +
+        error.message;
+
+      adminInfo.style.color =
+        "#ff5555";
 
     }
 
@@ -688,8 +767,7 @@ function votingIsActive() {
 
     currentRound &&
 
-    currentRound.status ===
-      "voting" &&
+    currentRound.status === "voting" &&
 
     Date.now() <
       Number(currentRound.endTime)
@@ -699,7 +777,7 @@ function votingIsActive() {
 }
 
 
-/* SPRAWDZANIE UDZIAŁU */
+/* CZY UŻYTKOWNIK JUŻ BRAŁ UDZIAŁ */
 
 async function playerAlreadyVoted() {
 
@@ -708,20 +786,30 @@ async function playerAlreadyVoted() {
   }
 
 
-  const snapshot =
-    await get(votesRef);
+  try {
 
-  const votes =
-    snapshot.val() || {};
+    const snapshot =
+      await get(votesRef);
+
+    const votes =
+      snapshot.val() || {};
 
 
-  return Object.values(votes).some(
-    vote =>
+    return Object.values(votes).some(
+      vote =>
 
-      vote.playerId === playerId &&
+        vote.playerId === playerId &&
 
-      vote.roundId === currentRound.id
-  );
+        vote.roundId === currentRound.id
+    );
+
+  }
+
+  catch {
+
+    return false;
+
+  }
 
 }
 
@@ -792,7 +880,7 @@ groupButtons.forEach(
 );
 
 
-/* LOSOWANIE TORU */
+/* LOSOWANIE */
 
 drawBtn.addEventListener(
   "click",
@@ -945,7 +1033,7 @@ drawBtn.addEventListener(
 );
 
 
-/* LOSOWANIE Z REMISU */
+/* LOSOWANIE PRZY REMISIE */
 
 function randomItem(array) {
 
@@ -1016,7 +1104,7 @@ async function finishRound() {
       );
 
 
-    /* BRAK GŁOSÓW */
+    /* BRAK WYBORÓW */
 
     if (votes.length === 0) {
 
@@ -1041,7 +1129,7 @@ async function finishRound() {
     }
 
 
-    /* LICZENIE GRUP */
+    /* LICZENIE GRUP AUT */
 
     const groupCounts =
       {};
@@ -1078,17 +1166,13 @@ async function finishRound() {
       );
 
 
-    /*
-      JEŻELI GRUPY MAJĄ
-      TYLE SAMO GŁOSÓW,
-      SYSTEM LOSUJE
-    */
+    /* PRZY REMISIE LOSUJE GRUPĘ */
 
     const winnerGroup =
       randomItem(bestGroups);
 
 
-    /* TORY TYLKO Z WYGRANEJ GRUPY */
+    /* BIORĄ UDZIAŁ TYLKO TORY Z WYGRANEJ GRUPY */
 
     const winningVotes =
       votes.filter(
@@ -1135,11 +1219,7 @@ async function finishRound() {
       );
 
 
-    /*
-      JEŻELI TORY MAJĄ
-      TYLE SAMO GŁOSÓW,
-      SYSTEM LOSUJE
-    */
+    /* PRZY REMISIE LOSUJE TOR */
 
     const winnerTrack =
       randomItem(bestTracks);
@@ -1186,14 +1266,13 @@ async function finishRound() {
 }
 
 
-/* ODLiczanie */
+/* ODLiCZANIE */
 
 function updateCountdown() {
 
   if (
     !currentRound ||
-    currentRound.status !==
-      "voting"
+    currentRound.status !== "voting"
   ) {
     return;
   }
@@ -1227,18 +1306,14 @@ function updateCountdown() {
 
 
   countdown.textContent =
-    String(minutes)
-      .padStart(2, "0") +
-
+    String(minutes).padStart(2, "0") +
     ":" +
-
-    String(remainingSeconds)
-      .padStart(2, "0");
+    String(remainingSeconds).padStart(2, "0");
 
 }
 
 
-/* WYŚWIETLANIE STRONY */
+/* WYŚWIETLANIE */
 
 function renderRound() {
 
@@ -1254,7 +1329,7 @@ function renderRound() {
       "00:00";
 
     phaseInfo.textContent =
-      "Kliknij NOWA RUNDA, aby rozpocząć głosowanie.";
+      "Czekamy na rozpoczęcie nowej rundy.";
 
     votingSection.classList.add(
       "hidden"
@@ -1263,17 +1338,13 @@ function renderRound() {
     officialResult.textContent =
       "Wynik pojawi się po zakończeniu rundy.";
 
-    roundButtonInfo.textContent =
-      "Kliknij, aby rozpocząć nową rundę.";
-
     return;
 
   }
 
 
   if (
-    currentRound.status ===
-    "voting"
+    currentRound.status === "voting"
   ) {
 
     if (votingIsActive()) {
@@ -1286,9 +1357,6 @@ function renderRound() {
 
       phaseInfo.textContent =
         "Masz czas do końca rundy.";
-
-      roundButtonInfo.textContent =
-        "Runda trwa – odliczanie jest aktywne.";
 
       votingSection.classList.remove(
         "hidden"
@@ -1308,7 +1376,7 @@ function renderRound() {
         "#ffe000";
 
       phaseInfo.textContent =
-        "System liczy głosy i losuje remisy.";
+        "System liczy głosy.";
 
       votingSection.classList.add(
         "hidden"
@@ -1322,8 +1390,7 @@ function renderRound() {
 
 
   if (
-    currentRound.status ===
-    "finished"
+    currentRound.status === "finished"
   ) {
 
     phaseStatus.textContent =
@@ -1336,10 +1403,7 @@ function renderRound() {
       "00:00";
 
     phaseInfo.textContent =
-      "Można rozpocząć nową rundę.";
-
-    roundButtonInfo.textContent =
-      "Kliknij NOWA RUNDA, aby rozpocząć kolejne 30 minut.";
+      "Wpisz PIN i rozpocznij nową rundę.";
 
     votingSection.classList.add(
       "hidden"
@@ -1404,7 +1468,10 @@ onValue(
 
   error => {
 
-    console.error(error);
+    console.error(
+      "Błąd Firebase:",
+      error
+    );
 
   }
 
