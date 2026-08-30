@@ -16,47 +16,23 @@
       margin: 0;
       min-height: 100vh;
       font-family: Arial, Helvetica, sans-serif;
-      color: white;
-      background: #07090d;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-
+      color: #ffffff;
       background:
-        linear-gradient(
-          rgba(5, 7, 10, 0.78),
-          rgba(5, 7, 10, 0.90)
-        ),
-        url("background.png.png") center / cover fixed no-repeat;
+        radial-gradient(circle at top, #301010 0%, #08090d 55%, #030406 100%);
     }
 
     .container {
       width: 100%;
       max-width: 1000px;
       margin: auto;
-      padding: 25px 15px 60px;
-    }
-
-    .card {
-      background: rgba(8, 10, 16, 0.93);
-      border: 1px solid rgba(255, 0, 0, 0.55);
-      border-radius: 20px;
-      padding: 24px;
-      margin-bottom: 22px;
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(8px);
+      padding: 25px 15px 70px;
     }
 
     h1 {
-      margin: 15px 0 8px;
       text-align: center;
-      font-size: clamp(30px, 6vw, 50px);
-      letter-spacing: 1px;
-      text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+      margin: 10px 0;
+      font-size: clamp(30px, 6vw, 52px);
+      text-shadow: 0 0 20px rgba(255,0,0,.45);
     }
 
     h2 {
@@ -66,105 +42,157 @@
 
     .subtitle {
       text-align: center;
-      color: #c9c9c9;
+      color: #bfc3ca;
+      margin-bottom: 22px;
       line-height: 1.6;
+    }
+
+    .card {
+      background: rgba(10, 12, 18, .96);
+      border: 1px solid rgba(255, 40, 40, .38);
+      border-radius: 20px;
+      padding: 22px;
       margin-bottom: 20px;
+      box-shadow: 0 12px 35px rgba(0,0,0,.4);
+    }
+
+    .hidden {
+      display: none !important;
     }
 
     /* ADMIN */
 
-    .admin-box {
-      max-width: 850px;
-      margin: 0 auto 20px;
-      text-align: center;
-    }
-
     .admin-title {
+      text-align: center;
       font-weight: bold;
       margin-bottom: 15px;
-      color: #ddd;
+      color: #ffc5c5;
     }
 
-    .admin-login-row {
+    .admin-login {
       display: flex;
       justify-content: center;
       gap: 10px;
       flex-wrap: wrap;
     }
 
-    #adminPin {
-      width: 220px;
+    input,
+    button {
+      font-family: inherit;
+    }
+
+    #adminPin,
+    #endDate,
+    #endTime {
       padding: 13px;
       border-radius: 10px;
-      border: 1px solid #4b4b4b;
-      background: #11141a;
+      border: 1px solid #454954;
+      background: #13161d;
       color: white;
       font-size: 16px;
+    }
+
+    #adminPin {
+      width: 220px;
       text-align: center;
+    }
+
+    button {
+      border: none;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
     }
 
     .admin-btn {
       padding: 13px 20px;
-      border: none;
       border-radius: 10px;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    #adminLoginBtn {
       background: #9d0000;
     }
 
-    #endVotingBtn {
-      background: #c40000;
-    }
-
-    #newRoundBtn {
-      background: #096b35;
-    }
-
     #adminStatus {
+      text-align: center;
       margin-top: 14px;
-      color: #aaa;
       min-height: 22px;
+      color: #aaa;
     }
 
-    #adminControls {
+    .admin-panel {
       margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #2c3038;
     }
 
-    .admin-controls-row {
+    .date-row {
       display: flex;
       justify-content: center;
       gap: 12px;
       flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field label {
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    #startRoundBtn {
+      display: block;
+      margin: 10px auto 0;
+      padding: 15px 28px;
+      border-radius: 12px;
+      background: #087539;
+      font-size: 16px;
+    }
+
+    #newRoundInfo {
+      text-align: center;
+      margin-top: 12px;
+      color: #aaa;
+      line-height: 1.5;
     }
 
     /* STATUS */
 
-    .status-box {
+    .status-card {
       text-align: center;
     }
 
-    .status {
-      font-size: 25px;
+    #phaseStatus {
+      font-size: 24px;
       font-weight: bold;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
-    .phase-info {
-      color: #c9c9c9;
-      line-height: 1.6;
+    #countdown {
+      font-size: clamp(28px, 7vw, 48px);
+      font-weight: bold;
+      color: #ffd400;
+      margin: 14px 0;
     }
 
-    /* GRUPY AUT */
+    #phaseInfo {
+      color: #bfc3ca;
+    }
+
+    /* GRUPY */
 
     .section-title {
       text-align: center;
       font-size: 22px;
       font-weight: bold;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .car-groups {
@@ -174,236 +202,95 @@
     }
 
     .group-btn {
-      padding: 22px 10px;
-      border: 2px solid #363a43;
+      min-height: 100px;
+      border: 2px solid #363a44;
       border-radius: 15px;
-      background: rgba(18, 20, 27, 0.95);
+      background: #151820;
       color: white;
       font-size: 20px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
     }
 
     .group-btn:hover:not(:disabled) {
-      transform: translateY(-3px);
-      border-color: #ff2020;
+      border-color: #ff3434;
     }
 
     .group-btn.selected {
-      border-color: #ff2020;
-      background: rgba(120, 0, 0, 0.45);
-      box-shadow: 0 0 22px rgba(255, 0, 0, 0.35);
+      border-color: #ff3434;
+      background: #5b0808;
+      box-shadow: 0 0 22px rgba(255,0,0,.25);
     }
 
     .group-btn:disabled {
-      opacity: 0.45;
+      opacity: .45;
       cursor: not-allowed;
     }
-
-    /* LOSOWANIE */
 
     #drawBtn {
       display: block;
-      width: min(100%, 420px);
-      margin: 24px auto 0;
-      padding: 18px 25px;
-      border: none;
+      width: min(100%, 430px);
+      margin: 22px auto 0;
+      padding: 18px;
       border-radius: 13px;
-      background: #555;
-      color: white;
+      background: #c90000;
       font-size: 20px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    #drawBtn:not(:disabled) {
-      background: #c40000;
     }
 
     #drawBtn:disabled {
+      background: #464950;
       cursor: not-allowed;
     }
 
-    .drawn-track {
-      margin-top: 20px;
-      min-height: 35px;
+    /* WYNIK GRACZA */
+
+    .player-result {
+      margin-top: 22px;
       text-align: center;
-      font-size: 24px;
+      min-height: 90px;
+    }
+
+    .player-result-label {
+      color: #999;
+      font-size: 13px;
       font-weight: bold;
-      color: #ff4b4b;
+      margin-bottom: 8px;
     }
 
-    #connectionStatus {
-      margin-top: 15px;
-      text-align: center;
-      min-height: 22px;
+    #drawnTrack {
+      color: #ff5252;
+      font-size: clamp(22px, 5vw, 34px);
       font-weight: bold;
+      min-height: 40px;
     }
 
-    /* OSTATNI WYNIK */
-
-    .player-result-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-
-    .mini-result-box {
-      background: rgba(4, 6, 11, 0.85);
-      border: 1px solid #2d3039;
-      border-radius: 15px;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .mini-result-title {
-      color: #aaa;
-      font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 12px;
-    }
-
-    .mini-result-value {
-      font-size: 26px;
-      font-weight: bold;
-    }
-
-    #lastGroup {
+    #drawnGroup {
       color: #ffd400;
-    }
-
-    #lastTrack {
-      color: #ff3d3d;
-    }
-
-    /* LIDER */
-
-    .leader-box {
-      max-width: 600px;
-      margin: 0 auto 22px;
-      padding: 20px;
-      border-radius: 16px;
-      border: 1px solid #8c6800;
-      background:
-        linear-gradient(
-          135deg,
-          rgba(55, 42, 0, 0.70),
-          rgba(10, 12, 18, 0.95)
-        );
-    }
-
-    .leader-title {
-      color: #aaa;
+      font-size: 20px;
       font-weight: bold;
-      font-size: 15px;
-      margin-bottom: 10px;
-    }
-
-    .leader-group {
-      color: #ffd400;
-      font-size: 34px;
-      font-weight: bold;
-    }
-
-    .leader-votes {
-      color: #ddd;
-      margin-top: 8px;
-      font-size: 18px;
-    }
-
-    /* RANKING GRUP */
-
-    .group-ranking {
-      max-width: 750px;
-      margin: auto;
-    }
-
-    .ranking-row {
-      display: grid;
-      grid-template-columns: 55px 1fr auto;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 10px;
-      padding: 16px 18px;
-      background: rgba(5, 7, 12, 0.88);
-      border: 1px solid #292d38;
-      border-radius: 12px;
-    }
-
-    .ranking-position {
-      color: #ffd400;
-      font-weight: bold;
-      font-size: 22px;
-    }
-
-    .ranking-group {
-      font-size: 21px;
-      font-weight: bold;
-    }
-
-    .ranking-votes {
-      color: #ff4444;
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-    /* RANKING TORÓW */
-
-    .track-ranking {
-      max-width: 850px;
-      margin: auto;
-    }
-
-    .track-row {
-      display: grid;
-      grid-template-columns: 45px 1fr auto;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 10px;
-      padding: 14px 16px;
-      background: rgba(5, 7, 12, 0.88);
-      border: 1px solid #292d38;
-      border-radius: 12px;
-    }
-
-    .track-position {
-      color: #ffd400;
-      font-weight: bold;
-    }
-
-    .track-name {
-      font-weight: bold;
-    }
-
-    .track-count {
-      color: #ff4444;
-      font-weight: bold;
+      margin-top: 7px;
     }
 
     /* WSZYSTKIE TORY */
 
     .all-draws {
-      max-width: 850px;
-      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .draw-item {
       display: grid;
-      grid-template-columns: 45px 1fr auto;
-      gap: 12px;
+      grid-template-columns: 55px 1fr auto;
       align-items: center;
-      margin-bottom: 10px;
-      padding: 14px 16px;
-      background: rgba(18, 20, 27, 0.92);
-      border-left: 4px solid #c40000;
+      gap: 12px;
+      padding: 14px;
+      border-left: 4px solid #d30000;
       border-radius: 10px;
+      background: #141720;
     }
 
     .draw-number {
       color: #ffd400;
       font-weight: bold;
-      font-size: 18px;
     }
 
     .draw-track {
@@ -415,37 +302,94 @@
       font-weight: bold;
     }
 
+    /* LIDER */
+
+    .leader-box {
+      max-width: 600px;
+      margin: 0 auto 20px;
+      text-align: center;
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid #826700;
+      background: linear-gradient(135deg, #342600, #11141b);
+    }
+
+    .leader-title {
+      color: #aaa;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    #leaderGroup {
+      font-size: 34px;
+      color: #ffd400;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    #leaderVotes {
+      color: #ddd;
+      margin-top: 6px;
+    }
+
+    .ranking-row {
+      display: grid;
+      grid-template-columns: 55px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 15px;
+      margin-bottom: 9px;
+      border-radius: 11px;
+      background: #141720;
+    }
+
+    .ranking-position {
+      color: #ffd400;
+      font-weight: bold;
+    }
+
+    .ranking-group {
+      font-size: 19px;
+      font-weight: bold;
+    }
+
+    .ranking-votes {
+      color: #ff5555;
+      font-weight: bold;
+    }
+
     /* OFICJALNY WYNIK */
 
     .official-result {
       text-align: center;
-      line-height: 1.8;
+      line-height: 1.7;
+      min-height: 120px;
     }
 
     .winner-group {
       color: #ffd400;
-      font-size: 35px;
+      font-size: 36px;
       font-weight: bold;
     }
 
     .winner-track {
-      color: #ff4040;
+      color: #ff5252;
       font-size: 30px;
       font-weight: bold;
     }
 
-    .hidden {
-      display: none;
-    }
-
-    @media (max-width: 700px) {
+    @media (max-width: 650px) {
 
       .car-groups {
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .player-result-grid {
-        grid-template-columns: 1fr;
+      .draw-item {
+        grid-template-columns: 45px 1fr;
+      }
+
+      .draw-group {
+        grid-column: 2;
       }
 
     }
@@ -455,1232 +399,1641 @@
 
 <body>
 
-<div class="container">
+  <div class="container">
 
-  <!-- ADMIN -->
+    <h1>🏁 SRS LOSOWANIE TORU</h1>
 
-  <div class="card admin-box">
-
-    <div class="admin-title">
-      👑 PANEL ADMINISTRATORA
+    <div class="subtitle">
+      Wybierz grupę auta, wylosuj tor i weź udział w głosowaniu.
     </div>
 
-    <div class="admin-login-row">
 
-      <input
-        type="password"
-        id="adminPin"
-        placeholder="PIN administratora"
-      >
+    <!-- PANEL ADMINA -->
 
-      <button id="adminLoginBtn" class="admin-btn">
-        ZALOGUJ ADMINA
-      </button>
+    <div class="card">
 
-    </div>
+      <div class="admin-title">
+        👑 PANEL ADMINISTRATORA
+      </div>
 
-    <div id="adminStatus">
-      Wpisz PIN administratora.
-    </div>
+      <div class="admin-login">
 
-    <div id="adminControls" class="hidden">
+        <input
+          type="password"
+          id="adminPin"
+          placeholder="PIN administratora"
+        >
 
-      <div class="admin-controls-row">
-
-        <button id="endVotingBtn" class="admin-btn">
-          🏁 ZAKOŃCZ GŁOSOWANIE
+        <button id="adminLoginBtn" class="admin-btn">
+          ZALOGUJ
         </button>
 
-        <button id="newRoundBtn" class="admin-btn">
-          🔄 NOWA RUNDA
+      </div>
+
+      <div id="adminStatus">
+        Wpisz PIN administratora.
+      </div>
+
+
+      <div id="adminPanel" class="admin-panel hidden">
+
+        <div class="section-title">
+          🔄 USTAW NOWĄ RUNDĘ
+        </div>
+
+        <div class="date-row">
+
+          <div class="field">
+
+            <label>
+              📅 Data zakończenia
+            </label>
+
+            <input
+              type="date"
+              id="endDate"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              🕐 Godzina zakończenia
+            </label>
+
+            <input
+              type="time"
+              id="endTime"
+            >
+
+          </div>
+
+        </div>
+
+
+        <button id="startRoundBtn">
+          ▶️ ROZPOCZNIJ NOWĄ RUNDĘ
         </button>
+
+        <div id="newRoundInfo">
+          Ustaw dokładną datę i godzinę, do której gracze mogą losować.
+        </div>
 
       </div>
 
     </div>
 
-  </div>
 
+    <!-- STATUS -->
 
-  <h1>🏁 SRS LOSOWANIE TORU</h1>
+    <div class="card status-card">
 
-  <div class="subtitle">
-    Wybierz grupę auta i wylosuj tor.<br>
-    Głosowanie trwa do momentu zakończenia przez administratora.
-  </div>
+      <div id="phaseStatus">
+        🔄 ŁADOWANIE...
+      </div>
 
+      <div id="countdown">
+        --:--:--
+      </div>
 
-  <!-- STATUS -->
+      <div id="phaseInfo">
+        Pobieranie danych...
+      </div>
 
-  <div class="card status-box">
-
-    <div id="phaseStatus" class="status">
-      🔄 ŁADOWANIE...
     </div>
 
-    <div id="phaseInfo" class="phase-info">
-      Pobieranie danych...
-    </div>
 
-  </div>
+    <!-- LOSOWANIE -->
+
+    <div id="votingSection" class="card">
+
+      <div class="section-title">
+        🏎️ WYBIERZ GRUPĘ AUTA
+      </div>
+
+      <div class="car-groups">
+
+        <button class="group-btn" data-group="Gr.1">
+          🏎️<br>Gr.1
+        </button>
+
+        <button class="group-btn" data-group="Gr.2">
+          🏁<br>Gr.2
+        </button>
+
+        <button class="group-btn" data-group="Gr.3">
+          🚗<br>Gr.3
+        </button>
+
+        <button class="group-btn" data-group="Gr.4">
+          🚙<br>Gr.4
+        </button>
+
+      </div>
 
 
-  <!-- GŁOSOWANIE -->
-
-  <div id="votingSection" class="card">
-
-    <div class="section-title">
-      🏎️ WYBIERZ GRUPĘ AUTA
-    </div>
-
-    <div class="car-groups">
-
-      <button class="group-btn" data-group="Gr.1">
-        🏎️<br>Gr.1
+      <button id="drawBtn" disabled>
+        🎲 NAJPIERW WYBIERZ GRUPĘ
       </button>
 
-      <button class="group-btn" data-group="Gr.2">
-        🏁<br>Gr.2
-      </button>
 
-      <button class="group-btn" data-group="Gr.3">
-        🚗<br>Gr.3
-      </button>
+      <div class="player-result">
 
-      <button class="group-btn" data-group="Gr.4">
-        🚙<br>Gr.4
-      </button>
-
-    </div>
-
-    <button id="drawBtn" disabled>
-      🎲 NAJPIERW WYBIERZ GRUPĘ
-    </button>
-
-    <div id="drawnTrack" class="drawn-track"></div>
-
-    <div id="connectionStatus">
-      🔄 Łączenie z Firebase...
-    </div>
-
-  </div>
-
-
-  <!-- OSTATNI WYNIK -->
-
-  <div class="card">
-
-    <div class="player-result-grid">
-
-      <div class="mini-result-box">
-
-        <div class="mini-result-title">
-          WYBRANA GRUPA AUTA
+        <div class="player-result-label">
+          🏁 TWÓJ WYLOSOWANY TOR
         </div>
 
-        <div id="lastGroup" class="mini-result-value">
+        <div id="drawnTrack">
+          —
+        </div>
+
+        <div id="drawnGroup">
           —
         </div>
 
       </div>
 
-      <div class="mini-result-box">
+    </div>
 
-        <div class="mini-result-title">
-          WYLOSOWANY TOR
+
+    <!-- WSZYSTKIE TORY -->
+
+    <div class="card">
+
+      <h2>📋 OSTATNIO WYLOSOWANE TORY</h2>
+
+      <div id="allDraws" class="all-draws">
+        🎲 Jeszcze nikt nie wylosował toru.
+      </div>
+
+    </div>
+
+
+    <!-- RANKING -->
+
+    <div class="card">
+
+      <h2>🏆 RANKING GRUP AUT</h2>
+
+      <div class="leader-box">
+
+        <div class="leader-title">
+          AKTUALNIE PROWADZI
         </div>
 
-        <div id="lastTrack" class="mini-result-value">
-          —
+        <div id="leaderGroup">
+          BRAK GŁOSÓW
+        </div>
+
+        <div id="leaderVotes">
+          Czekamy na pierwsze losowanie.
         </div>
 
       </div>
 
+      <div id="groupRanking"></div>
+
     </div>
 
-  </div>
 
+    <!-- OFICJALNY WYNIK -->
 
-  <!-- RANKING AUT -->
+    <div class="card">
 
-  <div class="card">
+      <h2>🏆 OFICJALNY WYNIK</h2>
 
-    <h2>🏆 RANKING GRUP AUT</h2>
-
-    <div class="leader-box">
-
-      <div class="leader-title">
-        🏆 AKTUALNIE PROWADZI
-      </div>
-
-      <div id="leaderGroup" class="leader-group">
-        BRAK GŁOSÓW
-      </div>
-
-      <div id="leaderVotes" class="leader-votes">
-        Czekamy na pierwsze głosowanie.
+      <div id="officialResult" class="official-result">
+        Wynik pojawi się automatycznie po zakończeniu głosowania.
       </div>
 
     </div>
 
-    <div id="groupRanking" class="group-ranking"></div>
-
   </div>
-
-
-  <!-- RANKING TORÓW -->
-
-  <div class="card">
-
-    <h2>🏆 RANKING TORÓW</h2>
-
-    <div id="trackRanking" class="track-ranking">
-      🎲 Jeszcze nie ma wyników losowania.
-    </div>
-
-  </div>
-
-
-  <!-- WSZYSTKIE WYLOSOWANE TORY -->
-
-  <div class="card">
-
-    <h2>📋 WSZYSTKIE WYLOSOWANE TORY</h2>
-
-    <div id="allDraws" class="all-draws">
-      🎲 Jeszcze nikt nie wylosował toru.
-    </div>
-
-  </div>
-
-
-  <!-- OFICJALNY WYNIK -->
-
-  <div class="card">
-
-    <h2>🏆 OFICJALNY WYNIK</h2>
-
-    <div id="officialResult" class="official-result">
-      Wynik pojawi się po zakończeniu głosowania przez administratora.
-    </div>
-
-  </div>
-
-</div>
 
 
 <script type="module">
 
-import {
-  initializeApp
-} from
-"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+  import {
+    initializeApp
+  } from
+  "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 
-import {
-  getDatabase,
-  ref,
-  push,
-  set,
-  get,
-  onValue,
-  remove,
-  update
-} from
-"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+  import {
+    getDatabase,
+    ref,
+    push,
+    set,
+    get,
+    onValue,
+    remove
+  } from
+  "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 
-/* FIREBASE */
+  /* =====================================================
+     FIREBASE
+     ===================================================== */
 
-const firebaseConfig = {
+  const firebaseConfig = {
 
-  apiKey:
-    "AIzaSyDRDAiSlJBPOG8N_c4ctBRLYrwx3ER5rKw",
+    apiKey:
+      "AIzaSyDRDAiSlJBPOG8N_c4ctBRLYrwx3ER5rKw",
 
-  authDomain:
-    "srs-losowanie.firebaseapp.com",
+    authDomain:
+      "srs-losowanie.firebaseapp.com",
 
-  databaseURL:
-    "https://srs-losowanie-default-rtdb.firebaseio.com",
+    databaseURL:
+      "https://srs-losowanie-default-rtdb.firebaseio.com",
 
-  projectId:
-    "srs-losowanie",
+    projectId:
+      "srs-losowanie",
 
-  storageBucket:
-    "srs-losowanie.firebasestorage.app",
+    storageBucket:
+      "srs-losowanie.firebasestorage.app",
 
-  messagingSenderId:
-    "212959687651",
+    messagingSenderId:
+      "212959687651",
 
-  appId:
-    "1:212959687651:web:0a9a5e647450767bc026d6"
+    appId:
+      "1:212959687651:web:0a9a5e647450767bc026d6"
 
-};
-
-
-const app =
-  initializeApp(firebaseConfig);
-
-
-const database =
-  getDatabase(app);
-
-
-/* PIN */
-
-const ADMIN_PIN = "840416";
-
-
-/* TORY */
-
-const tracks = [
-
-  "Autodrome Lago Maggiore - Full Course",
-  "Autopolis - Full Course",
-  "Blue Moon Bay Speedway",
-  "Brands Hatch Grand Prix Circuit",
-  "Circuit de Barcelona-Catalunya",
-  "Circuit de la Sarthe",
-  "Circuit de Spa-Francorchamps",
-  "Daytona International Speedway - Road Course",
-  "Deep Forest Raceway",
-  "Dragon Trail - Seaside",
-  "Fuji International Speedway",
-  "Goodwood Motor Circuit",
-  "Grand Valley - Highway 1",
-  "High Speed Ring",
-  "Interlagos",
-  "Kyoto Driving Park - Yamagiwa",
-  "Monza Circuit",
-  "Mount Panorama Motor Racing Circuit",
-  "Nürburgring GP",
-  "Nürburgring 24h",
-  "Red Bull Ring",
-  "Road Atlanta",
-  "Sardegna - Road Track A",
-  "Sardegna - Windmills",
-  "Suzuka Circuit",
-  "Tokyo Expressway - South",
-  "Trial Mountain Circuit",
-  "Watkins Glen Long Course",
-  "WeatherTech Raceway Laguna Seca"
-
-];
-
-
-/* FIREBASE REFERENCJE */
-
-const roundRef =
-  ref(database, "srsRound");
-
-const votesRef =
-  ref(database, "srsVotes");
-
-
-/* ELEMENTY */
-
-const groupButtons =
-  document.querySelectorAll(".group-btn");
-
-const drawBtn =
-  document.getElementById("drawBtn");
-
-const drawnTrack =
-  document.getElementById("drawnTrack");
-
-const lastGroup =
-  document.getElementById("lastGroup");
-
-const lastTrack =
-  document.getElementById("lastTrack");
-
-const connectionStatus =
-  document.getElementById("connectionStatus");
-
-const phaseStatus =
-  document.getElementById("phaseStatus");
-
-const phaseInfo =
-  document.getElementById("phaseInfo");
-
-const votingSection =
-  document.getElementById("votingSection");
-
-const leaderGroup =
-  document.getElementById("leaderGroup");
-
-const leaderVotes =
-  document.getElementById("leaderVotes");
-
-const groupRanking =
-  document.getElementById("groupRanking");
-
-const trackRanking =
-  document.getElementById("trackRanking");
-
-const allDraws =
-  document.getElementById("allDraws");
-
-const officialResult =
-  document.getElementById("officialResult");
-
-const adminPin =
-  document.getElementById("adminPin");
-
-const adminLoginBtn =
-  document.getElementById("adminLoginBtn");
-
-const adminStatus =
-  document.getElementById("adminStatus");
-
-const adminControls =
-  document.getElementById("adminControls");
-
-const endVotingBtn =
-  document.getElementById("endVotingBtn");
-
-const newRoundBtn =
-  document.getElementById("newRoundBtn");
-
-
-/* ZMIENNE */
-
-let currentRound = null;
-
-let selectedGroup = null;
-
-let isAdmin = false;
-
-
-const USER_KEY =
-  "srs_losowanie_vote_round";
-
-
-/* NOWA RUNDA */
-
-async function createNewRound() {
-
-  const roundId =
-    Date.now().toString();
-
-  await remove(votesRef);
-
-  await set(
-    roundRef,
-    {
-      id: roundId,
-      status: "voting",
-      createdAt: Date.now(),
-      winnerGroup: null,
-      winnerTrack: null,
-      resultReady: false
-    }
-  );
-
-  localStorage.removeItem(USER_KEY);
-
-  selectedGroup = null;
-
-  drawnTrack.textContent = "";
-
-  lastGroup.textContent = "—";
-
-  lastTrack.textContent = "—";
-
-}
-
-
-async function ensureRound() {
-
-  const snapshot =
-    await get(roundRef);
-
-  if (!snapshot.exists()) {
-    await createNewRound();
-  }
-
-}
-
-
-/* SPRAWDZENIE GŁOSU */
-
-function userAlreadyVoted() {
-
-  if (!currentRound) {
-    return false;
-  }
-
-  return (
-    localStorage.getItem(USER_KEY) ===
-    currentRound.id
-  );
-
-}
-
-
-/* LICZENIE GRUP */
-
-function getGroupCounts(votes) {
-
-  const counts = {
-    "Gr.1": 0,
-    "Gr.2": 0,
-    "Gr.3": 0,
-    "Gr.4": 0
   };
 
-  if (!votes || !currentRound) {
-    return counts;
-  }
 
-  Object.values(votes).forEach(vote => {
+  const app =
+    initializeApp(firebaseConfig);
 
-    if (
-      vote.roundId === currentRound.id &&
-      counts[vote.group] !== undefined
-    ) {
-      counts[vote.group]++;
-    }
+  const database =
+    getDatabase(app);
 
-  });
 
-  return counts;
+  /* =====================================================
+     USTAWIENIA
+     ===================================================== */
 
-}
+  const ADMIN_PIN = "840416";
 
 
-/* RANKING GRUP */
+  const tracks = [
 
-function updateGroupRanking(votes) {
+    "Autodrome Lago Maggiore - Full Course",
+    "Autopolis - Full Course",
+    "Blue Moon Bay Speedway",
+    "Brands Hatch Grand Prix Circuit",
+    "Circuit de Barcelona-Catalunya",
+    "Circuit de la Sarthe",
+    "Circuit de Spa-Francorchamps",
+    "Daytona International Speedway - Road Course",
+    "Deep Forest Raceway",
+    "Dragon Trail - Seaside",
+    "Fuji International Speedway",
+    "Goodwood Motor Circuit",
+    "Grand Valley - Highway 1",
+    "High Speed Ring",
+    "Interlagos",
+    "Kyoto Driving Park - Yamagiwa",
+    "Monza Circuit",
+    "Mount Panorama Motor Racing Circuit",
+    "Nürburgring GP",
+    "Nürburgring 24h",
+    "Red Bull Ring",
+    "Road Atlanta",
+    "Sardegna - Road Track A",
+    "Sardegna - Windmills",
+    "Suzuka Circuit",
+    "Tokyo Expressway - South",
+    "Trial Mountain Circuit",
+    "Watkins Glen Long Course",
+    "WeatherTech Raceway Laguna Seca"
 
-  const counts =
-    getGroupCounts(votes);
+  ];
 
-  const sortedGroups =
-    Object.entries(counts)
-      .sort((a, b) => b[1] - a[1]);
 
-  const maxVotes =
-    Math.max(...Object.values(counts));
+  /* =====================================================
+     FIREBASE ŚCIEŻKI
+     ===================================================== */
 
-  if (maxVotes === 0) {
+  const roundRef =
+    ref(database, "srsRound");
 
-    leaderGroup.textContent =
-      "BRAK GŁOSÓW";
+  const votesRef =
+    ref(database, "srsVotes");
 
-    leaderVotes.textContent =
-      "Czekamy na pierwsze głosowanie.";
 
-  } else {
+  /* =====================================================
+     ELEMENTY
+     ===================================================== */
 
-    const leaders =
-      Object.keys(counts)
-        .filter(
-          group => counts[group] === maxVotes
-        );
+  const adminPin =
+    document.getElementById("adminPin");
 
-    if (leaders.length === 1) {
+  const adminLoginBtn =
+    document.getElementById("adminLoginBtn");
 
-      leaderGroup.textContent =
-        "🥇 " + leaders[0];
+  const adminStatus =
+    document.getElementById("adminStatus");
 
-      leaderVotes.textContent =
-        maxVotes + " głosów";
+  const adminPanel =
+    document.getElementById("adminPanel");
 
-    } else {
+  const endDate =
+    document.getElementById("endDate");
 
-      leaderGroup.textContent =
-        "⚖️ REMIS: " +
-        leaders.join(" / ");
+  const endTime =
+    document.getElementById("endTime");
 
-      leaderVotes.textContent =
-        maxVotes + " głosów";
+  const startRoundBtn =
+    document.getElementById("startRoundBtn");
 
-    }
+  const phaseStatus =
+    document.getElementById("phaseStatus");
 
-  }
+  const phaseInfo =
+    document.getElementById("phaseInfo");
 
-  groupRanking.innerHTML = "";
+  const countdown =
+    document.getElementById("countdown");
 
-  sortedGroups.forEach(
-    ([group, votesCount], index) => {
+  const votingSection =
+    document.getElementById("votingSection");
 
-      let medal = "";
+  const groupButtons =
+    document.querySelectorAll(".group-btn");
 
-      if (index === 0) medal = "🥇";
-      if (index === 1) medal = "🥈";
-      if (index === 2) medal = "🥉";
+  const drawBtn =
+    document.getElementById("drawBtn");
 
-      const row =
-        document.createElement("div");
+  const drawnTrack =
+    document.getElementById("drawnTrack");
 
-      row.className =
-        "ranking-row";
+  const drawnGroup =
+    document.getElementById("drawnGroup");
 
-      row.innerHTML = `
-        <div class="ranking-position">
-          ${index + 1}.
-        </div>
+  const allDraws =
+    document.getElementById("allDraws");
 
-        <div class="ranking-group">
-          ${medal} ${group}
-        </div>
+  const leaderGroup =
+    document.getElementById("leaderGroup");
 
-        <div class="ranking-votes">
-          ${votesCount}×
-        </div>
-      `;
+  const leaderVotes =
+    document.getElementById("leaderVotes");
 
-      groupRanking.appendChild(row);
+  const groupRanking =
+    document.getElementById("groupRanking");
 
-    }
-  );
+  const officialResult =
+    document.getElementById("officialResult");
 
-}
 
+  /* =====================================================
+     ZMIENNE
+     ===================================================== */
 
-/* RANKING TORÓW */
+  let currentRound = null;
 
-function updateTrackRanking(votes) {
+  let selectedGroup = null;
 
-  const counts = {};
+  let isAdmin = false;
 
-  if (votes && currentRound) {
+  let countdownInterval = null;
 
-    Object.values(votes).forEach(vote => {
+  let finishingRound = false;
 
-      if (
-        vote.roundId === currentRound.id &&
-        vote.track
-      ) {
 
-        counts[vote.track] =
-          (counts[vote.track] || 0) + 1;
+  const USER_KEY =
+    "srs_vote_round";
 
-      }
 
-    });
+  /* =====================================================
+     ADMIN
+     ===================================================== */
 
-  }
-
-  const sortedTracks =
-    Object.entries(counts)
-      .sort((a, b) => b[1] - a[1]);
-
-  if (sortedTracks.length === 0) {
-
-    trackRanking.innerHTML =
-      "🎲 Jeszcze nie ma wyników losowania.";
-
-    return;
-
-  }
-
-  trackRanking.innerHTML = "";
-
-  sortedTracks.forEach(
-    ([track, count], index) => {
-
-      const row =
-        document.createElement("div");
-
-      row.className =
-        "track-row";
-
-      row.innerHTML = `
-        <div class="track-position">
-          ${index + 1}.
-        </div>
-
-        <div class="track-name">
-          ${track}
-        </div>
-
-        <div class="track-count">
-          ${count}×
-        </div>
-      `;
-
-      trackRanking.appendChild(row);
-
-    }
-  );
-
-}
-
-
-/* WSZYSTKIE WYLOSOWANE TORY */
-
-function updateAllDraws(votes) {
-
-  if (!votes || !currentRound) {
-
-    allDraws.innerHTML =
-      "🎲 Jeszcze nikt nie wylosował toru.";
-
-    return;
-
-  }
-
-  const draws =
-    Object.values(votes)
-      .filter(vote =>
-        vote.roundId === currentRound.id &&
-        vote.track
-      )
-      .sort((a, b) =>
-        a.time - b.time
-      );
-
-  if (draws.length === 0) {
-
-    allDraws.innerHTML =
-      "🎲 Jeszcze nikt nie wylosował toru.";
-
-    return;
-
-  }
-
-  allDraws.innerHTML = "";
-
-  draws.forEach(
-    (vote, index) => {
-
-      const item =
-        document.createElement("div");
-
-      item.className =
-        "draw-item";
-
-      item.innerHTML = `
-        <div class="draw-number">
-          #${index + 1}
-        </div>
-
-        <div class="draw-track">
-          🏁 ${vote.track}
-        </div>
-
-        <div class="draw-group">
-          ${vote.group}
-        </div>
-      `;
-
-      allDraws.appendChild(item);
-
-    }
-  );
-
-}
-
-
-/* WYBÓR GRUPY */
-
-groupButtons.forEach(button => {
-
-  button.addEventListener(
+  adminLoginBtn.addEventListener(
     "click",
     () => {
 
       if (
-        !currentRound ||
-        currentRound.status !== "voting" ||
-        userAlreadyVoted()
+        adminPin.value.trim() ===
+        ADMIN_PIN
       ) {
-        return;
+
+        isAdmin = true;
+
+        adminPanel.classList.remove(
+          "hidden"
+        );
+
+        adminStatus.textContent =
+          "👑 Zalogowano jako administrator.";
+
+        adminStatus.style.color =
+          "#4ade80";
+
+        adminPin.value = "";
+
+      } else {
+
+        adminStatus.textContent =
+          "❌ Nieprawidłowy PIN.";
+
+        adminStatus.style.color =
+          "#ff5555";
+
       }
-
-      selectedGroup =
-        button.dataset.group;
-
-      groupButtons.forEach(btn =>
-        btn.classList.remove("selected")
-      );
-
-      button.classList.add("selected");
-
-      updateDrawButton();
 
     }
   );
 
-});
 
+  /* =====================================================
+     NOWA RUNDA
+     ===================================================== */
 
-/* PRZYCISK LOSOWANIA */
-
-function updateDrawButton() {
-
-  if (!currentRound) {
-
-    drawBtn.disabled = true;
-    drawBtn.textContent = "ŁADOWANIE...";
-    return;
-
-  }
-
-  if (
-    currentRound.status !== "voting"
-  ) {
-
-    drawBtn.disabled = true;
-    drawBtn.textContent = "GŁOSOWANIE ZAKOŃCZONE";
-    return;
-
-  }
-
-  if (userAlreadyVoted()) {
-
-    drawBtn.disabled = true;
-
-    drawBtn.textContent =
-      "JUŻ WZIĄŁEŚ UDZIAŁ W TEJ RUNDZIE";
-
-    return;
-
-  }
-
-  if (!selectedGroup) {
-
-    drawBtn.disabled = true;
-
-    drawBtn.textContent =
-      "🎲 NAJPIERW WYBIERZ GRUPĘ";
-
-    return;
-
-  }
-
-  drawBtn.disabled = false;
-  drawBtn.textContent = "🎲 LOSUJ TOR";
-
-}
-
-
-/* LOSOWANIE */
-
-drawBtn.addEventListener(
-  "click",
-  startDraw
-);
-
-
-async function startDraw() {
-
-  if (
-    !currentRound ||
-    !selectedGroup ||
-    currentRound.status !== "voting" ||
-    userAlreadyVoted()
-  ) {
-    return;
-  }
-
-  drawBtn.disabled = true;
-
-  groupButtons.forEach(
-    button => button.disabled = true
-  );
-
-  drawBtn.textContent =
-    "🎲 LOSOWANIE...";
-
-  const animation =
-    setInterval(() => {
-
-      const randomTrack =
-        tracks[
-          Math.floor(
-            Math.random() * tracks.length
-          )
-        ];
-
-      drawnTrack.textContent =
-        "🏁 " + randomTrack;
-
-    }, 70);
-
-
-  setTimeout(
+  startRoundBtn.addEventListener(
+    "click",
     async () => {
 
-      clearInterval(animation);
+      if (!isAdmin) {
+        return;
+      }
 
-      const selectedTrack =
-        tracks[
-          Math.floor(
-            Math.random() * tracks.length
-          )
-        ];
 
-      drawnTrack.textContent =
-        "🏁 " + selectedTrack;
+      if (
+        !endDate.value ||
+        !endTime.value
+      ) {
 
-      lastGroup.textContent =
-        selectedGroup;
+        alert(
+          "Ustaw datę i godzinę zakończenia."
+        );
 
-      lastTrack.textContent =
-        selectedTrack;
+        return;
+
+      }
+
+
+      const endTimestamp =
+        new Date(
+          endDate.value +
+          "T" +
+          endTime.value
+        ).getTime();
+
+
+      if (
+        isNaN(endTimestamp) ||
+        endTimestamp <= Date.now()
+      ) {
+
+        alert(
+          "Data zakończenia musi być w przyszłości."
+        );
+
+        return;
+
+      }
+
+
+      const confirmStart =
+        confirm(
+          "Rozpocząć nową rundę i usunąć poprzednie losowania?"
+        );
+
+      if (!confirmStart) {
+        return;
+      }
+
+
+      startRoundBtn.disabled = true;
+
+      startRoundBtn.textContent =
+        "🔄 TWORZENIE RUNDY...";
+
 
       try {
 
-        await push(
-          votesRef,
+        const roundId =
+          Date.now().toString();
+
+
+        await remove(votesRef);
+
+
+        await set(
+          roundRef,
           {
-            roundId: currentRound.id,
-            group: selectedGroup,
-            track: selectedTrack,
-            time: Date.now()
+            id: roundId,
+
+            status: "voting",
+
+            createdAt:
+              Date.now(),
+
+            endTime:
+              endTimestamp,
+
+            winnerGroup:
+              null,
+
+            winnerTrack:
+              null
           }
         );
 
-        localStorage.setItem(
-          USER_KEY,
-          currentRound.id
+
+        localStorage.removeItem(
+          USER_KEY
         );
 
-        connectionStatus.textContent =
-          "✅ Wynik został zapisany.";
 
-        connectionStatus.style.color =
-          "#4ade80";
+        selectedGroup = null;
 
-        updateDrawButton();
+        drawnTrack.textContent = "—";
+
+        drawnGroup.textContent = "—";
+
+
+        alert(
+          "✅ Nowa runda została rozpoczęta!"
+        );
+
 
       } catch (error) {
 
         console.error(error);
 
-        connectionStatus.textContent =
-          "❌ Błąd zapisu do Firebase.";
-
-        connectionStatus.style.color =
-          "#ff5555";
+        alert(
+          "❌ Błąd podczas tworzenia rundy."
+        );
 
       }
 
-    },
-    2200
-  );
 
-}
+      startRoundBtn.disabled = false;
 
+      startRoundBtn.textContent =
+        "▶️ ROZPOCZNIJ NOWĄ RUNDĘ";
 
-/* KONIEC GŁOSOWANIA */
-
-async function endVoting() {
-
-  if (
-    !currentRound ||
-    currentRound.status !== "voting"
-  ) {
-    return;
-  }
-
-  const snapshot =
-    await get(votesRef);
-
-  const votes =
-    snapshot.val() || {};
-
-  const counts =
-    getGroupCounts(votes);
-
-  const totalVotes =
-    Object.values(counts)
-      .reduce((a, b) => a + b, 0);
-
-  if (totalVotes === 0) {
-
-    alert(
-      "Nie ma jeszcze żadnych głosów."
-    );
-
-    return;
-
-  }
-
-  const maxVotes =
-    Math.max(
-      ...Object.values(counts)
-    );
-
-  const winnerGroups =
-    Object.keys(counts)
-      .filter(
-        group =>
-          counts[group] === maxVotes
-      );
-
-  const winnerGroup =
-    winnerGroups[
-      Math.floor(
-        Math.random() *
-        winnerGroups.length
-      )
-    ];
-
-
-  /*
-    TOR JEST WYBIERANY
-    Z TORÓW WYLOSOWANYCH
-    PRZEZ GRACZY
-  */
-
-  const drawnTracks =
-    Object.values(votes)
-      .filter(vote =>
-        vote.roundId === currentRound.id &&
-        vote.track
-      );
-
-  let winnerTrack =
-    "Brak toru";
-
-  if (drawnTracks.length > 0) {
-
-    const selectedWinner =
-      drawnTracks[
-        Math.floor(
-          Math.random() *
-          drawnTracks.length
-        )
-      ];
-
-    winnerTrack =
-      selectedWinner.track;
-
-  }
-
-  await update(
-    roundRef,
-    {
-      status: "finished",
-      resultReady: true,
-      winnerGroup: winnerGroup,
-      winnerTrack: winnerTrack,
-      finishedAt: Date.now()
     }
   );
 
-}
 
+  /* =====================================================
+     SPRAWDZENIE CZY UŻYTKOWNIK GŁOSOWAŁ
+     ===================================================== */
 
-/* WYŚWIETLANIE RUNDY */
+  function userAlreadyVoted() {
 
-function renderRound() {
+    if (!currentRound) {
+      return false;
+    }
 
-  if (!currentRound) {
-    return;
-  }
-
-  if (
-    currentRound.status === "voting"
-  ) {
-
-    phaseStatus.textContent =
-      "🟢 GŁOSOWANIE TRWA";
-
-    phaseStatus.style.color =
-      "#4ade80";
-
-    phaseInfo.textContent =
-      "Głosowanie trwa do momentu ręcznego zakończenia przez administratora.";
-
-    votingSection.classList.remove("hidden");
-
-    officialResult.innerHTML =
-      "Wynik pojawi się po zakończeniu głosowania przez administratora.";
+    return (
+      localStorage.getItem(USER_KEY) ===
+      currentRound.id
+    );
 
   }
 
-  else if (
-    currentRound.status === "finished"
-  ) {
 
-    phaseStatus.textContent =
-      "🏁 GŁOSOWANIE ZAKOŃCZONE";
+  /* =====================================================
+     CZY GŁOSOWANIE TRWA
+     ===================================================== */
 
-    phaseStatus.style.color =
-      "#ff5555";
+  function votingIsActive() {
 
-    phaseInfo.textContent =
-      "Oficjalny wynik losowania jest poniżej.";
-
-    votingSection.classList.add("hidden");
-
-    officialResult.innerHTML = `
-
-      <div>
-        🏆 ZWYCIĘSKA GRUPA AUT
-      </div>
-
-      <div class="winner-group">
-        ${currentRound.winnerGroup}
-      </div>
-
-      <br>
-
-      <div>
-        🏁 OFICJALNIE WYBRANY TOR
-      </div>
-
-      <div class="winner-track">
-        ${currentRound.winnerTrack}
-      </div>
-
-    `;
+    return (
+      currentRound &&
+      currentRound.status === "voting" &&
+      Number(currentRound.endTime) > Date.now()
+    );
 
   }
 
-  updateDrawButton();
 
-}
+  /* =====================================================
+     WYBÓR GRUPY
+     ===================================================== */
+
+  groupButtons.forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          if (
+            !votingIsActive() ||
+            userAlreadyVoted()
+          ) {
+            return;
+          }
 
 
-/* ODBIERANIE RUNDY */
+          selectedGroup =
+            button.dataset.group;
 
-onValue(
-  roundRef,
-  async snapshot => {
 
-    currentRound =
-      snapshot.val();
+          groupButtons.forEach(
+            btn =>
+              btn.classList.remove(
+                "selected"
+              )
+          );
 
-    connectionStatus.textContent =
-      "✅ Połączono z Firebase.";
 
-    connectionStatus.style.color =
-      "#4ade80";
+          button.classList.add(
+            "selected"
+          );
+
+
+          updateVotingButtons();
+
+        }
+      );
+
+    }
+  );
+
+
+  /* =====================================================
+     PRZYCISKI GŁOSOWANIA
+     ===================================================== */
+
+  function updateVotingButtons() {
+
+    const canVote =
+      votingIsActive() &&
+      !userAlreadyVoted();
+
+
+    groupButtons.forEach(
+      button => {
+
+        button.disabled =
+          !canVote;
+
+      }
+    );
+
 
     if (!currentRound) {
 
-      await createNewRound();
+      drawBtn.disabled = true;
+
+      drawBtn.textContent =
+        "⏳ CZEKAJ NA NOWĄ RUNDĘ";
+
       return;
 
     }
 
-    renderRound();
+
+    if (!votingIsActive()) {
+
+      drawBtn.disabled = true;
+
+      drawBtn.textContent =
+        "🔒 GŁOSOWANIE ZAKOŃCZONE";
+
+      return;
+
+    }
+
+
+    if (userAlreadyVoted()) {
+
+      drawBtn.disabled = true;
+
+      drawBtn.textContent =
+        "✅ JUŻ WZIĄŁEŚ UDZIAŁ";
+
+      return;
+
+    }
+
+
+    if (!selectedGroup) {
+
+      drawBtn.disabled = true;
+
+      drawBtn.textContent =
+        "🎲 NAJPIERW WYBIERZ GRUPĘ";
+
+      return;
+
+    }
+
+
+    drawBtn.disabled = false;
+
+    drawBtn.textContent =
+      "🎲 LOSUJ TOR";
 
   }
-);
 
 
-/* ODBIERANIE GŁOSÓW */
+  /* =====================================================
+     LOSOWANIE
+     ===================================================== */
 
-onValue(
-  votesRef,
-  snapshot => {
+  drawBtn.addEventListener(
+    "click",
+    async () => {
 
-    const votes =
-      snapshot.val();
-
-    updateGroupRanking(votes);
-
-    updateTrackRanking(votes);
-
-    updateAllDraws(votes);
-
-  }
-);
+      if (
+        !votingIsActive() ||
+        !selectedGroup ||
+        userAlreadyVoted()
+      ) {
+        return;
+      }
 
 
-/* LOGOWANIE ADMINA */
+      drawBtn.disabled = true;
 
-adminLoginBtn.addEventListener(
-  "click",
-  () => {
 
-    if (
-      adminPin.value.trim() ===
-      ADMIN_PIN
-    ) {
-
-      isAdmin = true;
-
-      adminControls.classList.remove(
-        "hidden"
+      groupButtons.forEach(
+        button =>
+          button.disabled = true
       );
 
-      adminStatus.textContent =
-        "👑 Zalogowano jako administrator.";
 
-      adminStatus.style.color =
-        "#4ade80";
+      drawBtn.textContent =
+        "🎲 LOSOWANIE...";
 
-      adminPin.value = "";
+
+      let animationCounter = 0;
+
+
+      const animation =
+        setInterval(
+          () => {
+
+            const randomTrack =
+              tracks[
+                Math.floor(
+                  Math.random() *
+                  tracks.length
+                )
+              ];
+
+            drawnTrack.textContent =
+              "🏁 " + randomTrack;
+
+            drawnGroup.textContent =
+              selectedGroup;
+
+            animationCounter++;
+
+          },
+          80
+        );
+
+
+      setTimeout(
+        async () => {
+
+          clearInterval(
+            animation
+          );
+
+
+          if (!votingIsActive()) {
+
+            updateVotingButtons();
+
+            return;
+
+          }
+
+
+          const finalTrack =
+            tracks[
+              Math.floor(
+                Math.random() *
+                tracks.length
+              )
+            ];
+
+
+          drawnTrack.textContent =
+            "🏁 " + finalTrack;
+
+          drawnGroup.textContent =
+            selectedGroup;
+
+
+          try {
+
+            await push(
+              votesRef,
+              {
+                roundId:
+                  currentRound.id,
+
+                group:
+                  selectedGroup,
+
+                track:
+                  finalTrack,
+
+                time:
+                  Date.now()
+              }
+            );
+
+
+            localStorage.setItem(
+              USER_KEY,
+              currentRound.id
+            );
+
+
+            updateVotingButtons();
+
+
+          } catch (error) {
+
+            console.error(error);
+
+            alert(
+              "❌ Nie udało się zapisać losowania."
+            );
+
+            updateVotingButtons();
+
+          }
+
+        },
+        2200
+      );
+
+    }
+  );
+
+
+  /* =====================================================
+     LICZENIE GŁOSÓW
+     ===================================================== */
+
+  function getGroupCounts(votes) {
+
+    const counts = {
+      "Gr.1": 0,
+      "Gr.2": 0,
+      "Gr.3": 0,
+      "Gr.4": 0
+    };
+
+
+    if (
+      !votes ||
+      !currentRound
+    ) {
+      return counts;
+    }
+
+
+    Object.values(votes).forEach(
+      vote => {
+
+        if (
+          vote.roundId ===
+          currentRound.id
+        ) {
+
+          if (
+            counts[vote.group] !==
+            undefined
+          ) {
+
+            counts[vote.group]++;
+
+          }
+
+        }
+
+      }
+    );
+
+
+    return counts;
+
+  }
+
+
+  /* =====================================================
+     RANKING GRUP
+     ===================================================== */
+
+  function updateGroupRanking(votes) {
+
+    const counts =
+      getGroupCounts(votes);
+
+
+    const sorted =
+      Object.entries(counts)
+        .sort(
+          (a, b) =>
+            b[1] - a[1]
+        );
+
+
+    const maxVotes =
+      Math.max(
+        ...Object.values(counts)
+      );
+
+
+    if (maxVotes === 0) {
+
+      leaderGroup.textContent =
+        "BRAK GŁOSÓW";
+
+      leaderVotes.textContent =
+        "Czekamy na pierwsze losowanie.";
 
     } else {
 
-      adminStatus.textContent =
-        "❌ Nieprawidłowy PIN.";
+      const leaders =
+        Object.keys(counts)
+          .filter(
+            group =>
+              counts[group] ===
+              maxVotes
+          );
 
-      adminStatus.style.color =
-        "#ff5555";
+
+      if (leaders.length === 1) {
+
+        leaderGroup.textContent =
+          "🥇 " +
+          leaders[0];
+
+      } else {
+
+        leaderGroup.textContent =
+          "⚖️ REMIS: " +
+          leaders.join(" / ");
+
+      }
+
+
+      leaderVotes.textContent =
+        maxVotes +
+        " głosów";
 
     }
 
-  }
-);
+
+    groupRanking.innerHTML = "";
 
 
-/* ADMIN - KONIEC */
+    sorted.forEach(
+      ([group, votesCount], index) => {
 
-endVotingBtn.addEventListener(
-  "click",
-  async () => {
+        let medal = "";
 
-    if (!isAdmin) {
-      return;
-    }
+        if (index === 0) {
+          medal = "🥇";
+        }
 
-    const confirmEnd =
-      confirm(
-        "Czy na pewno chcesz zakończyć głosowanie?"
-      );
+        if (index === 1) {
+          medal = "🥈";
+        }
 
-    if (!confirmEnd) {
-      return;
-    }
-
-    await endVoting();
-
-  }
-);
+        if (index === 2) {
+          medal = "🥉";
+        }
 
 
-/* ADMIN - NOWA RUNDA */
+        const row =
+          document.createElement("div");
 
-newRoundBtn.addEventListener(
-  "click",
-  async () => {
 
-    if (!isAdmin) {
-      return;
-    }
+        row.className =
+          "ranking-row";
 
-    const confirmNew =
-      confirm(
-        "Rozpocząć nową rundę? Stare głosy i wylosowane tory zostaną usunięte."
-      );
 
-    if (!confirmNew) {
-      return;
-    }
+        row.innerHTML = `
 
-    await createNewRound();
+          <div class="ranking-position">
+            ${index + 1}.
+          </div>
 
-    alert(
-      "✅ Nowa runda została rozpoczęta!"
+          <div class="ranking-group">
+            ${medal} ${group}
+          </div>
+
+          <div class="ranking-votes">
+            ${votesCount} głosów
+          </div>
+
+        `;
+
+
+        groupRanking.appendChild(
+          row
+        );
+
+      }
     );
 
   }
-);
 
 
-/* START */
+  /* =====================================================
+     WSZYSTKIE WYLOSOWANE TORY
+     ===================================================== */
 
-ensureRound();
+  function updateAllDraws(votes) {
+
+    if (
+      !votes ||
+      !currentRound
+    ) {
+
+      allDraws.innerHTML =
+        "🎲 Jeszcze nikt nie wylosował toru.";
+
+      return;
+
+    }
+
+
+    const draws =
+      Object.values(votes)
+        .filter(
+          vote =>
+            vote.roundId ===
+            currentRound.id
+        )
+        .sort(
+          (a, b) =>
+            b.time - a.time
+        );
+
+
+    if (draws.length === 0) {
+
+      allDraws.innerHTML =
+        "🎲 Jeszcze nikt nie wylosował toru.";
+
+      return;
+
+    }
+
+
+    allDraws.innerHTML = "";
+
+
+    draws.forEach(
+      (vote, index) => {
+
+        const item =
+          document.createElement("div");
+
+
+        item.className =
+          "draw-item";
+
+
+        item.innerHTML = `
+
+          <div class="draw-number">
+            #${draws.length - index}
+          </div>
+
+          <div class="draw-track">
+            🏁 ${vote.track}
+          </div>
+
+          <div class="draw-group">
+            ${vote.group}
+          </div>
+
+        `;
+
+
+        allDraws.appendChild(
+          item
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =====================================================
+     WYBÓR ZWYCIĘZCY
+     ===================================================== */
+
+  async function finishRound() {
+
+    if (
+      !currentRound ||
+      finishingRound
+    ) {
+      return;
+    }
+
+
+    finishingRound = true;
+
+
+    try {
+
+      const roundSnapshot =
+        await get(roundRef);
+
+
+      const freshRound =
+        roundSnapshot.val();
+
+
+      if (
+        !freshRound ||
+        freshRound.status !== "voting"
+      ) {
+
+        finishingRound = false;
+
+        return;
+
+      }
+
+
+      if (
+        Number(freshRound.endTime) >
+        Date.now()
+      ) {
+
+        finishingRound = false;
+
+        return;
+
+      }
+
+
+      const votesSnapshot =
+        await get(votesRef);
+
+
+      const votes =
+        votesSnapshot.val() || {};
+
+
+      const validVotes =
+        Object.values(votes)
+          .filter(
+            vote =>
+              vote.roundId ===
+              freshRound.id
+          );
+
+
+      if (
+        validVotes.length === 0
+      ) {
+
+        await set(
+          roundRef,
+          {
+            ...freshRound,
+
+            status:
+              "finished",
+
+            winnerGroup:
+              null,
+
+            winnerTrack:
+              null
+          }
+        );
+
+
+        finishingRound = false;
+
+        return;
+
+      }
+
+
+      const counts = {
+        "Gr.1": 0,
+        "Gr.2": 0,
+        "Gr.3": 0,
+        "Gr.4": 0
+      };
+
+
+      validVotes.forEach(
+        vote => {
+
+          if (
+            counts[vote.group] !==
+            undefined
+          ) {
+
+            counts[vote.group]++;
+
+          }
+
+        }
+      );
+
+
+      const maxVotes =
+        Math.max(
+          ...Object.values(counts)
+        );
+
+
+      const winnerGroups =
+        Object.keys(counts)
+          .filter(
+            group =>
+              counts[group] ===
+              maxVotes
+          );
+
+
+      const winnerGroup =
+        winnerGroups[
+          Math.floor(
+            Math.random() *
+            winnerGroups.length
+          )
+        ];
+
+
+      const winnerTracks =
+        validVotes.filter(
+          vote =>
+            vote.group ===
+            winnerGroup
+        );
+
+
+      const randomWinner =
+        winnerTracks[
+          Math.floor(
+            Math.random() *
+            winnerTracks.length
+          )
+        ];
+
+
+      const winnerTrack =
+        randomWinner.track;
+
+
+      await set(
+        roundRef,
+        {
+          ...freshRound,
+
+          status:
+            "finished",
+
+          winnerGroup:
+            winnerGroup,
+
+          winnerTrack:
+            winnerTrack,
+
+          finishedAt:
+            Date.now()
+        }
+      );
+
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
+
+    finishingRound = false;
+
+  }
+
+
+  /* =====================================================
+     RENDER RUNDY
+     ===================================================== */
+
+  function renderRound() {
+
+    if (!currentRound) {
+
+      phaseStatus.textContent =
+        "⏳ BRAK AKTYWNEJ RUNDY";
+
+      phaseStatus.style.color =
+        "#aaa";
+
+      phaseInfo.textContent =
+        "Administrator musi ustawić nową rundę.";
+
+      countdown.textContent =
+        "--:--:--";
+
+      votingSection.classList.add(
+        "hidden"
+      );
+
+      officialResult.textContent =
+        "Czekamy na rozpoczęcie rundy.";
+
+      updateVotingButtons();
+
+      return;
+
+    }
+
+
+    if (
+      currentRound.status ===
+      "voting"
+    ) {
+
+      if (votingIsActive()) {
+
+        phaseStatus.textContent =
+          "🟢 GŁOSOWANIE TRWA";
+
+        phaseStatus.style.color =
+          "#4ade80";
+
+        phaseInfo.textContent =
+          "Możesz wybrać grupę auta i wylosować jeden tor.";
+
+        votingSection.classList.remove(
+          "hidden"
+        );
+
+        officialResult.textContent =
+          "Wynik pojawi się automatycznie po zakończeniu głosowania.";
+
+      } else {
+
+        phaseStatus.textContent =
+          "⏳ TRWA ZAMYKANIE GŁOSOWANIA";
+
+        phaseStatus.style.color =
+          "#ffd400";
+
+        phaseInfo.textContent =
+          "Trwa obliczanie oficjalnego wyniku.";
+
+        countdown.textContent =
+          "00:00:00";
+
+        votingSection.classList.add(
+          "hidden"
+        );
+
+        finishRound();
+
+      }
+
+    }
+
+
+    if (
+      currentRound.status ===
+      "finished"
+    ) {
+
+      phaseStatus.textContent =
+        "🏁 GŁOSOWANIE ZAKOŃCZONE";
+
+      phaseStatus.style.color =
+        "#ff5555";
+
+      phaseInfo.textContent =
+        "Oficjalny wynik tej rundy.";
+
+      countdown.textContent =
+        "00:00:00";
+
+      votingSection.classList.add(
+        "hidden"
+      );
+
+
+      if (
+        currentRound.winnerGroup &&
+        currentRound.winnerTrack
+      ) {
+
+        officialResult.innerHTML = `
+
+          <div>
+            🏆 ZWYCIĘSKA GRUPA AUT
+          </div>
+
+          <div class="winner-group">
+            ${currentRound.winnerGroup}
+          </div>
+
+          <br>
+
+          <div>
+            🏁 WYBRANY TOR
+          </div>
+
+          <div class="winner-track">
+            ${currentRound.winnerTrack}
+          </div>
+
+        `;
+
+      } else {
+
+        officialResult.textContent =
+          "Brak głosów w tej rundzie.";
+
+      }
+
+    }
+
+
+    updateVotingButtons();
+
+  }
+
+
+  /* =====================================================
+     LICZNIK CZASU
+     ===================================================== */
+
+  function updateCountdown() {
+
+    if (
+      !currentRound ||
+      currentRound.status !== "voting"
+    ) {
+
+      clearInterval(
+        countdownInterval
+      );
+
+      return;
+
+    }
+
+
+    const difference =
+      Number(currentRound.endTime) -
+      Date.now();
+
+
+    if (difference <= 0) {
+
+      countdown.textContent =
+        "00:00:00";
+
+      clearInterval(
+        countdownInterval
+      );
+
+      renderRound();
+
+      return;
+
+    }
+
+
+    const totalSeconds =
+      Math.floor(
+        difference / 1000
+      );
+
+
+    const days =
+      Math.floor(
+        totalSeconds / 86400
+      );
+
+
+    const hours =
+      Math.floor(
+        (totalSeconds % 86400) /
+        3600
+      );
+
+
+    const minutes =
+      Math.floor(
+        (totalSeconds % 3600) /
+        60
+      );
+
+
+    const seconds =
+      totalSeconds % 60;
+
+
+    if (days > 0) {
+
+      countdown.textContent =
+        `${days}d ` +
+        `${String(hours).padStart(2, "0")}g ` +
+        `${String(minutes).padStart(2, "0")}m`;
+
+    } else {
+
+      countdown.textContent =
+        `${String(hours).padStart(2, "0")}:` +
+        `${String(minutes).padStart(2, "0")}:` +
+        `${String(seconds).padStart(2, "0")}`;
+
+    }
+
+  }
+
+
+  function startCountdown() {
+
+    clearInterval(
+      countdownInterval
+    );
+
+
+    updateCountdown();
+
+
+    countdownInterval =
+      setInterval(
+        updateCountdown,
+        1000
+      );
+
+  }
+
+
+  /* =====================================================
+     NASŁUCHIWANIE RUNDY
+     ===================================================== */
+
+  onValue(
+    roundRef,
+    snapshot => {
+
+      currentRound =
+        snapshot.val();
+
+
+      selectedGroup = null;
+
+
+      groupButtons.forEach(
+        button =>
+          button.classList.remove(
+            "selected"
+          )
+      );
+
+
+      renderRound();
+
+      startCountdown();
+
+    }
+  );
+
+
+  /* =====================================================
+     NASŁUCHIWANIE LOSOWAŃ
+     ===================================================== */
+
+  onValue(
+    votesRef,
+    snapshot => {
+
+      const votes =
+        snapshot.val();
+
+      updateAllDraws(
+        votes
+      );
+
+      updateGroupRanking(
+        votes
+      );
+
+    }
+  );
 
 </script>
 
