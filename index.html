@@ -12,16 +12,21 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
+  overflow-x: hidden;
   font-family: Arial, Helvetica, sans-serif;
-  color: white;
+  color: #fff;
 
   background:
     linear-gradient(
-      rgba(0, 0, 0, 0.72),
-      rgba(0, 0, 0, 0.88)
+      rgba(4, 5, 10, 0.72),
+      rgba(4, 5, 10, 0.88)
     ),
     url("background.png.png");
 
@@ -30,34 +35,33 @@ body {
   background-attachment: fixed;
 }
 
+/* =========================
+   GŁÓWNY UKŁAD
+========================= */
+
 .container {
-  width: min(1000px, 94%);
-  margin: auto;
-  padding: 25px 0 60px;
+  width: min(950px, 94%);
+  margin: 0 auto;
+  padding: 18px 0 60px;
 }
 
-h1 {
-  text-align: center;
-  margin: 15px 0 5px;
-  font-size: clamp(32px, 7vw, 56px);
-  text-shadow: 0 4px 20px black;
-}
-
-.subtitle {
-  text-align: center;
-  color: #ddd;
-  margin-bottom: 25px;
-  font-size: 17px;
-}
+/* =========================
+   KARTY
+========================= */
 
 .card {
-  background: rgba(10, 12, 17, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 20px;
+  width: 100%;
+  background: rgba(10, 12, 20, 0.91);
+  border: 1px solid rgba(255, 35, 35, 0.5);
+  border-radius: 18px;
   padding: 22px;
   margin-bottom: 20px;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 10px 35px rgba(0, 0, 0, 0.55),
+    0 0 25px rgba(170, 0, 0, 0.08);
 }
 
 .hidden {
@@ -70,34 +74,38 @@ h1 {
 
 .admin-title {
   text-align: center;
-  color: #ff5b5b;
+  color: #ff6b6b;
   font-weight: bold;
-  margin-bottom: 15px;
   font-size: 18px;
+  margin-bottom: 14px;
 }
 
 .admin-row {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 #adminPin {
   width: 220px;
-  padding: 14px;
-  border-radius: 10px;
+  max-width: 100%;
+  height: 48px;
+  padding: 0 15px;
+
+  background: #11131b;
   border: 1px solid #555;
-  background: #111;
+  border-radius: 11px;
+
   color: white;
-  text-align: center;
   font-size: 16px;
+  text-align: center;
 }
 
 button {
   border: none;
-  border-radius: 10px;
-  padding: 14px 20px;
+  border-radius: 11px;
   color: white;
   font-weight: bold;
   cursor: pointer;
@@ -114,17 +122,21 @@ button:disabled {
 }
 
 .admin-btn {
-  background: linear-gradient(
-    135deg,
-    #c40000,
-    #650000
-  );
+  min-height: 48px;
+  padding: 0 22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #df0505,
+      #9b0000
+    );
 }
 
 #adminStatus {
+  min-height: 22px;
+  margin-top: 10px;
   text-align: center;
-  margin-top: 12px;
-  min-height: 20px;
   color: #aaa;
 }
 
@@ -134,41 +146,86 @@ button:disabled {
 }
 
 #newRoundBtn {
-  background: linear-gradient(
-    135deg,
-    #d50000,
-    #790000
-  );
+  width: min(100%, 400px);
+  min-height: 55px;
+  padding: 10px 20px;
 
-  font-size: 18px;
-  padding: 16px 30px;
+  font-size: 17px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #d90000,
+      #770000
+    );
+
+  box-shadow:
+    0 0 20px rgba(255, 0, 0, 0.2);
 }
 
 /* =========================
-   STATUS
+   TYTUŁ
+========================= */
+
+h1 {
+  width: 100%;
+  margin: 25px 0 6px;
+  padding: 0 5px;
+
+  text-align: center;
+
+  font-size:
+    clamp(32px, 6vw, 58px);
+
+  line-height: 1.05;
+
+  white-space: normal;
+  overflow-wrap: anywhere;
+
+  text-shadow:
+    0 4px 20px #000;
+}
+
+.subtitle {
+  width: 100%;
+  text-align: center;
+
+  color: #ddd;
+  font-size: 17px;
+  line-height: 1.35;
+
+  margin-bottom: 22px;
+}
+
+/* =========================
+   STATUS RUNDY
 ========================= */
 
 .status-card {
   text-align: center;
+  padding: 25px 20px;
 }
 
 #phaseStatus {
-  font-size: 27px;
+  font-size: clamp(24px, 5vw, 30px);
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 #countdown {
-  font-size: clamp(48px, 10vw, 80px);
+  font-size: clamp(54px, 11vw, 80px);
+  line-height: 1;
   font-weight: bold;
-  color: #ffd000;
+  color: #ffe000;
+
   text-shadow:
-    0 0 15px rgba(255, 208, 0, 0.4);
+    0 0 22px rgba(255, 220, 0, 0.35);
 }
 
 #phaseInfo {
-  color: #ccc;
-  margin-top: 10px;
+  margin-top: 15px;
+  color: #cfcfcf;
+  font-size: 16px;
 }
 
 /* =========================
@@ -177,7 +234,7 @@ button:disabled {
 
 .section-title {
   text-align: center;
-  font-size: 23px;
+  font-size: clamp(20px, 4vw, 25px);
   font-weight: bold;
   margin-bottom: 20px;
 }
@@ -190,34 +247,50 @@ button:disabled {
 
 .group-btn {
   min-height: 100px;
-  font-size: 21px;
-  background: rgba(25, 28, 35, 0.95);
+  padding: 10px;
+  font-size: 20px;
+
+  background:
+    rgba(20, 23, 31, 0.95);
+
   border: 2px solid #444;
 }
 
 .group-btn.selected {
-  background: #750000;
-  border-color: #ff3333;
+  border-color: #ff2020;
+
+  background:
+    linear-gradient(
+      135deg,
+      #650000,
+      #240000
+    );
+
   box-shadow:
-    0 0 20px rgba(255, 0, 0, 0.4);
+    0 0 22px rgba(255, 0, 0, 0.25);
 }
 
 #drawBtn {
   display: block;
   width: min(100%, 450px);
+
+  min-height: 58px;
   margin: 25px auto 0;
-  padding: 18px;
-  background: linear-gradient(
-    135deg,
-    #e00000,
-    #850000
-  );
-  font-size: 20px;
+  padding: 10px 20px;
+
+  font-size: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #e30000,
+      #850000
+    );
 }
 
 .player-result {
-  text-align: center;
   margin-top: 25px;
+  text-align: center;
 }
 
 .player-result-label {
@@ -227,47 +300,53 @@ button:disabled {
 }
 
 #drawnTrack {
-  font-size: 28px;
+  color: #ff5c5c;
+  font-size: clamp(21px, 4vw, 28px);
   font-weight: bold;
-  color: #ff5757;
-  min-height: 40px;
+  overflow-wrap: anywhere;
 }
 
 #drawnGroup {
-  color: #ffd000;
-  font-size: 19px;
-  margin-top: 6px;
+  color: #ffe000;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 7px;
 }
 
 /* =========================
-   WYLOSOWANE TORY
+   WSZYSTKIE TORY
 ========================= */
 
 .draw-item {
   display: grid;
-  grid-template-columns: 55px 1fr auto;
-  gap: 12px;
+  grid-template-columns: 45px minmax(0, 1fr) auto;
   align-items: center;
+  gap: 12px;
 
-  padding: 15px;
+  padding: 14px;
   margin-bottom: 10px;
 
-  background: rgba(25, 28, 35, 0.92);
-  border-left: 4px solid #d00000;
-  border-radius: 10px;
+  background:
+    rgba(20, 23, 31, 0.94);
+
+  border: 1px solid #292d38;
+  border-left: 4px solid #d80000;
+  border-radius: 11px;
 }
 
 .draw-number {
-  color: #ffd000;
+  color: #ffe000;
   font-weight: bold;
 }
 
 .draw-track {
+  min-width: 0;
   font-weight: bold;
+  overflow-wrap: anywhere;
 }
 
 .draw-group {
-  color: #ff6666;
+  color: #ff6464;
   font-weight: bold;
 }
 
@@ -277,42 +356,64 @@ button:disabled {
 
 .official-result {
   text-align: center;
-  padding: 10px;
-  line-height: 1.8;
+  line-height: 1.7;
 }
 
 .winner-group {
-  color: #ffd000;
-  font-size: 38px;
+  color: #ffe000;
+  font-size: clamp(30px, 7vw, 40px);
   font-weight: bold;
 }
 
 .winner-track {
   color: #ff5555;
-  font-size: 30px;
+  font-size: clamp(23px, 5vw, 32px);
   font-weight: bold;
+  overflow-wrap: anywhere;
 }
 
 /* =========================
    TELEFON
 ========================= */
 
-@media (max-width: 650px) {
+@media (max-width: 700px) {
+
+  .container {
+    width: 96%;
+  }
 
   .groups {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .group-btn {
+    min-height: 90px;
+  }
+
+}
+
+@media (max-width: 500px) {
+
+  .card {
+    padding: 17px 13px;
+  }
+
+  .admin-row {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  #adminPin,
+  .admin-btn {
+    width: 100%;
+  }
+
   .draw-item {
-    grid-template-columns: 45px 1fr;
+    grid-template-columns: 40px minmax(0, 1fr);
   }
 
   .draw-group {
     grid-column: 2;
-  }
-
-  #adminPin {
-    width: 100%;
   }
 
 }
@@ -324,7 +425,7 @@ button:disabled {
 
 <div class="container">
 
-  <!-- ADMIN -->
+  <!-- PANEL ADMINA -->
 
   <div class="card">
 
@@ -369,7 +470,9 @@ button:disabled {
 
   <!-- TYTUŁ -->
 
-  <h1>🏁 SRS LOSOWANIE TORU</h1>
+  <h1>
+    🏁 SRS LOSOWANIE TORU
+  </h1>
 
   <div class="subtitle">
     Wybierz grupę auta i wylosuj tor.
@@ -464,7 +567,7 @@ button:disabled {
   </div>
 
 
-  <!-- WSZYSTKIE TORY -->
+  <!-- WSZYSTKIE LOSOWANIA -->
 
   <div class="card">
 
@@ -484,7 +587,7 @@ button:disabled {
   <div class="card">
 
     <div class="section-title">
-      🏆 OFICJALNY WYNIK
+      🏆 OFICJALNY WYNIK RUNDY
     </div>
 
     <div
@@ -557,8 +660,9 @@ const database =
    USTAWIENIA
 ========================= */
 
-const ADMIN_PIN =
-  "840416";
+const ADMIN_PIN = "840416";
+
+/* 30 MINUT */
 
 const ROUND_DURATION =
   30 * 60 * 1000;
@@ -655,7 +759,7 @@ const officialResult =
 
 
 /* =========================
-   FIREBASE REFERENCJE
+   FIREBASE
 ========================= */
 
 const roundRef =
@@ -679,24 +783,25 @@ let countdownInterval = null;
 
 let finishingRound = false;
 
+
+/* Zapamiętanie jednego głosu */
+
 const USER_KEY =
   "srs_voted_round";
 
 
 /* =========================
-   ADMIN
+   LOGOWANIE ADMINA
 ========================= */
 
 adminLoginBtn.addEventListener(
   "click",
   () => {
 
-    const wpisanyPin =
+    const pin =
       adminPin.value.trim();
 
-    if(
-      wpisanyPin === ADMIN_PIN
-    ){
+    if (pin === ADMIN_PIN) {
 
       isAdmin = true;
 
@@ -715,9 +820,12 @@ adminLoginBtn.addEventListener(
       adminLoginBtn.textContent =
         "ZALOGOWANO";
 
-      adminLoginBtn.disabled = true;
+      adminLoginBtn.disabled =
+        true;
 
-    } else {
+    }
+
+    else {
 
       adminStatus.textContent =
         "❌ Nieprawidłowy PIN.";
@@ -739,41 +847,53 @@ newRoundBtn.addEventListener(
   "click",
   async () => {
 
-    if(!isAdmin) return;
+    if (!isAdmin) return;
 
-    const confirmation =
+    const ok =
       confirm(
-        "Rozpocząć nową rundę na 30 minut? Poprzednie losowania zostaną usunięte."
+        "Rozpocząć nową rundę? Zegar będzie odliczał dokładnie 30 minut."
       );
 
-    if(!confirmation) return;
+    if (!ok) return;
+
+    newRoundBtn.disabled =
+      true;
 
     try {
 
-      newRoundBtn.disabled =
-        true;
-
-      const roundId =
-        Date.now().toString();
+      /* NOWA RUNDA = CZYSZCZENIE STARYCH LOSOWAŃ */
 
       await remove(votesRef);
+
+
+      /* CZAS STARTU */
+
+      const startTime =
+        Date.now();
+
+
+      /* CZAS KOŃCA = START + 30 MINUT */
+
+      const endTime =
+        startTime +
+        ROUND_DURATION;
+
 
       await set(
         roundRef,
         {
 
           id:
-            roundId,
+            startTime.toString(),
 
           status:
             "voting",
 
           startTime:
-            Date.now(),
+            startTime,
 
           endTime:
-            Date.now() +
-            ROUND_DURATION,
+            endTime,
 
           winnerGroup:
             null,
@@ -784,9 +904,11 @@ newRoundBtn.addEventListener(
         }
       );
 
+
       localStorage.removeItem(
         USER_KEY
       );
+
 
       selectedGroup =
         null;
@@ -797,10 +919,13 @@ newRoundBtn.addEventListener(
       drawnGroup.textContent =
         "—";
 
-    } catch(error) {
+
+    }
+
+    catch (error) {
 
       alert(
-        "Błąd nowej rundy: " +
+        "Błąd rozpoczęcia rundy: " +
         error.message
       );
 
@@ -814,31 +939,38 @@ newRoundBtn.addEventListener(
 
 
 /* =========================
-   CZY GŁOSOWANIE TRWA
+   CZY RUNDA TRWA
 ========================= */
 
 function votingIsActive() {
 
-  return(
+  return (
 
     currentRound &&
 
     currentRound.status ===
       "voting" &&
 
-    currentRound.endTime >
-      Date.now()
+    Number(
+      currentRound.endTime
+    ) > Date.now()
 
   );
 
 }
 
 
+/* =========================
+   CZY UŻYTKOWNIK JUŻ GŁOSOWAŁ
+========================= */
+
 function userAlreadyVoted() {
 
-  return(
+  if (!currentRound) {
+    return false;
+  }
 
-    currentRound &&
+  return (
 
     localStorage.getItem(
       USER_KEY
@@ -860,10 +992,10 @@ groupButtons.forEach(
       "click",
       () => {
 
-        if(
+        if (
           !votingIsActive() ||
           userAlreadyVoted()
-        ){
+        ) {
           return;
         }
 
@@ -871,10 +1003,13 @@ groupButtons.forEach(
           button.dataset.group;
 
         groupButtons.forEach(
-          btn =>
+          btn => {
+
             btn.classList.remove(
               "selected"
-            )
+            );
+
+          }
         );
 
         button.classList.add(
@@ -913,7 +1048,7 @@ function updateVotingButtons() {
   );
 
 
-  if(!currentRound) {
+  if (!currentRound) {
 
     drawBtn.disabled =
       true;
@@ -926,7 +1061,7 @@ function updateVotingButtons() {
   }
 
 
-  if(!votingIsActive()) {
+  if (!votingIsActive()) {
 
     drawBtn.disabled =
       true;
@@ -939,7 +1074,7 @@ function updateVotingButtons() {
   }
 
 
-  if(userAlreadyVoted()) {
+  if (userAlreadyVoted()) {
 
     drawBtn.disabled =
       true;
@@ -952,7 +1087,7 @@ function updateVotingButtons() {
   }
 
 
-  if(!selectedGroup) {
+  if (!selectedGroup) {
 
     drawBtn.disabled =
       true;
@@ -975,18 +1110,18 @@ function updateVotingButtons() {
 
 
 /* =========================
-   LOSOWANIE
+   LOSOWANIE TORU
 ========================= */
 
 drawBtn.addEventListener(
   "click",
   () => {
 
-    if(
+    if (
       !votingIsActive() ||
       !selectedGroup ||
       userAlreadyVoted()
-    ){
+    ) {
       return;
     }
 
@@ -994,10 +1129,13 @@ drawBtn.addEventListener(
     drawBtn.disabled =
       true;
 
-
     groupButtons.forEach(
-      button =>
-        button.disabled = true
+      button => {
+
+        button.disabled =
+          true;
+
+      }
     );
 
 
@@ -1009,7 +1147,7 @@ drawBtn.addEventListener(
       setInterval(
         () => {
 
-          const tempTrack =
+          const randomTrack =
 
             tracks[
               Math.floor(
@@ -1020,13 +1158,13 @@ drawBtn.addEventListener(
 
           drawnTrack.textContent =
             "🏁 " +
-            tempTrack;
+            randomTrack;
 
           drawnGroup.textContent =
             selectedGroup;
 
         },
-        90
+        80
       );
 
 
@@ -1051,7 +1189,6 @@ drawBtn.addEventListener(
         drawnTrack.textContent =
           "🏁 " +
           finalTrack;
-
 
         drawnGroup.textContent =
           selectedGroup;
@@ -1085,7 +1222,9 @@ drawBtn.addEventListener(
           );
 
 
-        } catch(error) {
+        }
+
+        catch (error) {
 
           alert(
             "Błąd zapisu losowania."
@@ -1105,12 +1244,14 @@ drawBtn.addEventListener(
 
 
 /* =========================
-   WSZYSTKIE LOSOWANIA
+   LISTA WYLOSOWANYCH TORÓW
 ========================= */
 
-function updateAllDraws(votes) {
+function updateAllDraws(
+  votes
+) {
 
-  if(!currentRound) {
+  if (!currentRound) {
 
     allDraws.innerHTML =
       "🎲 Jeszcze nikt nie wylosował toru.";
@@ -1130,18 +1271,18 @@ function updateAllDraws(votes) {
       vote =>
 
         vote &&
-
         vote.roundId ===
           currentRound.id
     )
 
     .sort(
       (a, b) =>
-        b.time - a.time
+
+        a.time - b.time
     );
 
 
-  if(draws.length === 0) {
+  if (draws.length === 0) {
 
     allDraws.innerHTML =
       "🎲 Jeszcze nikt nie wylosował toru.";
@@ -1168,19 +1309,18 @@ function updateAllDraws(votes) {
 
 
       item.innerHTML =
-
         `
-        <div class="draw-number">
-          #${draws.length - index}
-        </div>
+          <div class="draw-number">
+            ${index + 1}.
+          </div>
 
-        <div class="draw-track">
-          🏁 ${vote.track}
-        </div>
+          <div class="draw-track">
+            🏁 ${vote.track}
+          </div>
 
-        <div class="draw-group">
-          ${vote.group}
-        </div>
+          <div class="draw-group">
+            ${vote.group}
+          </div>
         `;
 
 
@@ -1195,35 +1335,33 @@ function updateAllDraws(votes) {
 
 
 /* =========================
-   LOSOWANIE Z TABLICY
+   LOSOWY ELEMENT
 ========================= */
 
-function randomItem(array) {
+function randomItem(
+  array
+) {
 
-  return(
-
-    array[
-      Math.floor(
-        Math.random() *
-        array.length
-      )
-    ]
-
-  );
+  return array[
+    Math.floor(
+      Math.random() *
+      array.length
+    )
+  ];
 
 }
 
 
 /* =========================
-   KONIEC RUNDY
+   ZAKOŃCZENIE RUNDY
 ========================= */
 
 async function finishRound() {
 
-  if(
+  if (
     finishingRound ||
     !currentRound
-  ){
+  ) {
     return;
   }
 
@@ -1241,15 +1379,16 @@ async function finishRound() {
       latestRoundSnapshot.val();
 
 
-    if(
+    if (
       !latestRound ||
 
       latestRound.status !==
         "voting" ||
 
-      latestRound.endTime >
-        Date.now()
-    ){
+      Number(
+        latestRound.endTime
+      ) > Date.now()
+    ) {
 
       finishingRound =
         false;
@@ -1262,21 +1401,20 @@ async function finishRound() {
     const votesSnapshot =
       await get(votesRef);
 
-    const allVotes =
+    const votes =
       votesSnapshot.val() || {};
 
 
     const validVotes =
 
       Object.values(
-        allVotes
+        votes
       )
 
       .filter(
         vote =>
 
           vote &&
-
           vote.roundId ===
             latestRound.id
       );
@@ -1284,9 +1422,9 @@ async function finishRound() {
 
     /* BRAK GŁOSÓW */
 
-    if(
+    if (
       validVotes.length === 0
-    ){
+    ) {
 
       await set(
         roundRef,
@@ -1314,7 +1452,9 @@ async function finishRound() {
     }
 
 
-    /* LICZENIE GRUP */
+    /* =========================
+       LICZENIE GRUP
+    ========================= */
 
     const groupCounts = {
 
@@ -1337,7 +1477,7 @@ async function finishRound() {
     );
 
 
-    const maxGroupVotes =
+    const highestGroupVotes =
 
       Math.max(
         ...Object.values(
@@ -1355,12 +1495,14 @@ async function finishRound() {
       .filter(
         group =>
 
-          groupCounts[group] ===
-            maxGroupVotes
+          groupCounts[
+            group
+          ] ===
+          highestGroupVotes
       );
 
 
-    /* REMIS GRUP = LOSOWANIE */
+    /* REMIS = LOSOWANIE */
 
     const winnerGroup =
       randomItem(
@@ -1368,9 +1510,11 @@ async function finishRound() {
       );
 
 
-    /* TORY WYGRANEJ GRUPY */
+    /* =========================
+       TORY ZWYCIĘSKIEJ GRUPY
+    ========================= */
 
-    const winnerGroupVotes =
+    const groupVotes =
 
       validVotes.filter(
         vote =>
@@ -1380,20 +1524,18 @@ async function finishRound() {
       );
 
 
-    /* LICZENIE TORÓW */
-
     const trackCounts =
       {};
 
 
-    winnerGroupVotes.forEach(
+    groupVotes.forEach(
       vote => {
 
-        if(
+        if (
           !trackCounts[
             vote.track
           ]
-        ){
+        ) {
 
           trackCounts[
             vote.track
@@ -1409,7 +1551,7 @@ async function finishRound() {
     );
 
 
-    const maxTrackVotes =
+    const highestTrackVotes =
 
       Math.max(
         ...Object.values(
@@ -1427,16 +1569,14 @@ async function finishRound() {
       .filter(
         track =>
 
-          trackCounts[track] ===
-            maxTrackVotes
+          trackCounts[
+            track
+          ] ===
+          highestTrackVotes
       );
 
 
-    /*
-      JEŚLI TORY SĄ POJEDYNCZE
-      ALBO JEST REMIS,
-      SYSTEM LOSUJE
-    */
+    /* REMIS ALBO POJEDYNCZE TORY = LOSOWANIE */
 
     const winnerTrack =
       randomItem(
@@ -1444,7 +1584,7 @@ async function finishRound() {
       );
 
 
-    /* ZAPIS WYNIKU */
+    /* ZAPIS KOŃCOWEGO WYNIKU */
 
     await set(
       roundRef,
@@ -1468,9 +1608,12 @@ async function finishRound() {
     );
 
 
-  } catch(error) {
+  }
+
+  catch (error) {
 
     console.error(
+      "Błąd zakończenia rundy:",
       error
     );
 
@@ -1489,13 +1632,13 @@ async function finishRound() {
 
 function renderRound() {
 
-  if(!currentRound) {
+  if (!currentRound) {
 
     phaseStatus.textContent =
       "⏳ BRAK AKTYWNEJ RUNDY";
 
     phaseStatus.style.color =
-      "#ccc";
+      "#cccccc";
 
     countdown.textContent =
       "00:00";
@@ -1517,14 +1660,12 @@ function renderRound() {
   }
 
 
-  if(
+  if (
     currentRound.status ===
     "voting"
-  ){
+  ) {
 
-    if(
-      votingIsActive()
-    ){
+    if (votingIsActive()) {
 
       phaseStatus.textContent =
         "🟢 GŁOSOWANIE TRWA";
@@ -1550,10 +1691,10 @@ function renderRound() {
         "🏁 LICZENIE WYNIKU...";
 
       phaseStatus.style.color =
-        "#ffd000";
+        "#ffe000";
 
       phaseInfo.textContent =
-        "System wybiera zwycięską grupę i tor.";
+        "System kończy rundę i wybiera wynik.";
 
       votingSection.classList.add(
         "hidden"
@@ -1566,16 +1707,16 @@ function renderRound() {
   }
 
 
-  if(
+  if (
     currentRound.status ===
     "finished"
-  ){
+  ) {
 
     phaseStatus.textContent =
       "🏆 RUNDA ZAKOŃCZONA";
 
     phaseStatus.style.color =
-      "#ff5555";
+      "#ff6666";
 
     countdown.textContent =
       "00:00";
@@ -1588,31 +1729,30 @@ function renderRound() {
     );
 
 
-    if(
+    if (
       currentRound.winnerGroup &&
       currentRound.winnerTrack
-    ){
+    ) {
 
       officialResult.innerHTML =
-
         `
-        <div>
-          🏆 WYBRANA GRUPA AUT
-        </div>
+          <div>
+            🏆 WYBRANA GRUPA AUT
+          </div>
 
-        <div class="winner-group">
-          ${currentRound.winnerGroup}
-        </div>
+          <div class="winner-group">
+            ${currentRound.winnerGroup}
+          </div>
 
-        <br>
+          <br>
 
-        <div>
-          🏁 WYBRANY TOR
-        </div>
+          <div>
+            🏁 WYBRANY TOR
+          </div>
 
-        <div class="winner-track">
-          ${currentRound.winnerTrack}
-        </div>
+          <div class="winner-track">
+            ${currentRound.winnerTrack}
+          </div>
         `;
 
     }
@@ -1633,28 +1773,30 @@ function renderRound() {
 
 
 /* =========================
-   LICZNIK 30 MINUT
+   ODLiczanie
 ========================= */
 
 function updateCountdown() {
 
-  if(
+  if (
     !currentRound ||
 
     currentRound.status !==
       "voting"
-  ){
+  ) {
     return;
   }
 
 
   const difference =
 
-    currentRound.endTime -
+    Number(
+      currentRound.endTime
+    ) -
     Date.now();
 
 
-  if(difference <= 0) {
+  if (difference <= 0) {
 
     countdown.textContent =
       "00:00";
@@ -1667,21 +1809,18 @@ function updateCountdown() {
 
 
   const totalSeconds =
-
     Math.floor(
       difference / 1000
     );
 
 
   const minutes =
-
     Math.floor(
       totalSeconds / 60
     );
 
 
   const seconds =
-
     totalSeconds % 60;
 
 
@@ -1721,7 +1860,6 @@ function startCountdown() {
 
 
   countdownInterval =
-
     setInterval(
       updateCountdown,
       1000
@@ -1731,7 +1869,7 @@ function startCountdown() {
 
 
 /* =========================
-   FIREBASE RUNDA
+   NASŁUCHIWANIE RUNDY
 ========================= */
 
 onValue(
@@ -1740,19 +1878,6 @@ onValue(
 
     currentRound =
       snapshot.val();
-
-
-    selectedGroup =
-      null;
-
-
-    groupButtons.forEach(
-      button =>
-
-        button.classList.remove(
-          "selected"
-        )
-    );
 
 
     renderRound();
@@ -1764,19 +1889,15 @@ onValue(
 
 
 /* =========================
-   FIREBASE LOSOWANIA
+   NASŁUCHIWANIE LOSOWAŃ
 ========================= */
 
 onValue(
   votesRef,
   snapshot => {
 
-    const votes =
-      snapshot.val() || {};
-
-
     updateAllDraws(
-      votes
+      snapshot.val() || {}
     );
 
   }
