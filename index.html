@@ -16,12 +16,11 @@
       margin: 0;
       min-height: 100vh;
 
-      background:
-        linear-gradient(
-          rgba(0, 0, 0, 0.72),
-          rgba(0, 0, 0, 0.85)
-        ),
-        url("background.png.png") center / cover fixed no-repeat;
+      background-image: url("background.png.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
 
       color: #f4f4f4;
       font-family: Arial, Helvetica, sans-serif;
@@ -98,14 +97,16 @@
 
     .subtitle {
       margin-bottom: 25px;
-      color: #ddd;
+      color: #fff;
       font-size: 16px;
+      text-shadow: 0 2px 6px #000;
     }
 
     .car-group-title {
       font-size: 18px;
       font-weight: bold;
       margin: 25px 0 15px;
+      text-shadow: 0 2px 6px #000;
     }
 
     .car-groups {
@@ -175,11 +176,12 @@
       min-height: 25px;
       margin-top: 20px;
       font-weight: bold;
+      text-shadow: 0 2px 6px #000;
     }
 
     .card {
       margin-top: 30px;
-      background: rgba(20, 20, 20, 0.9);
+      background: rgba(20, 20, 20, 0.90);
       border: 1px solid #3d3d3d;
       border-radius: 16px;
       padding: 25px 20px;
@@ -269,16 +271,6 @@
 
     .winner strong {
       color: #ff3333;
-    }
-
-    .info {
-      margin-top: 20px;
-      padding: 15px;
-      background: rgba(15, 15, 15, 0.85);
-      border-radius: 10px;
-      color: #ccc;
-      line-height: 1.6;
-      backdrop-filter: blur(6px);
     }
 
     @media (max-width: 600px) {
@@ -430,7 +422,6 @@
       remove
     } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
-
     const firebaseConfig = {
       apiKey: "AIzaSyDRDAiSlJBPOG8N_c4ctBRLYrwx3ER5rKw",
       authDomain: "srs-losowanie.firebaseapp.com",
@@ -442,113 +433,74 @@
       measurementId: "G-HGT81Y72HF"
     };
 
-
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
-
 
     /* TUTAJ ZMIENIASZ PIN */
 
     const ADMIN_PIN = "840416";
 
-
     const tracks = [
-
       "Autodrome Lago Maggiore - Full Course",
       "Autodrome Lago Maggiore - East End",
       "Autodrome Lago Maggiore - West End",
       "Autodrome Lago Maggiore - Center",
-
       "Autopolis - Full Course",
       "Autopolis - Short Course",
-
       "Blue Moon Bay Speedway - Infield A",
       "Blue Moon Bay Speedway - Infield B",
-
       "Brands Hatch Grand Prix Circuit",
       "Brands Hatch Indy Circuit",
-
       "Broad Bean Raceway",
-
       "Circuit de Barcelona-Catalunya - GP Layout",
       "Circuit de Barcelona-Catalunya - No Chicane",
-
       "Circuit de la Sarthe",
       "Circuit de Spa-Francorchamps",
-
       "Colorado Springs - Lake",
-
       "Daytona International Speedway - Road Course",
       "Daytona International Speedway - Tri-Oval",
-
       "Deep Forest Raceway",
-
       "Dragon Trail - Gardens",
       "Dragon Trail - Seaside",
-
       "Fishermans Ranch",
-
       "Fuji International Speedway",
       "Fuji International Speedway - Short",
-
       "Goodwood Motor Circuit",
-
       "Grand Valley - Highway 1",
       "Grand Valley - South",
-
       "High Speed Ring",
       "High Speed Ring Reverse",
-
       "Interlagos",
-
       "Kyoto Driving Park - Yamagiwa",
       "Kyoto Driving Park - Miyabi",
-
       "Lake Louise Long Track",
       "Lake Louise Short Track",
-
       "Monza Circuit",
       "Monza No Chicane",
-
       "Mount Panorama Motor Racing Circuit",
-
       "Nürburgring GP",
       "Nürburgring Nordschleife",
       "Nürburgring 24h",
-
       "Red Bull Ring",
-
       "Road Atlanta",
-
       "Sardegna - Road Track A",
       "Sardegna - Road Track B",
       "Sardegna - Road Track C",
-
       "Sardegna - Windmills",
-
       "Special Stage Route X",
-
       "Suzuka Circuit",
       "Suzuka Circuit East",
-
       "Tokyo Expressway - Central",
       "Tokyo Expressway - East",
       "Tokyo Expressway - South",
-
       "Trial Mountain Circuit",
-
       "Tsukuba Circuit",
-
       "Watkins Glen Long Course",
       "Watkins Glen Short Course",
-
       "WeatherTech Raceway Laguna Seca",
-
       "Willow Springs - Big Willow",
       "Willow Springs - Horse Thief Mile"
-
     ];
-
 
     const drawBtn = document.getElementById("drawBtn");
     const drawnTrack = document.getElementById("drawnTrack");
@@ -564,18 +516,14 @@
     const groupButtons =
       document.querySelectorAll(".group-btn");
 
-
     let isAdmin = false;
     let firebaseConnected = false;
     let selectedGroup = null;
 
-
-    const USER_KEY =
-      "srs_user_last_draw_time";
+    const USER_KEY = "srs_user_last_draw_time";
 
     const BLOCK_TIME =
       2 * 24 * 60 * 60 * 1000;
-
 
     function userAlreadyDrawn() {
 
@@ -590,15 +538,12 @@
         Date.now() - lastDrawTime;
 
       if (timePassed >= BLOCK_TIME) {
-
         localStorage.removeItem(USER_KEY);
-
         return false;
       }
 
       return true;
     }
-
 
     groupButtons.forEach((button) => {
 
@@ -625,7 +570,6 @@
 
     });
 
-
     function updateButton() {
 
       const blocked =
@@ -634,7 +578,6 @@
       groupButtons.forEach((button) => {
         button.disabled = blocked;
       });
-
 
       if (!firebaseConnected) {
 
@@ -645,7 +588,6 @@
         return;
       }
 
-
       if (blocked) {
 
         drawBtn.disabled = true;
@@ -654,7 +596,6 @@
 
         return;
       }
-
 
       if (!selectedGroup) {
 
@@ -665,13 +606,11 @@
         return;
       }
 
-
       drawBtn.disabled = false;
       drawBtn.textContent =
         "🎲 LOSUJ TOR";
 
     }
-
 
     adminLoginBtn.addEventListener(
       "click",
@@ -679,7 +618,6 @@
 
         const enteredPin =
           adminPin.value.trim();
-
 
         if (enteredPin !== ADMIN_PIN) {
 
@@ -692,7 +630,6 @@
           return;
         }
 
-
         try {
 
           adminLoginBtn.disabled = true;
@@ -704,17 +641,13 @@
             ref(database, "losowania")
           );
 
-
           isAdmin = true;
-
           selectedGroup = null;
-
 
           groupButtons.forEach((button) => {
             button.classList.remove("selected");
             button.disabled = false;
           });
-
 
           drawnGroup.textContent =
             "Jeszcze nie wybrano";
@@ -722,18 +655,15 @@
           drawnTrack.textContent =
             "Jeszcze nie wylosowano";
 
-
           adminStatus.innerHTML =
             "👑 Administrator zalogowany.";
 
           adminStatus.style.color =
             "#22c55e";
 
-
           adminPin.value = "";
 
           updateButton();
-
 
         } catch (error) {
 
@@ -752,7 +682,6 @@
       }
     );
 
-
     adminPin.addEventListener(
       "keydown",
       (event) => {
@@ -764,35 +693,22 @@
       }
     );
 
-
     drawBtn.addEventListener(
       "click",
       startDraw
     );
 
-
     async function startDraw() {
 
       if (!selectedGroup) {
-
-        alert(
-          "Najpierw wybierz grupę auta!"
-        );
-
+        alert("Najpierw wybierz grupę auta!");
         return;
       }
 
-
-      if (
-        !isAdmin &&
-        userAlreadyDrawn()
-      ) {
-
+      if (!isAdmin && userAlreadyDrawn()) {
         updateButton();
-
         return;
       }
-
 
       drawBtn.disabled = true;
 
@@ -800,10 +716,8 @@
         button.disabled = true;
       });
 
-
       drawBtn.textContent =
         "🎲 LOSOWANIE...";
-
 
       const animation =
         setInterval(() => {
@@ -820,12 +734,10 @@
 
         }, 80);
 
-
       setTimeout(
         async () => {
 
           clearInterval(animation);
-
 
           const selectedTrack =
             tracks[
@@ -834,14 +746,11 @@
               )
             ];
 
-
           drawnGroup.textContent =
             "🏎️ " + selectedGroup;
 
-
           drawnTrack.textContent =
             "🏁 " + selectedTrack;
-
 
           try {
 
@@ -855,7 +764,6 @@
               }
             );
 
-
             if (!isAdmin) {
 
               localStorage.setItem(
@@ -865,13 +773,11 @@
 
             }
 
-
             connectionStatus.innerHTML =
               "✅ Wynik zapisany.";
 
             connectionStatus.style.color =
               "#22c55e";
-
 
           } catch (error) {
 
@@ -885,7 +791,6 @@
 
           }
 
-
           updateButton();
 
         },
@@ -894,10 +799,8 @@
 
     }
 
-
     const drawsRef =
       ref(database, "losowania");
-
 
     onValue(
 
@@ -913,10 +816,8 @@
         connectionStatus.style.color =
           "#22c55e";
 
-
         const data =
           snapshot.val();
-
 
         if (!data) {
 
@@ -934,9 +835,7 @@
           return;
         }
 
-
         const trackCounts = {};
-
 
         Object.values(data).forEach((draw) => {
 
@@ -950,14 +849,11 @@
 
         });
 
-
         const sortedTracks =
           Object.entries(trackCounts)
             .sort((a, b) => b[1] - a[1]);
 
-
         results.innerHTML = "";
-
 
         sortedTracks.forEach(
           ([track, count], index) => {
@@ -967,7 +863,6 @@
 
             row.className =
               "result-row";
-
 
             row.innerHTML = `
               <div class="result-position">
@@ -983,12 +878,10 @@
               </div>
             `;
 
-
             results.appendChild(row);
 
           }
         );
-
 
         if (sortedTracks.length > 0) {
 
@@ -999,7 +892,6 @@
           `;
 
         }
-
 
         updateButton();
 
@@ -1023,12 +915,10 @@
 
     );
 
-
     setInterval(
       updateButton,
       60000
     );
-
 
     updateButton();
 
