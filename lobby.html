@@ -1,46 +1,2306 @@
-<!-- DOSTĘPNE OPONY -->
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<label class="tire-option">
-  <input type="checkbox" value="🔴 Wyścigowe Twarde">
-  <span>🔴 Wyścigowe Twarde</span>
-</label>
+  <title>SRS LOBBY COMBO</title>
 
-<label class="tire-option">
-  <input type="checkbox" value="🟡 Wyścigowe Średnie">
-  <span>🟡 Wyścigowe Średnie</span>
-</label>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-<label class="tire-option">
-  <input type="checkbox" value="🟢 Wyścigowe Miękkie">
-  <span>🟢 Wyścigowe Miękkie</span>
-</label>
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      overflow-x: hidden;
+    }
 
-<label class="tire-option">
-  <input type="checkbox" value="🟤 Sportowe Twarde">
-  <span>🟤 Sportowe Twarde</span>
-</label>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: white;
+      background:
+        linear-gradient(
+          rgba(5, 6, 12, 0.80),
+          rgba(5, 6, 12, 0.96)
+        ),
+        url("background.png.png");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
 
-<label class="tire-option">
-  <input type="checkbox" value="🔵 Sportowe Średnie">
-  <span>🔵 Sportowe Średnie</span>
-</label>
+    .container {
+      width: min(950px, 94%);
+      margin: auto;
+      padding: 20px 0 60px;
+    }
 
-<label class="tire-option">
-  <input type="checkbox" value="🟣 Sportowe Miękkie">
-  <span>🟣 Sportowe Miękkie</span>
-</label>
+    h1 {
+      text-align: center;
+      font-size: clamp(32px, 7vw, 55px);
+      margin: 15px 0 25px;
+      text-shadow: 0 4px 25px black;
+    }
 
-<label class="tire-option">
-  <input type="checkbox" value="⚫ Komfortowe Twarde">
-  <span>⚫ Komfortowe Twarde</span>
-</label>
+    .card {
+      background: rgba(15, 14, 27, 0.96);
+      border: 1px solid rgba(220, 0, 0, 0.65);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 20px;
+      box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.65),
+        0 0 30px rgba(180, 0, 0, 0.08);
+    }
 
-<label class="tire-option">
-  <input type="checkbox" value="🔵 Komfortowe Średnie">
-  <span>🔵 Komfortowe Średnie</span>
-</label>
+    .hidden {
+      display: none !important;
+    }
 
-<label class="tire-option">
-  <input type="checkbox" value="🟠 Komfortowe Miękkie">
-  <span>🟠 Komfortowe Miękkie</span>
-</label>
+    button,
+    input,
+    select {
+      font-family: inherit;
+    }
+
+    button {
+      border: none;
+      border-radius: 11px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .admin-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    #adminPin {
+      width: 260px;
+      height: 58px;
+      border-radius: 11px;
+      border: 1px solid #555;
+      background: #15151d;
+      color: white;
+      text-align: center;
+      font-size: 17px;
+      padding: 0 15px;
+    }
+
+    #newRoundBtn {
+      min-width: 260px;
+      height: 58px;
+      font-size: 17px;
+      background: linear-gradient(
+        135deg,
+        #e30000,
+        #850000
+      );
+    }
+
+    #adminInfo {
+      margin-top: 12px;
+      text-align: center;
+      min-height: 20px;
+      color: #aaa;
+    }
+
+    .status-card {
+      text-align: center;
+    }
+
+    #phaseStatus {
+      font-size: clamp(24px, 5vw, 31px);
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    #countdown {
+      font-size: clamp(55px, 12vw, 82px);
+      font-weight: bold;
+      color: #ffe000;
+      line-height: 1;
+      text-shadow: 0 0 25px rgba(255, 220, 0, 0.35);
+    }
+
+    #phaseInfo {
+      margin-top: 15px;
+      color: #ccc;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(21px, 4vw, 27px);
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .label {
+      display: block;
+      margin: 22px 0 8px;
+      font-weight: bold;
+      color: #ddd;
+    }
+
+    select,
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      min-height: 52px;
+      border-radius: 10px;
+      border: 1px solid #555;
+      background: #15151d;
+      color: white;
+      padding: 0 15px;
+      font-size: 16px;
+    }
+
+    .classes {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+
+    .class-btn {
+      min-height: 70px;
+      background: #15151d;
+      border: 2px solid #444;
+      font-size: 16px;
+    }
+
+    .class-btn.selected {
+      border-color: #ff2020;
+      background: linear-gradient(
+        135deg,
+        #5e0000,
+        #210000
+      );
+    }
+
+    .mode-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .mode-btn {
+      min-height: 58px;
+      background: #15151d;
+      border: 2px solid #444;
+      font-size: 16px;
+    }
+
+    .mode-btn.selected {
+      border-color: #ff2020;
+      background: linear-gradient(
+        135deg,
+        #5e0000,
+        #210000
+      );
+    }
+
+    .tire-section {
+      margin-top: 10px;
+      padding: 16px;
+      border: 1px solid #555;
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.18);
+    }
+
+    .tire-section-title {
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: #ffe000;
+    }
+
+    .tire-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .tire-option {
+      min-height: 54px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: 2px solid #444;
+      border-radius: 10px;
+      background: #15151d;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .tire-option:hover {
+      transform: translateY(-2px);
+      border-color: #777;
+    }
+
+    .tire-option input {
+      display: none;
+    }
+
+    .tire-option.selected {
+      border-color: #ff2020;
+      background: linear-gradient(
+        135deg,
+        #5e0000,
+        #210000
+      );
+      box-shadow: 0 0 15px rgba(255, 32, 32, 0.18);
+    }
+
+    #saveComboBtn {
+      width: 100%;
+      min-height: 58px;
+      margin-top: 25px;
+      font-size: 18px;
+      background: linear-gradient(
+        135deg,
+        #e30000,
+        #850000
+      );
+    }
+
+    #comboInfo {
+      margin-top: 15px;
+      text-align: center;
+      min-height: 22px;
+    }
+
+    .participant-count {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: #ffe000;
+    }
+
+    .my-combo {
+      margin-top: 20px;
+      text-align: center;
+      line-height: 1.8;
+      color: #ddd;
+    }
+
+    .result {
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    .result-title {
+      color: #ffe000;
+      font-size: 19px;
+      margin-top: 16px;
+    }
+
+    .result-value {
+      font-size: clamp(20px, 4vw, 29px);
+      font-weight: bold;
+      color: #ff7777;
+    }
+
+    @media (max-width: 850px) {
+      .classes {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .tire-options {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 650px) {
+      .classes {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .tire-options {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 500px) {
+      .admin-row {
+        flex-direction: column;
+      }
+
+      #adminPin,
+      #newRoundBtn {
+        width: 100%;
+      }
+
+      .mode-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .tire-options {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>🎮 SRS LOBBY COMBO</h1>
+
+    <div class="card">
+
+      <div class="admin-row">
+
+        <input
+          type="password"
+          id="adminPin"
+          placeholder="🔒 PIN administratora"
+        >
+
+        <button id="newRoundBtn">
+          🏁 NOWA RUNDA
+        </button>
+
+      </div>
+
+      <div id="adminInfo">
+        Wpisz PIN, aby rozpocząć rundę.
+      </div>
+
+    </div>
+
+    <div class="card status-card">
+
+      <div id="phaseStatus">
+        ⏳ BRAK AKTYWNEJ RUNDY
+      </div>
+
+      <div id="countdown">
+        00:00
+      </div>
+
+      <div id="phaseInfo">
+        Czekamy na rozpoczęcie nowej rundy.
+      </div>
+
+    </div>
+
+    <div id="comboSection" class="card hidden">
+
+      <div class="section-title">
+        ➕ DODAJ SWOJE COMBO
+      </div>
+
+      <label class="label">
+        🏁 WYBIERZ TOR
+      </label>
+
+      <select id="trackSelect">
+
+        <option value="">-- WYBIERZ TOR --</option>
+
+        <option>Autodrome Lago Maggiore</option>
+        <option>Autopolis</option>
+        <option>Blue Moon Bay Speedway</option>
+        <option>Brands Hatch</option>
+        <option>Circuit de Barcelona-Catalunya</option>
+        <option>Circuit de la Sarthe</option>
+        <option>Circuit de Spa-Francorchamps</option>
+        <option>Daytona Road Course</option>
+        <option>Deep Forest Raceway</option>
+        <option>Dragon Trail - Seaside</option>
+        <option>Fuji International Speedway</option>
+        <option>Goodwood Motor Circuit</option>
+        <option>Grand Valley</option>
+        <option>High Speed Ring</option>
+        <option>Interlagos</option>
+        <option>Kyoto Driving Park</option>
+        <option>Monza Circuit</option>
+        <option>Mount Panorama</option>
+        <option>Nürburgring GP</option>
+        <option>Nürburgring Nordschleife</option>
+        <option>Nürburgring 24h</option>
+        <option>Red Bull Ring</option>
+        <option>Road Atlanta</option>
+        <option>Sardegna Road Track</option>
+        <option>Sardegna Windmills</option>
+        <option>Suzuka Circuit</option>
+        <option>Tokyo Expressway</option>
+        <option>Trial Mountain Circuit</option>
+        <option>Watkins Glen</option>
+        <option>WeatherTech Raceway Laguna Seca</option>
+
+      </select>
+
+      <label class="label">
+        🏎️ WYBIERZ KLASĘ / MULTIKLASĘ
+      </label>
+
+      <div class="classes">
+
+        <button type="button" class="class-btn" data-class="Gr.1">
+          🏎️ Gr.1
+        </button>
+
+        <button type="button" class="class-btn" data-class="Gr.2">
+          🏁 Gr.2
+        </button>
+
+        <button type="button" class="class-btn" data-class="Gr.3">
+          🚗 Gr.3
+        </button>
+
+        <button type="button" class="class-btn" data-class="Gr.4">
+          🚙 Gr.4
+        </button>
+
+        <button type="button" class="class-btn" data-class="Hypercar">
+          🔥 Hypercar
+        </button>
+
+        <button type="button" class="class-btn" data-class="Super Formula">
+          🏎️ Super Formula
+        </button>
+
+        <button type="button" class="class-btn" data-class="Gr.B">
+          🚙 Gr.B
+        </button>
+
+        <button type="button" class="class-btn" data-class="Vision Gran Turismo">
+          ⚡ Vision GT
+        </button>
+
+        <button type="button" class="class-btn" data-class="Samochody drogowe">
+          🚗 Samochody drogowe
+        </button>
+
+        <button type="button" class="class-btn" data-class="Open Class">
+          🏁 Open Class
+        </button>
+
+      </div>
+
+      <label class="label">
+        🏁 WYBIERZ DYSTANS WYŚCIGU
+      </label>
+
+      <div class="mode-buttons">
+
+        <button
+          type="button"
+          class="mode-btn"
+          id="lapsModeBtn"
+          data-mode="laps"
+        >
+          🔢 LICZBA OKRĄŻEŃ
+        </button>
+
+        <button
+          type="button"
+          class="mode-btn"
+          id="timeModeBtn"
+          data-mode="time"
+        >
+          ⏱️ CZAS WYŚCIGU
+        </button>
+
+      </div>
+
+      <div id="lapsBox" class="hidden">
+
+        <label class="label">
+          🔢 LICZBA OKRĄŻEŃ
+        </label>
+
+        <input
+          type="number"
+          id="lapsInput"
+          min="1"
+          max="500"
+          placeholder="Np. 15"
+        >
+
+      </div>
+
+      <div id="timeBox" class="hidden">
+
+        <label class="label">
+          ⏱️ CZAS TRWANIA WYŚCIGU
+        </label>
+
+        <input
+          type="text"
+          id="raceTimeInput"
+          placeholder="Np. 1:45"
+        >
+
+      </div>
+
+      <label class="label">
+        🛞 DOSTĘPNE OPONY
+      </label>
+
+      <div class="tire-section">
+
+        <div class="tire-section-title">
+          Wybierz dostępne opony:
+        </div>
+
+        <div
+          class="tire-options"
+          id="availableTires"
+        >
+
+          <label class="tire-option">
+            <input type="checkbox" value="🔴 Wyścigowe Twarde">
+            🔴 Wyścigowe Twarde
+          </label>
+
+          <label class="tire-option">
+            <input type="checkbox" value="🟡 Wyścigowe Średnie">
+            🟡 Wyścigowe Średnie
+          </label>
+
+          <label class="tire-option">
+            <input type="checkbox" value="🟢 Wyścigowe Miękkie">
+            🟢 Wyścigowe Miękkie
+          </label>
+
+          <label class="tire-option">
+            <input type="checkbox" value="🟤 Sportowe Twarde">
+            🟤 Sportowe Twarde
+          </label>
+
+          <label class="tire-option">
+            <input type="checkbox" value="🔵 Sportowe Średnie">
+            🔵 Sportowe Średnie
+          </label>
+
+          <label class="tire-option">
+            <input type="checkbox" value="🟣 Sportowe Miękkie">
+            🟣 Sportowe Miękkie
+          </label>
+
+          <label class="tire-option">
+            <input type="checkbox" value="⚫ Komfortowe Twarde">
+            ⚫ Komfortowe Twarde
+          </label>
+
+          <label class="tire-option">
+            <input type="checkbox" value="🔵 Komfortowe Średnie">
+            🔵 Komfortowe Średnie
+          </label>
+
+          <label class="tire-option">
+            <input type="checkbox" value="🟠 Komfortowe Miękkie">
+            🟠 Komfortowe Miękkie
+          </label>
+
+        </div>
+
+      </div>
+
+      <label class="label">
+        ⭐ OPONY OBOWIĄZKOWE
+      </label>
+
+      <div class="mode-buttons">
+
+        <button
+          type="button"
+          class="mode-btn selected"
+          id="noMandatoryBtn"
+          data-mandatory="no"
+        >
+          ❌ BRAK OBOWIĄZKOWYCH
+        </button>
+
+        <button
+          type="button"
+          class="mode-btn"
+          id="mandatoryBtn"
+          data-mandatory="yes"
+        >
+          ⭐ OBOWIĄZKOWE OPONY
+        </button>
+
+      </div>
+
+      <div
+        id="mandatoryTiresBox"
+        class="tire-section hidden"
+      >
+
+        <div class="tire-section-title">
+          Wybierz opony obowiązkowe:
+        </div>
+
+        <div
+          class="tire-options"
+          id="mandatoryTires"
+        >
+
+          <label class="tire-option">
+            <input type="checkbox" value="🔴 Wyścigowe Twarde">
+            🔴 Wyścigowe Twarde
+          </label>
+
+          <label class="tire-option">
+            <input type="checkbox" value="🟡 Wyścigowe Średnie">
+            🟡 Wyścigowe Średnie
+          </label>
+
+          <label class="tire-option">
+            <input type="checkbox" value="🟢 Wyścigowe Miękkie">
+            🟢 Wyścigowe Miękkie
+          </label>
+
+          <label class="tire-option">
+            <input type="checkbox" value="🟤 Sportowe Twarde">
+            🟤 Sportowe Twarde
+          </label>
+
+          <label class="tire-option">
+            <input type="checkbox" value="🔵 Sportowe Średnie">
+            🔵 Sportowe Średnie
+          </label>
+
+          <label class="tire-option">
+            <input type="checkbox" value="🟣 Sportowe Miękkie">
+            🟣 Sportowe Miękkie
+          </label>
+
+          <label class="tire-option">
+            <input type="checkbox" value="⚫ Komfortowe Twarde">
+            ⚫ Komfortowe Twarde
+          </label>
+
+          <label class="tire-option">
+            <input type="checkbox" value="🔵 Komfortowe Średnie">
+            🔵 Komfortowe Średnie
+          </label>
+
+          <label class="tire-option">
+            <input type="checkbox" value="🟠 Komfortowe Miękkie">
+            🟠 Komfortowe Miękkie
+          </label>
+
+        </div>
+
+      </div>
+
+      <label class="label">
+        🔧 PIT STOP
+      </label>
+
+      <select id="pitSelect">
+        <option value="">-- WYBIERZ PIT STOP --</option>
+        <option>Brak obowiązkowego PIT STOP</option>
+        <option>1 obowiązkowy PIT STOP</option>
+        <option>2 obowiązkowe PIT STOPY</option>
+      </select>
+
+      <label class="label">
+        🌦️ POGODA
+      </label>
+
+      <select id="weatherSelect">
+        <option value="">-- WYBIERZ POGODĘ --</option>
+        <option>☀️ Słonecznie</option>
+        <option>🌤️ Lekko pochmurno</option>
+        <option>🌥️ Pochmurno</option>
+        <option>🌦️ Zmienna pogoda</option>
+        <option>🌧️ Deszcz</option>
+      </select>
+
+      <label class="label">
+        🌅 PORA DNIA
+      </label>
+
+      <select id="timeOfDaySelect">
+        <option value="">-- WYBIERZ PORĘ DNIA --</option>
+        <option>🌄 Świt</option>
+        <option>☀️ Rano</option>
+        <option>🌞 Dzień</option>
+        <option>🌇 Popołudnie</option>
+        <option>🌅 Zachód słońca</option>
+        <option>🌙 Noc</option>
+      </select>
+
+      <label class="label">
+        ⛽ ZUŻYCIE PALIWA
+      </label>
+
+      <select id="fuelSelect">
+        <option value="">-- WYBIERZ ZUŻYCIE PALIWA --</option>
+        <option>x1</option>
+        <option>x2</option>
+        <option>x3</option>
+        <option>x4</option>
+        <option>x5</option>
+        <option>x6</option>
+        <option>x8</option>
+        <option>x10</option>
+      </select>
+
+      <label class="label">
+        🛞 ZUŻYCIE OPON
+      </label>
+
+      <select id="tireWearSelect">
+        <option value="">-- WYBIERZ ZUŻYCIE OPON --</option>
+        <option>x1</option>
+        <option>x2</option>
+        <option>x3</option>
+        <option>x4</option>
+        <option>x5</option>
+        <option>x6</option>
+        <option>x7</option>
+        <option>x8</option>
+        <option>x10</option>
+      </select>
+
+      <label class="label">
+        🚦 TYP STARTU
+      </label>
+
+      <select id="startTypeSelect">
+        <option value="">-- WYBIERZ TYP STARTU --</option>
+        <option>🚦 Start zatrzymany</option>
+        <option>🏁 Start lotny</option>
+      </select>
+
+      <label class="label">
+        ⏱️ KWALIFIKACJE
+      </label>
+
+      <select id="qualifyingSelect">
+        <option value="">-- WYBIERZ KWALIFIKACJE --</option>
+        <option>Brak kwalifikacji</option>
+        <option>5 minut</option>
+        <option>10 minut</option>
+        <option>15 minut</option>
+        <option>20 minut</option>
+      </select>
+
+      <label class="label">
+        ⚖️ BOP
+      </label>
+
+      <select id="bopSelect">
+        <option value="">-- WYBIERZ BOP --</option>
+        <option>🟢 BOP Włączony</option>
+        <option>🔴 BOP Wyłączony</option>
+      </select>
+
+      <button id="saveComboBtn">
+        ➕ DODAJ MOJE COMBO
+      </button>
+
+      <div id="comboInfo"></div>
+
+      <div id="myCombo" class="my-combo"></div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="section-title">
+        👥 UCZESTNICY
+      </div>
+
+      <div
+        id="participantCount"
+        class="participant-count"
+      >
+        👥 0 osób dodało COMBO
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="section-title">
+        🏆 WYLOSOWANE COMBO
+      </div>
+
+      <div
+        id="officialResult"
+        class="result"
+      >
+        Wynik pojawi się automatycznie po zakończeniu czasu.
+      </div>
+
+    </div>
+
+  </div>
+
+  <script type="module">
+
+    import {
+      initializeApp
+    } from
+    "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+    import {
+      getDatabase,
+      ref,
+      set,
+      get,
+      onValue,
+      remove,
+      runTransaction
+    } from
+    "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDRDAiSlJBPOG8N_c4ctBRLYrwx3ER5rKw",
+      authDomain: "srs-losowanie.firebaseapp.com",
+      databaseURL: "https://srs-losowanie-default-rtdb.firebaseio.com",
+      projectId: "srs-losowanie",
+      storageBucket: "srs-losowanie.firebasestorage.app",
+      messagingSenderId: "212959687651",
+      appId: "1:212959687651:web:0a9a5e647450767bc026d6"
+    };
+
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+
+    const ADMIN_PIN = "840416";
+
+
+    const DISCORD_WEBHOOK =
+      "https://discord.com/api/webhooks/1543742170157158550/pRsAgoyhhswi7kD57RFc1wERkVtLNlsgky7BI-JoYq7sTmWwMo5brD_kVf7Wa7PWWwmz";
+
+
+    const ROUND_TIME = 5 * 60 * 1000;
+
+
+    const adminPin =
+      document.getElementById("adminPin");
+
+    const newRoundBtn =
+      document.getElementById("newRoundBtn");
+
+    const adminInfo =
+      document.getElementById("adminInfo");
+
+    const phaseStatus =
+      document.getElementById("phaseStatus");
+
+    const countdown =
+      document.getElementById("countdown");
+
+    const phaseInfo =
+      document.getElementById("phaseInfo");
+
+    const comboSection =
+      document.getElementById("comboSection");
+
+    const trackSelect =
+      document.getElementById("trackSelect");
+
+    const classButtons =
+      document.querySelectorAll(".class-btn");
+
+    const lapsModeBtn =
+      document.getElementById("lapsModeBtn");
+
+    const timeModeBtn =
+      document.getElementById("timeModeBtn");
+
+    const lapsBox =
+      document.getElementById("lapsBox");
+
+    const timeBox =
+      document.getElementById("timeBox");
+
+    const lapsInput =
+      document.getElementById("lapsInput");
+
+    const raceTimeInput =
+      document.getElementById("raceTimeInput");
+
+    const noMandatoryBtn =
+      document.getElementById("noMandatoryBtn");
+
+    const mandatoryBtn =
+      document.getElementById("mandatoryBtn");
+
+    const mandatoryTiresBox =
+      document.getElementById("mandatoryTiresBox");
+
+    const pitSelect =
+      document.getElementById("pitSelect");
+
+    const weatherSelect =
+      document.getElementById("weatherSelect");
+
+    const timeOfDaySelect =
+      document.getElementById("timeOfDaySelect");
+
+    const fuelSelect =
+      document.getElementById("fuelSelect");
+
+    const tireWearSelect =
+      document.getElementById("tireWearSelect");
+
+    const startTypeSelect =
+      document.getElementById("startTypeSelect");
+
+    const qualifyingSelect =
+      document.getElementById("qualifyingSelect");
+
+    const bopSelect =
+      document.getElementById("bopSelect");
+
+    const saveComboBtn =
+      document.getElementById("saveComboBtn");
+
+    const comboInfo =
+      document.getElementById("comboInfo");
+
+    const myCombo =
+      document.getElementById("myCombo");
+
+    const participantCount =
+      document.getElementById("participantCount");
+
+    const officialResult =
+      document.getElementById("officialResult");
+
+
+    const roundRef =
+      ref(database, "srsLobbyRound");
+
+    const combosRef =
+      ref(database, "srsLobbyCombos");
+
+
+    let currentRound = null;
+    let currentCombos = {};
+    let selectedClasses = [];
+    let raceMode = "";
+    let mandatoryMode = "no";
+    let finishingRound = false;
+
+
+    let playerId =
+      localStorage.getItem("srsLobbyPlayerId");
+
+
+    if (!playerId) {
+
+      playerId =
+        "player_" +
+        Date.now() +
+        "_" +
+        Math.random()
+          .toString(36)
+          .substring(2, 10);
+
+      localStorage.setItem(
+        "srsLobbyPlayerId",
+        playerId
+      );
+
+    }
+
+
+    function setupTireButtons(containerId) {
+
+      const container =
+        document.getElementById(containerId);
+
+      const labels =
+        container.querySelectorAll(".tire-option");
+
+      labels.forEach(label => {
+
+        const checkbox =
+          label.querySelector("input");
+
+        checkbox.addEventListener(
+          "change",
+          () => {
+
+            label.classList.toggle(
+              "selected",
+              checkbox.checked
+            );
+
+          }
+        );
+
+      });
+
+    }
+
+
+    setupTireButtons("availableTires");
+    setupTireButtons("mandatoryTires");
+
+
+    function getSelectedTires(containerId) {
+
+      return Array.from(
+        document.querySelectorAll(
+          "#" +
+          containerId +
+          " input:checked"
+        )
+      ).map(
+        input => input.value
+      );
+
+    }
+
+
+    function clearTires(containerId) {
+
+      document
+        .querySelectorAll(
+          "#" +
+          containerId +
+          " input"
+        )
+        .forEach(input => {
+
+          input.checked = false;
+
+          input
+            .closest(".tire-option")
+            .classList.remove("selected");
+
+        });
+
+    }
+
+
+    function resetComboForm() {
+
+      trackSelect.value = "";
+
+      selectedClasses = [];
+
+      classButtons.forEach(button => {
+        button.classList.remove("selected");
+      });
+
+      raceMode = "";
+
+      lapsModeBtn.classList.remove("selected");
+      timeModeBtn.classList.remove("selected");
+
+      lapsBox.classList.add("hidden");
+      timeBox.classList.add("hidden");
+
+      lapsInput.value = "";
+      raceTimeInput.value = "";
+
+      clearTires("availableTires");
+      clearTires("mandatoryTires");
+
+      mandatoryMode = "no";
+
+      noMandatoryBtn.classList.add("selected");
+      mandatoryBtn.classList.remove("selected");
+
+      mandatoryTiresBox.classList.add("hidden");
+
+      pitSelect.value = "";
+      weatherSelect.value = "";
+      timeOfDaySelect.value = "";
+      fuelSelect.value = "";
+      tireWearSelect.value = "";
+      startTypeSelect.value = "";
+      qualifyingSelect.value = "";
+      bopSelect.value = "";
+
+      myCombo.innerHTML = "";
+      comboInfo.textContent = "";
+
+      saveComboBtn.disabled = false;
+
+      saveComboBtn.textContent =
+        "➕ DODAJ MOJE COMBO";
+
+    }
+
+
+    function roundIsActive() {
+
+      return (
+        currentRound &&
+        currentRound.status === "voting" &&
+        Date.now() <
+          Number(currentRound.endTime)
+      );
+
+    }
+
+
+    classButtons.forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          if (!roundIsActive()) {
+            return;
+          }
+
+          const className =
+            button.dataset.class;
+
+          if (
+            selectedClasses.includes(className)
+          ) {
+
+            selectedClasses =
+              selectedClasses.filter(
+                item => item !== className
+              );
+
+            button.classList.remove("selected");
+
+          }
+
+          else {
+
+            selectedClasses.push(className);
+
+            button.classList.add("selected");
+
+          }
+
+        }
+      );
+
+    });
+
+
+    lapsModeBtn.addEventListener(
+      "click",
+      () => {
+
+        raceMode = "laps";
+
+        lapsModeBtn.classList.add("selected");
+        timeModeBtn.classList.remove("selected");
+
+        lapsBox.classList.remove("hidden");
+        timeBox.classList.add("hidden");
+
+        raceTimeInput.value = "";
+
+      }
+    );
+
+
+    timeModeBtn.addEventListener(
+      "click",
+      () => {
+
+        raceMode = "time";
+
+        timeModeBtn.classList.add("selected");
+        lapsModeBtn.classList.remove("selected");
+
+        timeBox.classList.remove("hidden");
+        lapsBox.classList.add("hidden");
+
+        lapsInput.value = "";
+
+      }
+    );
+
+
+    noMandatoryBtn.addEventListener(
+      "click",
+      () => {
+
+        mandatoryMode = "no";
+
+        noMandatoryBtn.classList.add("selected");
+        mandatoryBtn.classList.remove("selected");
+
+        mandatoryTiresBox.classList.add("hidden");
+
+        clearTires("mandatoryTires");
+
+      }
+    );
+
+
+    mandatoryBtn.addEventListener(
+      "click",
+      () => {
+
+        mandatoryMode = "yes";
+
+        mandatoryBtn.classList.add("selected");
+        noMandatoryBtn.classList.remove("selected");
+
+        mandatoryTiresBox.classList.remove("hidden");
+
+      }
+    );
+
+
+    newRoundBtn.addEventListener(
+      "click",
+      async () => {
+
+        if (
+          adminPin.value.trim() !==
+          ADMIN_PIN
+        ) {
+
+          adminInfo.textContent =
+            "❌ Nieprawidłowy PIN.";
+
+          adminInfo.style.color =
+            "#ff5555";
+
+          return;
+
+        }
+
+
+        const confirmStart =
+          confirm(
+            "Rozpocząć nową rundę na 5 minut?\n\n" +
+            "Stare COMBO zostaną usunięte."
+          );
+
+
+        if (!confirmStart) {
+          return;
+        }
+
+
+        try {
+
+          newRoundBtn.disabled = true;
+
+          await remove(combosRef);
+
+          const now = Date.now();
+
+          await set(
+            roundRef,
+            {
+              id: String(now),
+              status: "voting",
+              startTime: now,
+              endTime:
+                now + ROUND_TIME,
+              winner: null,
+              discordSent: false
+            }
+          );
+
+          resetComboForm();
+
+          adminPin.value = "";
+
+          adminInfo.textContent =
+            "🟢 Nowa runda rozpoczęta.";
+
+          adminInfo.style.color =
+            "#4ade80";
+
+        }
+
+        catch (error) {
+
+          adminInfo.textContent =
+            "❌ Błąd: " +
+            error.message;
+
+          adminInfo.style.color =
+            "#ff5555";
+
+        }
+
+        newRoundBtn.disabled = false;
+
+      }
+    );
+
+
+    function showError(message) {
+
+      comboInfo.textContent = message;
+      comboInfo.style.color = "#ff5555";
+
+    }
+
+
+    saveComboBtn.addEventListener(
+      "click",
+      async () => {
+
+        if (!roundIsActive()) {
+
+          showError(
+            "❌ Runda nie jest aktywna."
+          );
+
+          return;
+
+        }
+
+
+        const track =
+          trackSelect.value;
+
+        const availableTires =
+          getSelectedTires("availableTires");
+
+        const mandatoryTires =
+          getSelectedTires("mandatoryTires");
+
+
+        if (!track) {
+          showError("❌ Wybierz tor.");
+          return;
+        }
+
+        if (
+          selectedClasses.length === 0
+        ) {
+          showError("❌ Wybierz klasę.");
+          return;
+        }
+
+        if (!raceMode) {
+          showError(
+            "❌ Wybierz okrążenia lub czas wyścigu."
+          );
+          return;
+        }
+
+        if (
+          raceMode === "laps" &&
+          (
+            !lapsInput.value ||
+            Number(lapsInput.value) < 1
+          )
+        ) {
+          showError(
+            "❌ Podaj liczbę okrążeń."
+          );
+          return;
+        }
+
+        if (
+          raceMode === "time" &&
+          !raceTimeInput.value.trim()
+        ) {
+          showError(
+            "❌ Wpisz czas wyścigu, np. 1:45."
+          );
+          return;
+        }
+
+        if (
+          availableTires.length === 0
+        ) {
+          showError(
+            "❌ Wybierz dostępne opony."
+          );
+          return;
+        }
+
+        if (
+          mandatoryMode === "yes" &&
+          mandatoryTires.length === 0
+        ) {
+          showError(
+            "❌ Wybierz opony obowiązkowe."
+          );
+          return;
+        }
+
+        if (!pitSelect.value) {
+          showError("❌ Wybierz PIT STOP.");
+          return;
+        }
+
+        if (!weatherSelect.value) {
+          showError("❌ Wybierz pogodę.");
+          return;
+        }
+
+        if (!timeOfDaySelect.value) {
+          showError("❌ Wybierz porę dnia.");
+          return;
+        }
+
+        if (!fuelSelect.value) {
+          showError(
+            "❌ Wybierz zużycie paliwa."
+          );
+          return;
+        }
+
+        if (!tireWearSelect.value) {
+          showError(
+            "❌ Wybierz zużycie opon."
+          );
+          return;
+        }
+
+        if (!startTypeSelect.value) {
+          showError(
+            "❌ Wybierz typ startu."
+          );
+          return;
+        }
+
+        if (!qualifyingSelect.value) {
+          showError(
+            "❌ Wybierz kwalifikacje."
+          );
+          return;
+        }
+
+        if (!bopSelect.value) {
+          showError(
+            "❌ Wybierz BOP."
+          );
+          return;
+        }
+
+
+        saveComboBtn.disabled = true;
+
+
+        try {
+
+          await set(
+            ref(
+              database,
+              "srsLobbyCombos/" +
+              playerId
+            ),
+            {
+              playerId: playerId,
+
+              roundId:
+                currentRound.id,
+
+              track: track,
+
+              classes:
+                selectedClasses,
+
+              raceMode:
+                raceMode,
+
+              laps:
+                raceMode === "laps"
+                  ? Number(lapsInput.value)
+                  : null,
+
+              raceTime:
+                raceMode === "time"
+                  ? raceTimeInput.value.trim()
+                  : null,
+
+              availableTires:
+                availableTires,
+
+              mandatoryMode:
+                mandatoryMode,
+
+              mandatoryTires:
+                mandatoryMode === "yes"
+                  ? mandatoryTires
+                  : [],
+
+              pit:
+                pitSelect.value,
+
+              weather:
+                weatherSelect.value,
+
+              timeOfDay:
+                timeOfDaySelect.value,
+
+              fuel:
+                fuelSelect.value,
+
+              tireWear:
+                tireWearSelect.value,
+
+              startType:
+                startTypeSelect.value,
+
+              qualifying:
+                qualifyingSelect.value,
+
+              bop:
+                bopSelect.value,
+
+              time:
+                Date.now()
+            }
+          );
+
+
+          comboInfo.textContent =
+            "✅ COMBO zapisane.";
+
+          comboInfo.style.color =
+            "#4ade80";
+
+          saveComboBtn.textContent =
+            "✏️ ZMIEŃ MOJE COMBO";
+
+        }
+
+        catch (error) {
+
+          showError(
+            "❌ Błąd: " +
+            error.message
+          );
+
+        }
+
+        saveComboBtn.disabled = false;
+
+      }
+    );
+
+
+    function randomItem(array) {
+
+      return array[
+        Math.floor(
+          Math.random() *
+          array.length
+        )
+      ];
+
+    }
+
+
+    async function sendWinnerToDiscord(winner) {
+
+      const classes =
+        winner.classes.join(" + ");
+
+      const distance =
+        winner.raceMode === "laps"
+          ? winner.laps + " okrążeń"
+          : winner.raceTime;
+
+      const availableTires =
+        winner.availableTires.join(" + ");
+
+      const mandatoryTires =
+        winner.mandatoryMode === "yes"
+          ? winner.mandatoryTires.join(" + ")
+          : "❌ Brak obowiązkowych opon";
+
+
+      const message = `
+🏆 **SRS LOBBY COMBO – WYNIK LOSOWANIA** 🏆
+
+━━━━━━━━━━━━━━━━━━
+
+🏁 **TOR**
+**${winner.track}**
+
+🏎️ **KLASA AUT**
+**${classes}**
+
+🏁 **DYSTANS WYŚCIGU**
+**${distance}**
+
+🛞 **DOSTĘPNE OPONY**
+**${availableTires}**
+
+⭐ **OPONY OBOWIĄZKOWE**
+**${mandatoryTires}**
+
+🔧 **PIT STOP**
+**${winner.pit}**
+
+🌦️ **POGODA**
+**${winner.weather}**
+
+🌅 **PORA DNIA**
+**${winner.timeOfDay}**
+
+⛽ **ZUŻYCIE PALIWA**
+**${winner.fuel}**
+
+🛞 **ZUŻYCIE OPON**
+**${winner.tireWear}**
+
+🚦 **TYP STARTU**
+**${winner.startType}**
+
+⏱️ **KWALIFIKACJE**
+**${winner.qualifying}**
+
+⚖️ **BOP**
+**${winner.bop}**
+
+━━━━━━━━━━━━━━━━━━
+
+🎮 **SRS LOBBY COMBO**
+🏁 Wynik został wylosowany automatycznie.
+`;
+
+
+      try {
+
+        const response =
+          await fetch(
+            DISCORD_WEBHOOK,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body:
+                JSON.stringify({
+                  username:
+                    "SRS LOBBY COMBO",
+
+                  content:
+                    message
+                })
+            }
+          );
+
+
+        return response.ok;
+
+      }
+
+      catch (error) {
+
+        console.error(error);
+
+        return false;
+
+      }
+
+    }
+
+
+    async function finishRound() {
+
+      if (
+        finishingRound ||
+        !currentRound
+      ) {
+        return;
+      }
+
+
+      finishingRound = true;
+
+
+      try {
+
+        const roundSnapshot =
+          await get(roundRef);
+
+        const latestRound =
+          roundSnapshot.val();
+
+
+        if (
+          !latestRound ||
+          latestRound.status !== "voting" ||
+          Date.now() <
+            Number(latestRound.endTime)
+        ) {
+
+          finishingRound = false;
+
+          return;
+
+        }
+
+
+        const combosSnapshot =
+          await get(combosRef);
+
+        const allCombos =
+          combosSnapshot.val() || {};
+
+
+        const combos =
+          Object.values(allCombos)
+            .filter(
+              combo =>
+                combo.roundId ===
+                latestRound.id
+            );
+
+
+        if (
+          combos.length === 0
+        ) {
+
+          await set(
+            roundRef,
+            {
+              ...latestRound,
+              status: "finished",
+              winner: null,
+              finishedAt: Date.now(),
+              discordSent: false
+            }
+          );
+
+          finishingRound = false;
+
+          return;
+
+        }
+
+
+        const winner =
+          randomItem(combos);
+
+
+        const result =
+          await runTransaction(
+            roundRef,
+            current => {
+
+              if (
+                !current ||
+                current.status !== "voting" ||
+                Date.now() <
+                  Number(current.endTime)
+              ) {
+                return;
+              }
+
+
+              return {
+                ...current,
+                status: "finished",
+                winner: winner,
+                finishedAt: Date.now(),
+                discordSent: false
+              };
+
+            }
+          );
+
+
+        if (
+          !result.committed
+        ) {
+
+          finishingRound = false;
+
+          return;
+
+        }
+
+
+        const updatedRound =
+          result.snapshot.val();
+
+
+        if (
+          updatedRound &&
+          updatedRound.winner &&
+          !updatedRound.discordSent
+        ) {
+
+          const sent =
+            await sendWinnerToDiscord(
+              updatedRound.winner
+            );
+
+
+          if (sent) {
+
+            await runTransaction(
+              roundRef,
+              current => {
+
+                if (
+                  !current ||
+                  current.id !== updatedRound.id ||
+                  current.discordSent
+                ) {
+                  return;
+                }
+
+
+                return {
+                  ...current,
+                  discordSent: true,
+                  discordSentAt: Date.now()
+                };
+
+              }
+            );
+
+          }
+
+        }
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Błąd losowania:",
+          error
+        );
+
+      }
+
+
+      finishingRound = false;
+
+    }
+
+
+    function updateCountdown() {
+
+      if (
+        !currentRound ||
+        currentRound.status !== "voting"
+      ) {
+        return;
+      }
+
+
+      const left =
+        Number(currentRound.endTime) -
+        Date.now();
+
+
+      if (left <= 0) {
+
+        countdown.textContent =
+          "00:00";
+
+        finishRound();
+
+        return;
+
+      }
+
+
+      const seconds =
+        Math.floor(left / 1000);
+
+      const minutes =
+        Math.floor(seconds / 60);
+
+      const remainingSeconds =
+        seconds % 60;
+
+
+      countdown.textContent =
+        String(minutes)
+          .padStart(2, "0") +
+        ":" +
+        String(remainingSeconds)
+          .padStart(2, "0");
+
+    }
+
+
+    function renderWinner(winner) {
+
+      if (!winner) {
+
+        officialResult.textContent =
+          "❌ Nikt nie dodał COMBO.";
+
+        return;
+
+      }
+
+
+      const classes =
+        winner.classes.join(" + ");
+
+      const distance =
+        winner.raceMode === "laps"
+          ? winner.laps + " okrążeń"
+          : winner.raceTime;
+
+      const availableTires =
+        winner.availableTires.join(" + ");
+
+      const mandatoryTires =
+        winner.mandatoryMode === "yes"
+          ? winner.mandatoryTires.join(" + ")
+          : "❌ Brak obowiązkowych opon";
+
+
+      officialResult.innerHTML = `
+
+        <div class="result-title">
+          🏁 WYBRANY TOR
+        </div>
+
+        <div class="result-value">
+          ${winner.track}
+        </div>
+
+        <div class="result-title">
+          🏎️ KLASA AUT
+        </div>
+
+        <div class="result-value">
+          ${classes}
+        </div>
+
+        <div class="result-title">
+          🏁 DYSTANS WYŚCIGU
+        </div>
+
+        <div class="result-value">
+          ${distance}
+        </div>
+
+        <div class="result-title">
+          🛞 DOSTĘPNE OPONY
+        </div>
+
+        <div class="result-value">
+          ${availableTires}
+        </div>
+
+        <div class="result-title">
+          ⭐ OPONY OBOWIĄZKOWE
+        </div>
+
+        <div class="result-value">
+          ${mandatoryTires}
+        </div>
+
+        <div class="result-title">
+          🔧 PIT STOP
+        </div>
+
+        <div class="result-value">
+          ${winner.pit}
+        </div>
+
+        <div class="result-title">
+          🌦️ POGODA
+        </div>
+
+        <div class="result-value">
+          ${winner.weather}
+        </div>
+
+        <div class="result-title">
+          🌅 PORA DNIA
+        </div>
+
+        <div class="result-value">
+          ${winner.timeOfDay}
+        </div>
+
+        <div class="result-title">
+          ⛽ ZUŻYCIE PALIWA
+        </div>
+
+        <div class="result-value">
+          ${winner.fuel}
+        </div>
+
+        <div class="result-title">
+          🛞 ZUŻYCIE OPON
+        </div>
+
+        <div class="result-value">
+          ${winner.tireWear}
+        </div>
+
+        <div class="result-title">
+          🚦 TYP STARTU
+        </div>
+
+        <div class="result-value">
+          ${winner.startType}
+        </div>
+
+        <div class="result-title">
+          ⏱️ KWALIFIKACJE
+        </div>
+
+        <div class="result-value">
+          ${winner.qualifying}
+        </div>
+
+        <div class="result-title">
+          ⚖️ BOP
+        </div>
+
+        <div class="result-value">
+          ${winner.bop}
+        </div>
+
+      `;
+
+    }
+
+
+    function renderRound() {
+
+      if (!currentRound) {
+
+        phaseStatus.textContent =
+          "⏳ BRAK AKTYWNEJ RUNDY";
+
+        phaseStatus.style.color =
+          "#ddd";
+
+        countdown.textContent =
+          "00:00";
+
+        phaseInfo.textContent =
+          "Czekamy na rozpoczęcie nowej rundy.";
+
+        comboSection.classList.add("hidden");
+
+        return;
+
+      }
+
+
+      if (
+        currentRound.status === "voting"
+      ) {
+
+        if (roundIsActive()) {
+
+          phaseStatus.textContent =
+            "🟢 DODAWANIE COMBO TRWA";
+
+          phaseStatus.style.color =
+            "#4ade80";
+
+          phaseInfo.textContent =
+            "Dodaj swoje COMBO przed końcem czasu.";
+
+          comboSection.classList.remove("hidden");
+
+          officialResult.textContent =
+            "🎰 Losowanie odbędzie się automatycznie po zakończeniu czasu.";
+
+        }
+
+        else {
+
+          phaseStatus.textContent =
+            "🎰 AUTOMATYCZNE LOSOWANIE...";
+
+          phaseStatus.style.color =
+            "#ffe000";
+
+          phaseInfo.textContent =
+            "System losuje jedno COMBO.";
+
+          comboSection.classList.add("hidden");
+
+          finishRound();
+
+        }
+
+      }
+
+
+      if (
+        currentRound.status === "finished"
+      ) {
+
+        phaseStatus.textContent =
+          "🏆 COMBO WYLOSOWANE";
+
+        phaseStatus.style.color =
+          "#ff6666";
+
+        countdown.textContent =
+          "00:00";
+
+        phaseInfo.textContent =
+          "Admin może rozpocząć nową rundę.";
+
+        comboSection.classList.add("hidden");
+
+        renderWinner(
+          currentRound.winner
+        );
+
+      }
+
+    }
+
+
+    onValue(
+      roundRef,
+      snapshot => {
+
+        currentRound =
+          snapshot.val();
+
+        renderRound();
+
+        updateCountdown();
+
+      }
+    );
+
+
+    onValue(
+      combosRef,
+      snapshot => {
+
+        currentCombos =
+          snapshot.val() || {};
+
+
+        if (!currentRound) {
+
+          participantCount.textContent =
+            "👥 0 osób dodało COMBO";
+
+          return;
+
+        }
+
+
+        const combos =
+          Object.values(currentCombos)
+            .filter(
+              combo =>
+                combo.roundId ===
+                currentRound.id
+            );
+
+
+        participantCount.textContent =
+          "👥 " +
+          combos.length +
+          " osób dodało COMBO";
+
+
+        const mySavedCombo =
+          currentCombos[playerId];
+
+
+        if (
+          mySavedCombo &&
+          mySavedCombo.roundId ===
+          currentRound.id
+        ) {
+
+          const distance =
+            mySavedCombo.raceMode === "laps"
+              ? mySavedCombo.laps + " okrążeń"
+              : mySavedCombo.raceTime;
+
+          const classes =
+            mySavedCombo.classes.join(" + ");
+
+
+          myCombo.innerHTML = `
+
+            <strong>
+              ✅ TWOJE COMBO:
+            </strong>
+
+            <br><br>
+
+            🏁 ${mySavedCombo.track}
+
+            <br>
+
+            🏎️ ${classes}
+
+            <br>
+
+            🏁 ${distance}
+
+            <br>
+
+            🛞 ${mySavedCombo.availableTires.join(" + ")}
+
+          `;
+
+        }
+
+        else {
+
+          myCombo.innerHTML = "";
+
+        }
+
+      }
+    );
+
+
+    setInterval(
+      () => {
+
+        updateCountdown();
+
+        if (
+          currentRound &&
+          currentRound.status === "voting" &&
+          !roundIsActive()
+        ) {
+
+          finishRound();
+
+        }
+
+      },
+      1000
+    );
+
+  </script>
+
+</body>
+</html>
