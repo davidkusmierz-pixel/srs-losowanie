@@ -11,83 +11,78 @@
       box-sizing: border-box;
     }
 
-    html {
-      min-height: 100%;
-    }
-
     body {
       margin: 0;
       min-height: 100vh;
       font-family: Arial, Helvetica, sans-serif;
       color: white;
-      background: #090b0f;
-      overflow-x: hidden;
+      text-align: center;
+      background: #090909;
     }
 
-    /* TŁO */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
       z-index: -2;
-
-      background-image:
-        linear-gradient(
-          rgba(5, 7, 10, 0.72),
-          rgba(5, 7, 10, 0.88)
-        ),
-        url("background.png.png");
-
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-
       background:
-        radial-gradient(
-          circle at top,
-          rgba(210, 0, 0, 0.12),
-          transparent 45%
-        );
+        linear-gradient(
+          rgba(0,0,0,0.82),
+          rgba(5,5,5,0.92)
+        ),
+        url("background.png.png") center / cover fixed no-repeat;
     }
 
-    .page {
+    .container {
       width: 100%;
-      max-width: 1100px;
+      max-width: 950px;
       margin: auto;
-      padding: 25px 18px 50px;
+      padding: 25px 15px 50px;
     }
 
-    /* PANEL */
-    .panel {
-      background: rgba(10, 12, 16, 0.92);
-      border: 1px solid rgba(255, 40, 40, 0.45);
-      border-radius: 18px;
-      box-shadow:
-        0 0 30px rgba(255, 0, 0, 0.08),
-        0 15px 40px rgba(0, 0, 0, 0.45);
-      backdrop-filter: blur(12px);
+    .card {
+      background: rgba(15,15,15,0.93);
+      border: 1px solid #4b1515;
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.45);
+      backdrop-filter: blur(8px);
     }
 
-    /* ADMIN */
-    .admin-panel {
-      max-width: 750px;
-      margin: 0 auto 28px;
-      padding: 18px;
-      text-align: center;
+    h1 {
+      margin: 10px 0;
+      font-size: clamp(28px, 6vw, 46px);
+      text-shadow: 0 0 20px rgba(255,0,0,0.6);
     }
 
-    .admin-title {
-      font-size: 15px;
+    .subtitle {
+      color: #d0d0d0;
+      line-height: 1.6;
+    }
+
+    .status {
+      font-size: 20px;
       font-weight: bold;
-      color: #ffc9c9;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
+      color: #ff4d4d;
+    }
+
+    .timer {
+      font-size: 30px;
+      font-weight: bold;
+      color: #ffc400;
+      margin: 15px 0;
+    }
+
+    .phase-info {
+      color: #bbb;
+      line-height: 1.6;
+    }
+
+    .admin-box {
+      max-width: 700px;
+      margin: 0 auto 20px;
     }
 
     .admin-row {
@@ -98,306 +93,154 @@
     }
 
     #adminPin {
-      width: 210px;
-      padding: 13px 15px;
-      border-radius: 10px;
+      padding: 12px;
+      width: 200px;
+      border-radius: 8px;
       border: 1px solid #555;
-      background: #111318;
+      background: #111;
       color: white;
-      font-size: 16px;
       text-align: center;
-      outline: none;
-    }
-
-    #adminPin:focus {
-      border-color: #e00000;
-      box-shadow: 0 0 12px rgba(255, 0, 0, 0.25);
+      font-size: 16px;
     }
 
     #adminLoginBtn {
-      padding: 13px 22px;
+      padding: 12px 20px;
       border: none;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #9d0000, #e00000);
+      border-radius: 8px;
+      background: #970000;
       color: white;
       font-weight: bold;
       cursor: pointer;
-      transition: 0.2s;
-    }
-
-    #adminLoginBtn:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.15);
     }
 
     #adminStatus {
-      margin-top: 12px;
-      min-height: 20px;
+      margin-top: 10px;
       color: #aaa;
-      font-size: 14px;
+      min-height: 20px;
     }
 
-    /* NAGŁÓWEK */
-    .header {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-
-    .logo-small {
-      color: #ff3333;
+    .car-group-title {
+      font-size: 20px;
       font-weight: bold;
-      letter-spacing: 3px;
-      font-size: 13px;
-      margin-bottom: 5px;
+      margin-bottom: 15px;
     }
 
-    h1 {
-      margin: 0;
-      font-size: clamp(28px, 6vw, 48px);
-      letter-spacing: 2px;
-      text-shadow: 0 0 18px rgba(255, 0, 0, 0.35);
-    }
-
-    .subtitle {
-      max-width: 650px;
-      margin: 12px auto 0;
-      color: #d0d0d0;
-      line-height: 1.5;
-    }
-
-    /* GŁÓWNE LOSOWANIE */
-    .draw-panel {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 28px 20px;
-      text-align: center;
-    }
-
-    .step {
-      color: #ff4b4b;
-      font-size: 13px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
-    }
-
-    .section-title {
-      margin: 0 0 20px;
-      font-size: 22px;
-    }
-
-    /* GRUPY */
     .car-groups {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 12px;
-      margin-bottom: 25px;
     }
 
     .group-btn {
-      min-height: 100px;
-      border: 1px solid #444;
-      border-radius: 14px;
-      background: linear-gradient(
-        145deg,
-        rgba(35, 38, 45, 0.95),
-        rgba(12, 14, 18, 0.98)
-      );
-      color: white;
-      cursor: pointer;
-      transition: 0.2s;
-      font-size: 17px;
-      font-weight: bold;
-    }
-
-    .group-btn:hover:not(:disabled) {
-      transform: translateY(-3px);
-      border-color: #ff3333;
-      box-shadow: 0 8px 20px rgba(255, 0, 0, 0.12);
-    }
-
-    .group-btn.selected {
-      border-color: #ff2020;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(110, 0, 0, 0.95),
-          rgba(25, 5, 5, 0.98)
-        );
-      box-shadow:
-        0 0 0 1px rgba(255, 0, 0, 0.3),
-        0 0 20px rgba(255, 0, 0, 0.18);
-    }
-
-    .group-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .car-icon {
-      display: block;
-      font-size: 30px;
-      margin-bottom: 8px;
-    }
-
-    /* PRZYCISK */
-    #drawBtn {
-      width: 100%;
-      max-width: 420px;
-      padding: 17px 25px;
-      border: none;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #a60000, #ed0000);
+      padding: 20px 10px;
+      border: 2px solid #555;
+      border-radius: 12px;
+      background: #171717;
       color: white;
       font-size: 19px;
       font-weight: bold;
       cursor: pointer;
       transition: 0.2s;
-      box-shadow: 0 10px 25px rgba(255, 0, 0, 0.18);
     }
 
-    #drawBtn:hover:not(:disabled) {
+    .group-btn:hover:not(:disabled) {
+      border-color: #ff3333;
       transform: translateY(-2px);
-      filter: brightness(1.12);
+    }
+
+    .group-btn.selected {
+      background: #970000;
+      border-color: #ff5555;
+      box-shadow: 0 0 18px rgba(255,0,0,0.35);
+    }
+
+    .group-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    #drawBtn {
+      margin-top: 20px;
+      padding: 18px 35px;
+      border: none;
+      border-radius: 12px;
+      background: #e00000;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
     }
 
     #drawBtn:disabled {
-      background: #444;
+      background: #555;
       cursor: not-allowed;
-      box-shadow: none;
     }
 
     #connectionStatus {
-      margin-top: 16px;
-      min-height: 22px;
-      font-weight: bold;
-      font-size: 14px;
+      margin-top: 15px;
       color: #aaa;
+      min-height: 20px;
     }
 
-    /* WYNIK */
-    .result-panel {
-      max-width: 800px;
-      margin: 22px auto 0;
-      padding: 25px 20px;
-      text-align: center;
-    }
-
-    .result-grid {
+    .votes-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .result-box {
-      background: rgba(0, 0, 0, 0.28);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
-      padding: 18px;
-    }
-
-    .result-label {
-      color: #aaa;
-      font-size: 13px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    #drawnGroup {
-      font-size: 24px;
-      font-weight: bold;
-      color: #ffc400;
-      min-height: 32px;
-    }
-
-    #drawnTrack {
-      font-size: 24px;
-      font-weight: bold;
-      color: #ff4545;
-      min-height: 32px;
-      line-height: 1.25;
-    }
-
-    /* RANKING */
-    .ranking-panel {
-      max-width: 800px;
-      margin: 22px auto 0;
-      padding: 25px 20px;
-    }
-
-    .ranking-title {
-      text-align: center;
-      margin: 0 0 20px;
-      font-size: 24px;
-    }
-
-    #results {
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-    }
-
-    .result-row {
-      display: grid;
-      grid-template-columns: 42px 1fr auto;
-      align-items: center;
+      grid-template-columns: repeat(4, 1fr);
       gap: 10px;
-      padding: 13px;
-      border-radius: 10px;
-      background: rgba(0, 0, 0, 0.28);
-      border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    .result-position {
-      color: #ffc400;
+    .vote-box {
+      background: #101010;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 18px 10px;
+    }
+
+    .vote-group {
+      font-size: 18px;
       font-weight: bold;
-      text-align: center;
+      color: #ffc400;
+    }
+
+    .vote-count {
+      font-size: 30px;
+      font-weight: bold;
+      color: white;
+      margin-top: 8px;
+    }
+
+    .result-main {
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    .result-group {
+      color: #ffc400;
+      font-size: 28px;
+      font-weight: bold;
     }
 
     .result-track {
+      color: #ff5555;
+      font-size: 26px;
       font-weight: bold;
     }
 
-    .result-count {
-      color: #ff4b4b;
+    .drawn-track {
+      margin-top: 15px;
+      min-height: 35px;
+      color: #ff5555;
+      font-size: 24px;
       font-weight: bold;
     }
 
-    .empty-results {
-      padding: 25px;
-      text-align: center;
-      color: #999;
+    .hidden {
+      display: none;
     }
 
-    #winner {
-      margin-top: 18px;
-      padding: 16px;
-      border-radius: 12px;
-      text-align: center;
-      background: rgba(100, 0, 0, 0.14);
-      border: 1px solid rgba(255, 0, 0, 0.25);
-    }
-
-    #winner strong {
-      color: #ff4949;
-    }
-
-    /* RESPONSYWNOŚĆ */
     @media (max-width: 650px) {
-      .page {
-        padding: 15px 10px 35px;
-      }
-
-      .car-groups {
+      .car-groups,
+      .votes-grid {
         grid-template-columns: repeat(2, 1fr);
-      }
-
-      .group-btn {
-        min-height: 85px;
-      }
-
-      .result-grid {
-        grid-template-columns: 1fr;
       }
 
       .admin-row {
@@ -410,24 +253,17 @@
         width: 100%;
         max-width: 300px;
       }
-
-      .result-row {
-        grid-template-columns: 35px 1fr auto;
-        font-size: 14px;
-      }
     }
-
   </style>
 </head>
 
 <body>
 
-  <main class="page">
+  <div class="container">
 
-    <!-- PANEL ADMINISTRATORA -->
-    <section class="panel admin-panel">
+    <div class="card admin-box">
 
-      <div class="admin-title">
+      <div style="font-weight:bold; margin-bottom:12px;">
         👑 PANEL ADMINISTRATORA
       </div>
 
@@ -440,138 +276,125 @@
         >
 
         <button id="adminLoginBtn">
-          ZALOGUJ ADMINA
+          NOWA RUNDA
         </button>
 
       </div>
 
       <div id="adminStatus">
-        Wpisz PIN administratora, aby rozpocząć nowe losowanie.
+        PIN służy tylko do ręcznego rozpoczęcia nowej rundy.
       </div>
 
-    </section>
+    </div>
 
 
-    <!-- NAGŁÓWEK -->
-    <header class="header">
+    <h1>🏁 SRS LOSOWANIE TORU</h1>
 
-      <div class="logo-small">
-        SRS RACING
+    <div class="subtitle">
+      Wybierz grupę auta i wylosuj tor.<br>
+      Głosowanie trwa 24 godziny, następnie następują 2 dni przerwy.
+    </div>
+
+
+    <div class="card">
+
+      <div id="phaseStatus" class="status">
+        🔄 ŁADOWANIE...
       </div>
 
-      <h1>🏁 SRS LOSOWANIE TORU</h1>
-
-      <p class="subtitle">
-        Wybierz grupę auta, a następnie wylosuj tor.
-        Zwykły użytkownik może losować tylko raz na 2 dni.
-      </p>
-
-    </header>
-
-
-    <!-- LOSOWANIE -->
-    <section class="panel draw-panel">
-
-      <div class="step">
-        KROK 1
+      <div id="timer" class="timer">
+        --
       </div>
 
-      <h2 class="section-title">
-        WYBIERZ GRUPĘ AUTA
-      </h2>
+      <div id="phaseInfo" class="phase-info">
+        Pobieranie danych rundy...
+      </div>
+
+    </div>
+
+
+    <div id="votingSection" class="card">
+
+      <div class="car-group-title">
+        🏎️ WYBIERZ GRUPĘ AUTA
+      </div>
 
       <div class="car-groups">
 
         <button class="group-btn" data-group="Gr.1">
-          <span class="car-icon">🏎️</span>
-          Gr.1
+          🏎️ Gr.1
         </button>
 
         <button class="group-btn" data-group="Gr.2">
-          <span class="car-icon">🏁</span>
-          Gr.2
+          🏁 Gr.2
         </button>
 
         <button class="group-btn" data-group="Gr.3">
-          <span class="car-icon">🚗</span>
-          Gr.3
+          🚗 Gr.3
         </button>
 
         <button class="group-btn" data-group="Gr.4">
-          <span class="car-icon">🚙</span>
-          Gr.4
+          🚙 Gr.4
         </button>
 
       </div>
 
       <button id="drawBtn" disabled>
-        🏎️ NAJPIERW WYBIERZ GRUPĘ
+        NAJPIERW WYBIERZ GRUPĘ
       </button>
+
+      <div id="drawnTrack" class="drawn-track">
+      </div>
 
       <div id="connectionStatus">
         🔄 Łączenie z Firebase...
       </div>
 
-    </section>
+    </div>
 
 
-    <!-- WYNIK -->
-    <section class="panel result-panel">
+    <div class="card">
 
-      <div class="result-grid">
+      <h2>📊 GŁOSY NA GRUPY AUT</h2>
 
-        <div class="result-box">
+      <div class="votes-grid">
 
-          <div class="result-label">
-            WYBRANA GRUPA AUTA
-          </div>
-
-          <div id="drawnGroup">
-            —
-          </div>
-
+        <div class="vote-box">
+          <div class="vote-group">Gr.1</div>
+          <div id="count-Gr.1" class="vote-count">0</div>
         </div>
 
-        <div class="result-box">
+        <div class="vote-box">
+          <div class="vote-group">Gr.2</div>
+          <div id="count-Gr.2" class="vote-count">0</div>
+        </div>
 
-          <div class="result-label">
-            WYLOSOWANY TOR
-          </div>
+        <div class="vote-box">
+          <div class="vote-group">Gr.3</div>
+          <div id="count-Gr.3" class="vote-count">0</div>
+        </div>
 
-          <div id="drawnTrack">
-            —
-          </div>
-
+        <div class="vote-box">
+          <div class="vote-group">Gr.4</div>
+          <div id="count-Gr.4" class="vote-count">0</div>
         </div>
 
       </div>
 
-    </section>
+    </div>
 
 
-    <!-- RANKING -->
-    <section class="panel ranking-panel">
+    <div class="card">
 
-      <h2 class="ranking-title">
-        🏆 RANKING TORÓW
-      </h2>
+      <h2>🏆 OFICJALNY WYNIK RUNDY</h2>
 
-      <div id="results">
-
-        <div class="empty-results">
-          🔄 Ładowanie wyników...
-        </div>
-
+      <div id="officialResult" class="result-main">
+        Wynik pojawi się po zakończeniu 24 godzin głosowania.
       </div>
 
-      <div id="winner">
-        🏆 Najczęściej losowany tor:
-        <strong>brak danych</strong>
-      </div>
+    </div>
 
-    </section>
-
-  </main>
+  </div>
 
 
   <script type="module">
@@ -584,8 +407,11 @@
       getDatabase,
       ref,
       push,
+      set,
+      get,
       onValue,
-      remove
+      remove,
+      update
     } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 
@@ -605,16 +431,30 @@
     };
 
 
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
+    const app =
+      initializeApp(firebaseConfig);
+
+    const database =
+      getDatabase(app);
 
 
     /* =========================
-       PIN ADMINISTRATORA
+       PIN
        TUTAJ ZMIENIASZ PIN
     ========================= */
 
     const ADMIN_PIN = "840416";
+
+
+    /* =========================
+       CZASY
+    ========================= */
+
+    const VOTING_TIME =
+      24 * 60 * 60 * 1000;
+
+    const BREAK_TIME =
+      2 * 24 * 60 * 60 * 1000;
 
 
     /* =========================
@@ -624,98 +464,31 @@
     const tracks = [
 
       "Autodrome Lago Maggiore - Full Course",
-      "Autodrome Lago Maggiore - East End",
-      "Autodrome Lago Maggiore - West End",
-      "Autodrome Lago Maggiore - Center",
-
       "Autopolis - Full Course",
-      "Autopolis - Short Course",
-
-      "Blue Moon Bay Speedway - Infield A",
-      "Blue Moon Bay Speedway - Infield B",
-
       "Brands Hatch Grand Prix Circuit",
-      "Brands Hatch Indy Circuit",
-
-      "Broad Bean Raceway",
-
-      "Circuit de Barcelona-Catalunya - GP Layout",
-      "Circuit de Barcelona-Catalunya - No Chicane",
-
+      "Circuit de Barcelona-Catalunya",
       "Circuit de la Sarthe",
-
       "Circuit de Spa-Francorchamps",
-
-      "Colorado Springs - Lake",
-
       "Daytona International Speedway - Road Course",
-      "Daytona International Speedway - Tri-Oval",
-
       "Deep Forest Raceway",
-
-      "Dragon Trail - Gardens",
       "Dragon Trail - Seaside",
-
-      "Fishermans Ranch",
-
       "Fuji International Speedway",
-      "Fuji International Speedway - Short",
-
-      "Goodwood Motor Circuit",
-
       "Grand Valley - Highway 1",
-      "Grand Valley - South",
-
       "High Speed Ring",
-      "High Speed Ring Reverse",
-
       "Interlagos",
-
       "Kyoto Driving Park - Yamagiwa",
-      "Kyoto Driving Park - Miyabi",
-
-      "Lake Louise Long Track",
-      "Lake Louise Short Track",
-
       "Monza Circuit",
-      "Monza No Chicane",
-
       "Mount Panorama Motor Racing Circuit",
-
       "Nürburgring GP",
-      "Nürburgring Nordschleife",
       "Nürburgring 24h",
-
       "Red Bull Ring",
-
       "Road Atlanta",
-
       "Sardegna - Road Track A",
-      "Sardegna - Road Track B",
-      "Sardegna - Road Track C",
-      "Sardegna - Windmills",
-
-      "Special Stage Route X",
-
       "Suzuka Circuit",
-      "Suzuka Circuit East",
-
-      "Tokyo Expressway - Central",
-      "Tokyo Expressway - East",
       "Tokyo Expressway - South",
-
       "Trial Mountain Circuit",
-
-      "Tsukuba Circuit",
-
       "Watkins Glen Long Course",
-      "Watkins Glen Short Course",
-
-      "WeatherTech Raceway Laguna Seca",
-
-      "Willow Springs - Big Willow",
-      "Willow Springs - Horse Thief Mile"
-
+      "WeatherTech Raceway Laguna Seca"
     ];
 
 
@@ -723,23 +496,32 @@
        ELEMENTY
     ========================= */
 
+    const groupButtons =
+      document.querySelectorAll(".group-btn");
+
     const drawBtn =
       document.getElementById("drawBtn");
-
-    const drawnGroup =
-      document.getElementById("drawnGroup");
 
     const drawnTrack =
       document.getElementById("drawnTrack");
 
-    const results =
-      document.getElementById("results");
-
-    const winner =
-      document.getElementById("winner");
-
     const connectionStatus =
       document.getElementById("connectionStatus");
+
+    const phaseStatus =
+      document.getElementById("phaseStatus");
+
+    const timer =
+      document.getElementById("timer");
+
+    const phaseInfo =
+      document.getElementById("phaseInfo");
+
+    const votingSection =
+      document.getElementById("votingSection");
+
+    const officialResult =
+      document.getElementById("officialResult");
 
     const adminPin =
       document.getElementById("adminPin");
@@ -750,147 +532,223 @@
     const adminStatus =
       document.getElementById("adminStatus");
 
-    const groupButtons =
-      document.querySelectorAll(".group-btn");
-
 
     /* =========================
        ZMIENNE
     ========================= */
 
     let selectedGroup = null;
-    let isAdmin = false;
+    let currentRound = null;
     let firebaseConnected = false;
+    let localVoteRoundId = null;
 
 
     /* =========================
-       BLOKADA 2 DNI
+       KLUCZ PRZEGLĄDARKI
     ========================= */
 
     const USER_KEY =
-      "srs_user_last_draw_time_v3";
-
-    const BLOCK_TIME =
-      2 * 24 * 60 * 60 * 1000;
+      "srs_vote_round_id";
 
 
-    function getRemainingTime() {
+    /* =========================
+       REFERENCJE FIREBASE
+    ========================= */
 
-      const lastDrawTime =
-        Number(localStorage.getItem(USER_KEY));
+    const roundRef =
+      ref(database, "srsRound");
 
-      if (!lastDrawTime) {
-        return 0;
-      }
-
-      const elapsed =
-        Date.now() - lastDrawTime;
-
-      const remaining =
-        BLOCK_TIME - elapsed;
-
-      if (remaining <= 0) {
-
-        localStorage.removeItem(USER_KEY);
-
-        return 0;
-      }
-
-      return remaining;
-
-    }
+    const votesRef =
+      ref(database, "srsVotes");
 
 
-    function isBlocked() {
+    /* =========================
+       TWORZENIE RUNDY
+    ========================= */
 
-      return !isAdmin &&
-        getRemainingTime() > 0;
+    async function createNewRound() {
 
-    }
+      const now = Date.now();
 
+      const round = {
+        id: now.toString(),
+        votingStart: now,
+        votingEnd: now + VOTING_TIME,
+        breakEnd: now + VOTING_TIME + BREAK_TIME,
+        resultReady: false,
+        winnerGroup: null,
+        winnerTrack: null
+      };
 
-    function formatRemainingTime(milliseconds) {
+      /* WYCZYSZCZENIE STARYCH GŁOSÓW */
 
-      const totalHours =
-        Math.ceil(milliseconds / (60 * 60 * 1000));
+      await remove(votesRef);
 
-      const days =
-        Math.floor(totalHours / 24);
+      /* ZAPIS NOWEJ RUNDY */
 
-      const hours =
-        totalHours % 24;
+      await set(roundRef, round);
 
-      if (days > 0) {
+      /* CZYSZCZENIE LOKALNEJ BLOKADY */
 
-        return `${days} dni ${hours} godz.`;
+      localStorage.removeItem(USER_KEY);
 
-      }
-
-      return `${hours} godz.`;
+      localVoteRoundId = null;
 
     }
 
 
     /* =========================
-       AKTUALIZACJA PRZYCISKU
+       SPRAWDZANIE RUNDY
     ========================= */
 
-    function updateInterface() {
+    async function ensureRound() {
 
-      const blocked = isBlocked();
+      const snapshot =
+        await get(roundRef);
 
-      groupButtons.forEach((button) => {
+      if (!snapshot.exists()) {
 
-        button.disabled = blocked;
-
-      });
-
-
-      if (!firebaseConnected) {
-
-        drawBtn.disabled = true;
-
-        drawBtn.textContent =
-          "⏳ ŁĄCZENIE Z FIREBASE...";
-
-        return;
+        await createNewRound();
 
       }
 
+    }
 
-      if (blocked) {
 
-        const remaining =
-          formatRemainingTime(
-            getRemainingTime()
-          );
+    /* =========================
+       STATUS RUNDY
+    ========================= */
 
-        drawBtn.disabled = true;
+    function getPhase(round) {
 
-        drawBtn.textContent =
-          "⏳ PONOWNIE ZA " + remaining;
+      if (!round) {
+        return "loading";
+      }
 
-        return;
+      const now = Date.now();
+
+      if (now < round.votingEnd) {
+        return "voting";
+      }
+
+      if (now < round.breakEnd) {
+        return "break";
+      }
+
+      return "new";
+
+    }
+
+
+    /* =========================
+       FORMAT CZASU
+    ========================= */
+
+    function formatTime(milliseconds) {
+
+      if (milliseconds < 0) {
+        milliseconds = 0;
+      }
+
+      const totalSeconds =
+        Math.floor(milliseconds / 1000);
+
+      const days =
+        Math.floor(
+          totalSeconds / 86400
+        );
+
+      const hours =
+        Math.floor(
+          (totalSeconds % 86400) / 3600
+        );
+
+      const minutes =
+        Math.floor(
+          (totalSeconds % 3600) / 60
+        );
+
+      const seconds =
+        totalSeconds % 60;
+
+      if (days > 0) {
+
+        return `${days}d ${hours}h ${minutes}m`;
 
       }
 
+      return `${hours}h ${minutes}m ${seconds}s`;
 
-      if (!selectedGroup) {
+    }
 
-        drawBtn.disabled = true;
 
-        drawBtn.textContent =
-          "🏎️ NAJPIERW WYBIERZ GRUPĘ";
+    /* =========================
+       CZY UŻYTKOWNIK GŁOSOWAŁ
+    ========================= */
 
-        return;
+    function userAlreadyVoted(round) {
+
+      if (!round) {
+        return false;
+      }
+
+      const savedRound =
+        localStorage.getItem(USER_KEY);
+
+      return savedRound === round.id;
+
+    }
+
+
+    /* =========================
+       AKTUALIZACJA GŁOSÓW
+    ========================= */
+
+    function updateVoteCounters(votes) {
+
+      const counts = {
+        "Gr.1": 0,
+        "Gr.2": 0,
+        "Gr.3": 0,
+        "Gr.4": 0
+      };
+
+      if (votes) {
+
+        Object.values(votes).forEach((vote) => {
+
+          if (
+            vote.group &&
+            counts[vote.group] !== undefined
+          ) {
+
+            counts[vote.group]++;
+
+          }
+
+        });
 
       }
 
+      document.getElementById(
+        "count-Gr.1"
+      ).textContent =
+        counts["Gr.1"];
 
-      drawBtn.disabled = false;
+      document.getElementById(
+        "count-Gr.2"
+      ).textContent =
+        counts["Gr.2"];
 
-      drawBtn.textContent =
-        "🎲 LOSUJ TOR";
+      document.getElementById(
+        "count-Gr.3"
+      ).textContent =
+        counts["Gr.3"];
+
+      document.getElementById(
+        "count-Gr.4"
+      ).textContent =
+        counts["Gr.4"];
 
     }
 
@@ -905,31 +763,39 @@
         "click",
         () => {
 
-          if (isBlocked()) {
-            updateInterface();
+          if (!currentRound) {
             return;
           }
 
+          if (
+            getPhase(currentRound) !==
+            "voting"
+          ) {
+            return;
+          }
+
+          if (
+            userAlreadyVoted(currentRound)
+          ) {
+            return;
+          }
 
           selectedGroup =
             button.dataset.group;
 
-
           groupButtons.forEach((btn) => {
 
-            btn.classList.remove("selected");
+            btn.classList.remove(
+              "selected"
+            );
 
           });
 
+          button.classList.add(
+            "selected"
+          );
 
-          button.classList.add("selected");
-
-
-          drawnGroup.textContent =
-            selectedGroup;
-
-
-          updateInterface();
+          updateDrawButton();
 
         }
       );
@@ -938,7 +804,62 @@
 
 
     /* =========================
-       LOSOWANIE TORU
+       PRZYCISK LOSOWANIA
+    ========================= */
+
+    function updateDrawButton() {
+
+      if (!currentRound) {
+
+        drawBtn.disabled = true;
+        return;
+
+      }
+
+      const phase =
+        getPhase(currentRound);
+
+      if (phase !== "voting") {
+
+        drawBtn.disabled = true;
+        drawBtn.textContent =
+          "GŁOSOWANIE ZAMKNIĘTE";
+
+        return;
+
+      }
+
+      if (
+        userAlreadyVoted(currentRound)
+      ) {
+
+        drawBtn.disabled = true;
+        drawBtn.textContent =
+          "JUŻ WZIĄŁEŚ UDZIAŁ";
+
+        return;
+
+      }
+
+      if (!selectedGroup) {
+
+        drawBtn.disabled = true;
+        drawBtn.textContent =
+          "WYBIERZ GRUPĘ AUTA";
+
+        return;
+
+      }
+
+      drawBtn.disabled = false;
+      drawBtn.textContent =
+        "🎲 LOSUJ TOR I ZATWIERDŹ";
+
+    }
+
+
+    /* =========================
+       LOSOWANIE
     ========================= */
 
     drawBtn.addEventListener(
@@ -949,41 +870,36 @@
 
     async function startDraw() {
 
-      if (!selectedGroup) {
-
-        alert(
-          "Najpierw wybierz grupę auta!"
-        );
-
+      if (
+        !currentRound ||
+        !selectedGroup
+      ) {
         return;
-
       }
 
-
-      if (isBlocked()) {
-
-        updateInterface();
-
+      if (
+        getPhase(currentRound) !==
+        "voting"
+      ) {
         return;
+      }
 
+      if (
+        userAlreadyVoted(currentRound)
+      ) {
+        return;
       }
 
 
       drawBtn.disabled = true;
 
-
       groupButtons.forEach((button) => {
-
         button.disabled = true;
-
       });
 
 
       drawBtn.textContent =
         "🎲 LOSOWANIE...";
-
-
-      let counter = 0;
 
 
       const animation =
@@ -997,14 +913,10 @@
               )
             ];
 
-
           drawnTrack.textContent =
-            randomTrack;
+            "🏁 " + randomTrack;
 
-
-          counter++;
-
-        }, 75);
+        }, 70);
 
 
       setTimeout(
@@ -1022,73 +934,464 @@
             ];
 
 
-          drawnGroup.textContent =
-            selectedGroup;
-
-
           drawnTrack.textContent =
-            selectedTrack;
+            "🏁 " + selectedTrack;
 
 
           try {
 
             await push(
-              ref(database, "losowania"),
+              votesRef,
               {
 
-                track: selectedTrack,
+                roundId:
+                  currentRound.id,
 
-                carGroup:
+                group:
                   selectedGroup,
 
-                time:
-                  Date.now(),
+                track:
+                  selectedTrack,
 
-                admin:
-                  isAdmin
+                time:
+                  Date.now()
 
               }
             );
 
 
-            if (!isAdmin) {
-
-              localStorage.setItem(
-                USER_KEY,
-                Date.now().toString()
-              );
-
-            }
+            localStorage.setItem(
+              USER_KEY,
+              currentRound.id
+            );
 
 
             connectionStatus.textContent =
-              "✅ Wynik został zapisany.";
+              "✅ Twój głos i tor zostały zapisane.";
 
             connectionStatus.style.color =
-              "#42e879";
+              "#4ade80";
+
+
+            updateDrawButton();
 
 
           } catch (error) {
 
             console.error(error);
 
-
             connectionStatus.textContent =
-              "❌ Błąd podczas zapisywania wyniku.";
+              "❌ Błąd zapisu.";
 
             connectionStatus.style.color =
-              "#ff4b4b";
+              "#ff5555";
 
           }
 
-
-          updateInterface();
-
         },
-        2500
+        2200
       );
 
     }
+
+
+    /* =========================
+       LOSOWANIE WYNIKU
+    ========================= */
+
+    async function calculateResult() {
+
+      if (
+        !currentRound ||
+        currentRound.resultReady
+      ) {
+        return;
+      }
+
+
+      const now = Date.now();
+
+      if (
+        now < currentRound.votingEnd
+      ) {
+        return;
+      }
+
+
+      const snapshot =
+        await get(votesRef);
+
+      const votes =
+        snapshot.val() || {};
+
+
+      const counts = {
+        "Gr.1": 0,
+        "Gr.2": 0,
+        "Gr.3": 0,
+        "Gr.4": 0
+      };
+
+
+      const drawnTracks = [];
+
+
+      Object.values(votes).forEach((vote) => {
+
+        if (
+          vote.roundId !==
+          currentRound.id
+        ) {
+          return;
+        }
+
+
+        if (
+          counts[vote.group] !==
+          undefined
+        ) {
+
+          counts[vote.group]++;
+
+        }
+
+
+        if (vote.track) {
+
+          drawnTracks.push(
+            vote.track
+          );
+
+        }
+
+      });
+
+
+      const maxVotes =
+        Math.max(
+          counts["Gr.1"],
+          counts["Gr.2"],
+          counts["Gr.3"],
+          counts["Gr.4"]
+        );
+
+
+      let winnerGroups =
+        Object.keys(counts)
+          .filter(
+            group =>
+              counts[group] ===
+              maxVotes
+          );
+
+
+      /* PRZY REMISIE
+         LOSUJEMY GRUPĘ */
+
+      const winnerGroup =
+        winnerGroups[
+          Math.floor(
+            Math.random() *
+            winnerGroups.length
+          )
+        ];
+
+
+      /* LOSUJEMY JEDEN TOR
+         SPOŚRÓD TORÓW,
+         KTÓRE WYSZŁY GRACZOM */
+
+      let winnerTrack =
+        "Brak wylosowanych torów";
+
+
+      if (
+        drawnTracks.length > 0
+      ) {
+
+        winnerTrack =
+          drawnTracks[
+            Math.floor(
+              Math.random() *
+              drawnTracks.length
+            )
+          ];
+
+      }
+
+
+      await update(
+        roundRef,
+        {
+
+          resultReady: true,
+
+          winnerGroup:
+            winnerGroup,
+
+          winnerTrack:
+            winnerTrack
+
+        }
+      );
+
+    }
+
+
+    /* =========================
+       AUTOMATYCZNA NOWA RUNDA
+    ========================= */
+
+    async function checkRoundCycle() {
+
+      if (!currentRound) {
+        return;
+      }
+
+      const phase =
+        getPhase(currentRound);
+
+
+      if (
+        phase === "new"
+      ) {
+
+        await createNewRound();
+
+      }
+
+    }
+
+
+    /* =========================
+       WYŚWIETLANIE STATUSU
+    ========================= */
+
+    function renderRound() {
+
+      if (!currentRound) {
+        return;
+      }
+
+
+      const phase =
+        getPhase(currentRound);
+
+
+      const now =
+        Date.now();
+
+
+      if (
+        phase === "voting"
+      ) {
+
+        phaseStatus.textContent =
+          "🟢 GŁOSOWANIE TRWA";
+
+        phaseStatus.style.color =
+          "#4ade80";
+
+
+        timer.textContent =
+          formatTime(
+            currentRound.votingEnd -
+            now
+          );
+
+
+        phaseInfo.textContent =
+          "Wybierz grupę auta i wylosuj swój tor. Każdy użytkownik może zrobić to tylko raz.";
+
+
+        votingSection.classList.remove(
+          "hidden"
+        );
+
+
+      } else if (
+        phase === "break"
+      ) {
+
+        phaseStatus.textContent =
+          "🔴 GŁOSOWANIE ZAKOŃCZONE";
+
+        phaseStatus.style.color =
+          "#ff5555";
+
+
+        timer.textContent =
+          "Nowa runda za: " +
+          formatTime(
+            currentRound.breakEnd -
+            now
+          );
+
+
+        phaseInfo.textContent =
+          "Przez 2 dni trwa przerwa. Nie można już wybierać grupy ani losować toru.";
+
+
+        votingSection.classList.add(
+          "hidden"
+        );
+
+
+        if (
+          currentRound.resultReady
+        ) {
+
+          officialResult.innerHTML = `
+            <div>
+              🏎️ ZWYCIĘSKA GRUPA
+            </div>
+
+            <div class="result-group">
+              ${currentRound.winnerGroup}
+            </div>
+
+            <br>
+
+            <div>
+              🏁 WYBRANY TOR
+            </div>
+
+            <div class="result-track">
+              ${currentRound.winnerTrack}
+            </div>
+          `;
+
+        }
+
+
+      } else {
+
+        phaseStatus.textContent =
+          "🔄 PRZYGOTOWYWANIE NOWEJ RUNDY";
+
+        timer.textContent =
+          "";
+
+      }
+
+
+      updateDrawButton();
+
+    }
+
+
+    /* =========================
+       FIREBASE - RUNDA
+    ========================= */
+
+    onValue(
+
+      roundRef,
+
+      async (snapshot) => {
+
+        firebaseConnected = true;
+
+        connectionStatus.textContent =
+          "✅ Połączono z Firebase.";
+
+        connectionStatus.style.color =
+          "#4ade80";
+
+
+        currentRound =
+          snapshot.val();
+
+
+        if (!currentRound) {
+
+          await createNewRound();
+
+          return;
+
+        }
+
+
+        const phase =
+          getPhase(currentRound);
+
+
+        if (
+          phase === "break" &&
+          !currentRound.resultReady
+        ) {
+
+          try {
+
+            await calculateResult();
+
+          } catch (error) {
+
+            console.error(error);
+
+          }
+
+        }
+
+
+        if (
+          phase === "new"
+        ) {
+
+          try {
+
+            await createNewRound();
+
+          } catch (error) {
+
+            console.error(error);
+
+          }
+
+          return;
+
+        }
+
+
+        renderRound();
+
+      },
+
+      (error) => {
+
+        console.error(error);
+
+        firebaseConnected = false;
+
+        connectionStatus.textContent =
+          "❌ Problem z Firebase.";
+
+        connectionStatus.style.color =
+          "#ff5555";
+
+      }
+
+    );
+
+
+    /* =========================
+       FIREBASE - GŁOSY
+    ========================= */
+
+    onValue(
+
+      votesRef,
+
+      (snapshot) => {
+
+        const votes =
+          snapshot.val();
+
+        updateVoteCounters(votes);
+
+      }
+
+    );
 
 
     /* =========================
@@ -1097,7 +1400,74 @@
 
     adminLoginBtn.addEventListener(
       "click",
-      adminLogin
+      async () => {
+
+        const enteredPin =
+          adminPin.value.trim();
+
+
+        if (
+          enteredPin !==
+          ADMIN_PIN
+        ) {
+
+          adminStatus.textContent =
+            "❌ Nieprawidłowy PIN.";
+
+          adminStatus.style.color =
+            "#ff5555";
+
+          return;
+
+        }
+
+
+        try {
+
+          adminLoginBtn.disabled =
+            true;
+
+
+          adminStatus.textContent =
+            "🔄 Czyszczenie starej rundy...";
+
+
+          await createNewRound();
+
+
+          adminStatus.textContent =
+            "👑 Nowa runda została rozpoczęta.";
+
+          adminStatus.style.color =
+            "#4ade80";
+
+
+          adminPin.value = "";
+
+
+          selectedGroup = null;
+
+          drawnTrack.textContent = "";
+
+
+        } catch (error) {
+
+          console.error(error);
+
+          adminStatus.textContent =
+            "❌ Błąd podczas tworzenia rundy.";
+
+          adminStatus.style.color =
+            "#ff5555";
+
+        }
+
+
+        adminLoginBtn.disabled =
+          false;
+
+      }
+
     );
 
 
@@ -1105,9 +1475,11 @@
       "keydown",
       (event) => {
 
-        if (event.key === "Enter") {
+        if (
+          event.key === "Enter"
+        ) {
 
-          adminLogin();
+          adminLoginBtn.click();
 
         }
 
@@ -1115,271 +1487,69 @@
     );
 
 
-    async function adminLogin() {
-
-      const enteredPin =
-        adminPin.value.trim();
-
-
-      if (enteredPin !== ADMIN_PIN) {
-
-        adminStatus.textContent =
-          "❌ Nieprawidłowy PIN.";
-
-        adminStatus.style.color =
-          "#ff4b4b";
-
-        return;
-
-      }
-
-
-      try {
-
-        adminLoginBtn.disabled = true;
-
-        adminStatus.textContent =
-          "🔄 Rozpoczynanie nowego losowania...";
-
-
-        await remove(
-          ref(database, "losowania")
-        );
-
-
-        isAdmin = true;
-
-
-        selectedGroup = null;
-
-
-        groupButtons.forEach((button) => {
-
-          button.classList.remove(
-            "selected"
-          );
-
-          button.disabled = false;
-
-        });
-
-
-        drawnGroup.textContent =
-          "—";
-
-        drawnTrack.textContent =
-          "—";
-
-
-        adminPin.value = "";
-
-
-        adminStatus.textContent =
-          "👑 Administrator zalogowany. Nowe losowanie rozpoczęte.";
-
-        adminStatus.style.color =
-          "#42e879";
-
-
-        updateInterface();
-
-
-      } catch (error) {
-
-        console.error(error);
-
-
-        adminStatus.textContent =
-          "❌ Błąd podczas rozpoczynania nowego losowania.";
-
-        adminStatus.style.color =
-          "#ff4b4b";
-
-      }
-
-
-      adminLoginBtn.disabled = false;
-
-    }
-
-
     /* =========================
-       FIREBASE
-       RANKING
-    ========================= */
-
-    const drawsRef =
-      ref(database, "losowania");
-
-
-    onValue(
-
-      drawsRef,
-
-      (snapshot) => {
-
-        firebaseConnected = true;
-
-
-        connectionStatus.textContent =
-          "✅ Połączono z Firebase.";
-
-        connectionStatus.style.color =
-          "#42e879";
-
-
-        const data =
-          snapshot.val();
-
-
-        if (!data) {
-
-          results.innerHTML = `
-            <div class="empty-results">
-              🎲 Jeszcze nie ma wyników losowania.
-            </div>
-          `;
-
-
-          winner.innerHTML = `
-            🏆 Najczęściej losowany tor:
-            <strong>brak danych</strong>
-          `;
-
-
-          updateInterface();
-
-          return;
-
-        }
-
-
-        const trackCounts = {};
-
-
-        Object.values(data).forEach((draw) => {
-
-          if (!draw.track) {
-            return;
-          }
-
-
-          if (!trackCounts[draw.track]) {
-
-            trackCounts[draw.track] = 0;
-
-          }
-
-
-          trackCounts[draw.track]++;
-
-        });
-
-
-        const sortedTracks =
-          Object.entries(trackCounts)
-            .sort(
-              (a, b) =>
-                b[1] - a[1]
-            );
-
-
-        results.innerHTML = "";
-
-
-        sortedTracks.forEach(
-          ([track, count], index) => {
-
-            const row =
-              document.createElement("div");
-
-
-            row.className =
-              "result-row";
-
-
-            row.innerHTML = `
-
-              <div class="result-position">
-                ${index + 1}.
-              </div>
-
-              <div class="result-track">
-                ${track}
-              </div>
-
-              <div class="result-count">
-                ${count}×
-              </div>
-
-            `;
-
-
-            results.appendChild(row);
-
-          }
-        );
-
-
-        if (sortedTracks.length > 0) {
-
-          const topTrack =
-            sortedTracks[0];
-
-
-          winner.innerHTML = `
-
-            🏆 Najczęściej losowany tor:
-
-            <strong>
-              ${topTrack[0]}
-            </strong>
-
-            — ${topTrack[1]}× losowań
-
-          `;
-
-        }
-
-
-        updateInterface();
-
-      },
-
-
-      (error) => {
-
-        console.error(error);
-
-
-        firebaseConnected = false;
-
-
-        connectionStatus.textContent =
-          "⚠️ Problem z połączeniem Firebase.";
-
-        connectionStatus.style.color =
-          "#ffcc00";
-
-
-        updateInterface();
-
-      }
-
-    );
-
-
-    /* =========================
-       SPRAWDZANIE BLOKADY
+       ZEGAR
     ========================= */
 
     setInterval(
-      updateInterface,
-      60000
+      async () => {
+
+        if (!currentRound) {
+          return;
+        }
+
+
+        const phase =
+          getPhase(currentRound);
+
+
+        if (
+          phase === "break" &&
+          !currentRound.resultReady
+        ) {
+
+          try {
+
+            await calculateResult();
+
+          } catch (error) {
+
+            console.error(error);
+
+          }
+
+        }
+
+
+        if (
+          phase === "new"
+        ) {
+
+          try {
+
+            await checkRoundCycle();
+
+          } catch (error) {
+
+            console.error(error);
+
+          }
+
+        }
+
+
+        renderRound();
+
+      },
+      1000
     );
 
 
-    updateInterface();
+    /* =========================
+       START
+    ========================= */
+
+    ensureRound();
 
   </script>
 
