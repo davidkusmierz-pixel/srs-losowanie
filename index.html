@@ -80,6 +80,7 @@
       text-align: center;
       font-size: 18px;
       font-weight: bold;
+      color: #ffffff;
     }
 
     #timer {
@@ -152,7 +153,6 @@
 
   </div>
 
-
   <script>
 
     const tracks = [
@@ -168,16 +168,17 @@
       "Watkins Glen"
     ];
 
-
     const button = document.getElementById("drawButton");
     const trackName = document.getElementById("trackName");
     const message = document.getElementById("message");
     const timer = document.getElementById("timer");
     const rankingList = document.getElementById("rankingList");
 
-
     // BLOKADA NA 5 DNI
     const FIVE_DAYS = 5 * 24 * 60 * 60 * 1000;
+
+    // WKLEJ TUTAJ SWÓJ ADRES WEBHOOKA
+    const DISCORD_WEBHOOK_URL = "WKLEJ_TUTAJ_ADRES_WEBHOOKA";
 
 
     function checkDrawStatus() {
@@ -196,7 +197,6 @@
       const nextDrawTime = lastDrawTime + FIVE_DAYS;
       const remaining = nextDrawTime - now;
 
-
       if (remaining <= 0) {
 
         localStorage.removeItem("srsLastDraw");
@@ -204,16 +204,13 @@
         button.disabled = false;
         button.textContent = "🎲 LOSUJ TOR";
 
-        timer.textContent =
-          "🎉 Możesz ponownie wylosować tor!";
-
+        timer.textContent = "🎉 Możesz ponownie wylosować tor!";
         message.textContent = "";
 
       } else {
 
         button.disabled = true;
         button.textContent = "🔒 JUŻ WZIĄŁEŚ UDZIAŁ";
-
 
         const days = Math.floor(
           remaining / (1000 * 60 * 60 * 24)
@@ -233,7 +230,6 @@
           (remaining % (1000 * 60)) /
           1000
         );
-
 
         timer.textContent =
           `⏳ Następne losowanie za: ${days}d ${hours}g ${minutes}m ${seconds}s`;
@@ -276,8 +272,7 @@
 
       const sortedRanking =
         Object.entries(ranking)
-        .sort((a, b) => b[1] - a[1]);
-
+          .sort((a, b) => b[1] - a[1]);
 
       if (sortedRanking.length === 0) {
 
@@ -287,9 +282,7 @@
         return;
       }
 
-
       rankingList.innerHTML = "";
-
 
       sortedRanking.forEach((item, index) => {
 
@@ -301,17 +294,46 @@
         div.className = "ranking-item";
 
         div.innerHTML = `
-          <span>
-            ${index + 1}. 🏁 ${track}
-          </span>
-
-          <span class="count">
-            ${count}×
-          </span>
+          <span>${index + 1}. 🏁 ${track}</span>
+          <span class="count">${count}×</span>
         `;
 
         rankingList.appendChild(div);
 
+      });
+
+    }
+
+
+    // WYSYŁANIE WYNIKU NA DISCORD
+    function sendToDiscord(track) {
+
+      if (
+        !DISCORD_WEBHOOK_URL ||
+        DISCORD_WEBHOOK_URL === "https://discord.com/api/webhooks/1543558910227513385/bzl4FcRUTWUn0J2kpna8VvVU60ITGtiaBTn87MzSzqQBItctf2uPWJ5SzoBaLJO2VWA_"
+      ) {
+        console.log("Nie ustawiono webhooka Discord.");
+        return;
+      }
+
+      fetch(DISCORD_WEBHOOK_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username: "SRS LOSOWANIE TORU",
+          content:
+            "🎲 **NOWE LOSOWANIE TORU SRS**\n\n" +
+            "🏁 **Wylosowany tor:** **" + track + "**\n\n" +
+            "⏳ Kolejne losowanie dostępne za **5 dni**."
+        })
+      })
+      .then(() => {
+        console.log("Wynik wysłany na Discord.");
+      })
+      .catch((error) => {
+        console.error("Błąd wysyłania:", error);
       });
 
     }
@@ -330,7 +352,7 @@
         "🏆 " + randomTrack;
 
       message.textContent =
-        "🎉 TWÓJ WYLOSOWANY TOR!";
+        "🎉 TWÓJ WYLOSOWANY TOR! WYNIK ZOSTAŁ WYSŁANY NA DISCORD.";
 
       localStorage.setItem(
         "srsLastDraw",
@@ -338,6 +360,9 @@
       );
 
       updateRanking(randomTrack);
+
+      // WYSŁANIE WYNIKU NA DISCORD
+      sendToDiscord(randomTrack);
 
       checkDrawStatus();
 
@@ -347,11 +372,7 @@
     checkDrawStatus();
     renderRanking();
 
-
-    setInterval(
-      checkDrawStatus,
-      1000
-    );
+    setInterval(checkDrawStatus, 1000);
 
   </script>
 
