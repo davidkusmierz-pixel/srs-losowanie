@@ -1,1 +1,1510 @@
 
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SRS LOBBY LOSOWANIE COMBO</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: white;
+
+      background:
+        linear-gradient(
+          rgba(5, 6, 12, 0.75),
+          rgba(5, 6, 12, 0.94)
+        ),
+        url("background.png.png");
+
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    .container {
+      width: min(950px, 94%);
+      margin: auto;
+      padding: 20px 0 60px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: clamp(32px, 7vw, 55px);
+      margin: 15px 0 25px;
+      text-shadow: 0 4px 25px black;
+    }
+
+    .card {
+      background: rgba(10, 11, 20, 0.94);
+      border: 1px solid rgba(220, 0, 0, 0.55);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 20px;
+
+      box-shadow:
+        0 10px 35px rgba(0,0,0,0.6),
+        0 0 30px rgba(180,0,0,0.08);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    button,
+    input,
+    select {
+      font-family: inherit;
+    }
+
+    button {
+      border: none;
+      border-radius: 11px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .admin-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    #adminPin {
+      width: 220px;
+      height: 58px;
+      border-radius: 11px;
+      border: 1px solid #555;
+      background: #15151d;
+      color: white;
+      text-align: center;
+      font-size: 17px;
+    }
+
+    #newRoundBtn {
+      min-width: 260px;
+      height: 58px;
+      font-size: 17px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #e30000,
+          #850000
+        );
+    }
+
+    #adminInfo {
+      margin-top: 12px;
+      text-align: center;
+      min-height: 20px;
+      color: #aaa;
+    }
+
+    .status-card {
+      text-align: center;
+    }
+
+    #phaseStatus {
+      font-size: clamp(24px, 5vw, 31px);
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    #countdown {
+      font-size: clamp(55px, 12vw, 82px);
+      font-weight: bold;
+      color: #ffe000;
+      line-height: 1;
+      text-shadow: 0 0 25px rgba(255,220,0,0.35);
+    }
+
+    #phaseInfo {
+      margin-top: 15px;
+      color: #ccc;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(21px, 4vw, 27px);
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .label {
+      display: block;
+      margin: 18px 0 8px;
+      font-weight: bold;
+      color: #ddd;
+    }
+
+    select,
+    input[type="number"] {
+      width: 100%;
+      height: 52px;
+      border-radius: 10px;
+      border: 1px solid #555;
+      background: #15151d;
+      color: white;
+      padding: 0 15px;
+      font-size: 16px;
+    }
+
+    .classes {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .class-btn {
+      min-height: 70px;
+      background: #15151d;
+      border: 2px solid #444;
+      font-size: 18px;
+    }
+
+    .class-btn.selected {
+      border-color: #ff2020;
+      background:
+        linear-gradient(
+          135deg,
+          #5e0000,
+          #210000
+        );
+    }
+
+    #saveComboBtn {
+      width: 100%;
+      min-height: 58px;
+      margin-top: 25px;
+      font-size: 18px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #e30000,
+          #850000
+        );
+    }
+
+    #comboInfo {
+      margin-top: 15px;
+      text-align: center;
+      min-height: 22px;
+    }
+
+    .participant-count {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: #ffe000;
+    }
+
+    .my-combo {
+      margin-top: 15px;
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    .result {
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    .result-title {
+      color: #ffe000;
+      font-size: 20px;
+    }
+
+    .result-value {
+      font-size: clamp(24px, 5vw, 34px);
+      font-weight: bold;
+      color: #ff6666;
+    }
+
+    @media (max-width: 650px) {
+
+      .classes {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .admin-row {
+        flex-direction: column;
+      }
+
+      #adminPin,
+      #newRoundBtn {
+        width: 100%;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>🎮 SRS LOBBY COMBO</h1>
+
+    <div class="card">
+
+      <div class="admin-row">
+
+        <input
+          type="password"
+          id="adminPin"
+          placeholder="🔒 PIN administratora"
+        >
+
+        <button id="newRoundBtn">
+          🔄 NOWA RUNDA
+        </button>
+
+      </div>
+
+      <div id="adminInfo">
+        Wpisz PIN, aby rozpocząć rundę.
+      </div>
+
+    </div>
+
+
+    <div class="card status-card">
+
+      <div id="phaseStatus">
+        ⏳ BRAK AKTYWNEJ RUNDY
+      </div>
+
+      <div id="countdown">
+        00:00
+      </div>
+
+      <div id="phaseInfo">
+        Czekamy na rozpoczęcie nowej rundy.
+      </div>
+
+    </div>
+
+
+    <div id="comboSection" class="card hidden">
+
+      <div class="section-title">
+        ➕ DODAJ SWOJE COMBO
+      </div>
+
+
+      <label class="label">
+        🏁 WYBIERZ TOR
+      </label>
+
+      <select id="trackSelect">
+
+        <option value="">
+          -- WYBIERZ TOR --
+        </option>
+
+        <option>Autodrome Lago Maggiore</option>
+        <option>Autopolis</option>
+        <option>Blue Moon Bay Speedway</option>
+        <option>Brands Hatch</option>
+        <option>Circuit de Barcelona-Catalunya</option>
+        <option>Circuit de la Sarthe</option>
+        <option>Circuit de Spa-Francorchamps</option>
+        <option>Daytona Road Course</option>
+        <option>Deep Forest Raceway</option>
+        <option>Dragon Trail - Seaside</option>
+        <option>Fuji International Speedway</option>
+        <option>Goodwood Motor Circuit</option>
+        <option>Grand Valley</option>
+        <option>High Speed Ring</option>
+        <option>Interlagos</option>
+        <option>Kyoto Driving Park</option>
+        <option>Monza Circuit</option>
+        <option>Mount Panorama</option>
+        <option>Nürburgring GP</option>
+        <option>Nürburgring Nordschleife</option>
+        <option>Nürburgring 24h</option>
+        <option>Red Bull Ring</option>
+        <option>Road Atlanta</option>
+        <option>Sardegna Road Track</option>
+        <option>Sardegna Windmills</option>
+        <option>Suzuka Circuit</option>
+        <option>Tokyo Expressway</option>
+        <option>Trial Mountain Circuit</option>
+        <option>Watkins Glen</option>
+        <option>WeatherTech Raceway Laguna Seca</option>
+
+      </select>
+
+
+      <label class="label">
+        🏎️ WYBIERZ KLASĘ / MULTIKLASĘ
+      </label>
+
+      <div class="classes">
+
+        <button
+          class="class-btn"
+          data-class="Gr.1"
+        >
+          🏎️ Gr.1
+        </button>
+
+        <button
+          class="class-btn"
+          data-class="Gr.2"
+        >
+          🏁 Gr.2
+        </button>
+
+        <button
+          class="class-btn"
+          data-class="Gr.3"
+        >
+          🚗 Gr.3
+        </button>
+
+        <button
+          class="class-btn"
+          data-class="Gr.4"
+        >
+          🚙 Gr.4
+        </button>
+
+      </div>
+
+
+      <label class="label">
+        🔢 LICZBA OKRĄŻEŃ
+      </label>
+
+      <input
+        type="number"
+        id="lapsInput"
+        min="1"
+        max="200"
+        placeholder="Np. 15"
+      >
+
+
+      <button id="saveComboBtn">
+        ➕ DODAJ MOJE COMBO
+      </button>
+
+
+      <div id="comboInfo"></div>
+
+
+      <div id="myCombo" class="my-combo"></div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="section-title">
+        👥 UCZESTNICY
+      </div>
+
+      <div
+        id="participantCount"
+        class="participant-count"
+      >
+        👥 0 osób dodało COMBO
+      </div>
+
+      <div
+        id="participantInfo"
+        style="text-align:center;color:#aaa"
+      >
+        Propozycje są ukryte do czasu zakończenia rundy.
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="section-title">
+        🏆 WYLOSOWANE COMBO
+      </div>
+
+      <div id="officialResult" class="result">
+        Wynik pojawi się automatycznie po zakończeniu czasu.
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script type="module">
+
+    import {
+      initializeApp
+    } from
+    "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+    import {
+      getDatabase,
+      ref,
+      set,
+      get,
+      onValue,
+      remove
+    } from
+    "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+
+    // =========================
+    // FIREBASE
+    // =========================
+
+    const firebaseConfig = {
+
+      apiKey:
+        "AIzaSyDRDAiSlJBPOG8N_c4ctBRLYrwx3ER5rKw",
+
+      authDomain:
+        "srs-losowanie.firebaseapp.com",
+
+      databaseURL:
+        "https://srs-losowanie-default-rtdb.firebaseio.com",
+
+      projectId:
+        "srs-losowanie",
+
+      storageBucket:
+        "srs-losowanie.firebasestorage.app",
+
+      messagingSenderId:
+        "212959687651",
+
+      appId:
+        "1:212959687651:web:0a9a5e647450767bc026d6"
+
+    };
+
+
+    const app =
+      initializeApp(firebaseConfig);
+
+    const database =
+      getDatabase(app);
+
+
+    // =========================
+    // USTAWIENIA
+    // =========================
+
+    const ADMIN_PIN =
+      "840416";
+
+    // 5 MINUT
+    const ROUND_TIME =
+      5 * 60 * 1000;
+
+
+    // =========================
+    // ELEMENTY
+    // =========================
+
+    const adminPin =
+      document.getElementById("adminPin");
+
+    const newRoundBtn =
+      document.getElementById("newRoundBtn");
+
+    const adminInfo =
+      document.getElementById("adminInfo");
+
+    const phaseStatus =
+      document.getElementById("phaseStatus");
+
+    const countdown =
+      document.getElementById("countdown");
+
+    const phaseInfo =
+      document.getElementById("phaseInfo");
+
+    const comboSection =
+      document.getElementById("comboSection");
+
+    const trackSelect =
+      document.getElementById("trackSelect");
+
+    const classButtons =
+      document.querySelectorAll(".class-btn");
+
+    const lapsInput =
+      document.getElementById("lapsInput");
+
+    const saveComboBtn =
+      document.getElementById("saveComboBtn");
+
+    const comboInfo =
+      document.getElementById("comboInfo");
+
+    const myCombo =
+      document.getElementById("myCombo");
+
+    const participantCount =
+      document.getElementById("participantCount");
+
+    const officialResult =
+      document.getElementById("officialResult");
+
+
+    // =========================
+    // FIREBASE ŚCIEŻKI
+    // =========================
+
+    const roundRef =
+      ref(database, "srsLobbyRound");
+
+    const combosRef =
+      ref(database, "srsLobbyCombos");
+
+
+    // =========================
+    // ZMIENNE
+    // =========================
+
+    let currentRound =
+      null;
+
+    let selectedClasses =
+      [];
+
+    let currentCombos =
+      {};
+
+    let finishingRound =
+      false;
+
+
+    // =========================
+    // ID GRACZA
+    // =========================
+
+    let playerId =
+      localStorage.getItem(
+        "srsLobbyPlayerId"
+      );
+
+    if (!playerId) {
+
+      playerId =
+        "player_" +
+        Date.now() +
+        "_" +
+        Math.random()
+          .toString(36)
+          .substring(2, 10);
+
+      localStorage.setItem(
+        "srsLobbyPlayerId",
+        playerId
+      );
+
+    }
+
+
+    // =========================
+    // NOWA RUNDA
+    // =========================
+
+    newRoundBtn.addEventListener(
+      "click",
+      async () => {
+
+        if (
+          adminPin.value.trim() !==
+          ADMIN_PIN
+        ) {
+
+          adminInfo.textContent =
+            "❌ Nieprawidłowy PIN.";
+
+          adminInfo.style.color =
+            "#ff5555";
+
+          return;
+
+        }
+
+
+        const confirmStart =
+          confirm(
+            "Rozpocząć nową rundę lobby na 5 minut?\n\n" +
+            "Wszystkie stare COMBO zostaną usunięte."
+          );
+
+        if (!confirmStart) {
+          return;
+        }
+
+
+        try {
+
+          newRoundBtn.disabled =
+            true;
+
+
+          await remove(combosRef);
+
+
+          const now =
+            Date.now();
+
+
+          const newRound = {
+
+            id:
+              String(now),
+
+            status:
+              "voting",
+
+            startTime:
+              now,
+
+            endTime:
+              now +
+              ROUND_TIME,
+
+            winner:
+              null
+
+          };
+
+
+          await set(
+            roundRef,
+            newRound
+          );
+
+
+          adminPin.value =
+            "";
+
+
+          adminInfo.textContent =
+            "🟢 Runda rozpoczęta na 5 minut.";
+
+          adminInfo.style.color =
+            "#4ade80";
+
+        }
+
+        catch (error) {
+
+          adminInfo.textContent =
+            "❌ Błąd: " +
+            error.message;
+
+          adminInfo.style.color =
+            "#ff5555";
+
+        }
+
+
+        newRoundBtn.disabled =
+          false;
+
+      }
+    );
+
+
+    // =========================
+    // SPRAWDZENIE RUNDY
+    // =========================
+
+    function roundIsActive() {
+
+      return (
+
+        currentRound &&
+
+        currentRound.status ===
+          "voting" &&
+
+        Date.now() <
+          Number(
+            currentRound.endTime
+          )
+
+      );
+
+    }
+
+
+    // =========================
+    // WYBÓR KLAS
+    // =========================
+
+    classButtons.forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            if (!roundIsActive()) {
+              return;
+            }
+
+
+            const className =
+              button.dataset.class;
+
+
+            if (
+              selectedClasses.includes(
+                className
+              )
+            ) {
+
+              selectedClasses =
+                selectedClasses.filter(
+                  item =>
+                    item !==
+                    className
+                );
+
+
+              button.classList.remove(
+                "selected"
+              );
+
+            }
+
+            else {
+
+              selectedClasses.push(
+                className
+              );
+
+
+              button.classList.add(
+                "selected"
+              );
+
+            }
+
+          }
+        );
+
+      }
+    );
+
+
+    // =========================
+    // ZAPIS COMBO
+    // =========================
+
+    saveComboBtn.addEventListener(
+      "click",
+      async () => {
+
+        if (!roundIsActive()) {
+
+          comboInfo.textContent =
+            "❌ Runda nie jest aktywna.";
+
+          comboInfo.style.color =
+            "#ff5555";
+
+          return;
+
+        }
+
+
+        const track =
+          trackSelect.value;
+
+        const laps =
+          Number(
+            lapsInput.value
+          );
+
+
+        if (!track) {
+
+          comboInfo.textContent =
+            "❌ Wybierz tor.";
+
+          comboInfo.style.color =
+            "#ff5555";
+
+          return;
+
+        }
+
+
+        if (
+          selectedClasses.length === 0
+        ) {
+
+          comboInfo.textContent =
+            "❌ Wybierz przynajmniej jedną klasę.";
+
+          comboInfo.style.color =
+            "#ff5555";
+
+          return;
+
+        }
+
+
+        if (
+          !laps ||
+          laps < 1
+        ) {
+
+          comboInfo.textContent =
+            "❌ Podaj liczbę okrążeń.";
+
+          comboInfo.style.color =
+            "#ff5555";
+
+          return;
+
+        }
+
+
+        saveComboBtn.disabled =
+          true;
+
+
+        try {
+
+          await set(
+            ref(
+              database,
+              "srsLobbyCombos/" +
+              playerId
+            ),
+
+            {
+
+              playerId:
+                playerId,
+
+              roundId:
+                currentRound.id,
+
+              track:
+                track,
+
+              classes:
+                selectedClasses,
+
+              laps:
+                laps,
+
+              time:
+                Date.now()
+
+            }
+
+          );
+
+
+          comboInfo.textContent =
+            "✅ Twoje COMBO zostało zapisane.";
+
+          comboInfo.style.color =
+            "#4ade80";
+
+
+          saveComboBtn.textContent =
+            "✏️ ZMIEŃ MOJE COMBO";
+
+        }
+
+        catch (error) {
+
+          comboInfo.textContent =
+            "❌ Błąd zapisu: " +
+            error.message;
+
+          comboInfo.style.color =
+            "#ff5555";
+
+        }
+
+
+        saveComboBtn.disabled =
+          false;
+
+      }
+    );
+
+
+    // =========================
+    // LOSOWANIE
+    // =========================
+
+    function randomItem(array) {
+
+      return array[
+        Math.floor(
+          Math.random() *
+          array.length
+        )
+      ];
+
+    }
+
+
+    // =========================
+    // KONIEC RUNDY
+    // =========================
+
+    async function finishRound() {
+
+      if (
+        finishingRound ||
+        !currentRound
+      ) {
+        return;
+      }
+
+
+      finishingRound =
+        true;
+
+
+      try {
+
+        const roundSnapshot =
+          await get(roundRef);
+
+        const latestRound =
+          roundSnapshot.val();
+
+
+        if (
+          !latestRound ||
+
+          latestRound.status !==
+            "voting" ||
+
+          Date.now() <
+            Number(
+              latestRound.endTime
+            )
+        ) {
+
+          finishingRound =
+            false;
+
+          return;
+
+        }
+
+
+        const combosSnapshot =
+          await get(combosRef);
+
+        const allCombos =
+          combosSnapshot.val() ||
+          {};
+
+
+        const combos =
+          Object.values(
+            allCombos
+          ).filter(
+            combo =>
+              combo.roundId ===
+              latestRound.id
+          );
+
+
+        // BRAK COMBO
+
+        if (
+          combos.length === 0
+        ) {
+
+          await set(
+            roundRef,
+
+            {
+
+              ...latestRound,
+
+              status:
+                "finished",
+
+              winner:
+                null
+
+            }
+
+          );
+
+
+          finishingRound =
+            false;
+
+          return;
+
+        }
+
+
+        // LOSOWANIE JEDNEGO COMBO
+
+        const winner =
+          randomItem(
+            combos
+          );
+
+
+        await set(
+          roundRef,
+
+          {
+
+            ...latestRound,
+
+            status:
+              "finished",
+
+            winner:
+              winner,
+
+            finishedAt:
+              Date.now()
+
+          }
+
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Błąd losowania:",
+          error
+        );
+
+      }
+
+
+      finishingRound =
+        false;
+
+    }
+
+
+    // =========================
+    // ODLiCZANIE
+    // =========================
+
+    function updateCountdown() {
+
+      if (
+        !currentRound ||
+        currentRound.status !==
+          "voting"
+      ) {
+        return;
+      }
+
+
+      const left =
+        Number(
+          currentRound.endTime
+        ) -
+        Date.now();
+
+
+      if (left <= 0) {
+
+        countdown.textContent =
+          "00:00";
+
+        finishRound();
+
+        return;
+
+      }
+
+
+      const seconds =
+        Math.floor(
+          left / 1000
+        );
+
+      const minutes =
+        Math.floor(
+          seconds / 60
+        );
+
+      const remainingSeconds =
+        seconds % 60;
+
+
+      countdown.textContent =
+        String(
+          minutes
+        ).padStart(
+          2,
+          "0"
+        ) +
+
+        ":" +
+
+        String(
+          remainingSeconds
+        ).padStart(
+          2,
+          "0"
+        );
+
+    }
+
+
+    // =========================
+    // WYŚWIETLANIE
+    // =========================
+
+    function renderRound() {
+
+      if (!currentRound) {
+
+        phaseStatus.textContent =
+          "⏳ BRAK AKTYWNEJ RUNDY";
+
+        phaseStatus.style.color =
+          "#ddd";
+
+        countdown.textContent =
+          "00:00";
+
+        phaseInfo.textContent =
+          "Czekamy na rozpoczęcie nowej rundy.";
+
+        comboSection.classList.add(
+          "hidden"
+        );
+
+        officialResult.textContent =
+          "Wynik pojawi się automatycznie po zakończeniu czasu.";
+
+        return;
+
+      }
+
+
+      if (
+        currentRound.status ===
+        "voting"
+      ) {
+
+        if (roundIsActive()) {
+
+          phaseStatus.textContent =
+            "🟢 DODAWANIE COMBO TRWA";
+
+          phaseStatus.style.color =
+            "#4ade80";
+
+          phaseInfo.textContent =
+            "Dodaj swoje COMBO przed końcem czasu.";
+
+          comboSection.classList.remove(
+            "hidden"
+          );
+
+          officialResult.textContent =
+            "🎰 Losowanie odbędzie się automatycznie po zakończeniu czasu.";
+
+        }
+
+        else {
+
+          phaseStatus.textContent =
+            "🎰 AUTOMATYCZNE LOSOWANIE...";
+
+          phaseStatus.style.color =
+            "#ffe000";
+
+          phaseInfo.textContent =
+            "System wybiera jedno COMBO.";
+
+          comboSection.classList.add(
+            "hidden"
+          );
+
+          finishRound();
+
+        }
+
+      }
+
+
+      if (
+        currentRound.status ===
+        "finished"
+      ) {
+
+        phaseStatus.textContent =
+          "🏆 COMBO WYLOSOWANE";
+
+        phaseStatus.style.color =
+          "#ff6666";
+
+        countdown.textContent =
+          "00:00";
+
+        phaseInfo.textContent =
+          "Wpisz PIN, aby rozpocząć kolejną rundę.";
+
+        comboSection.classList.add(
+          "hidden"
+        );
+
+
+        const winner =
+          currentRound.winner;
+
+
+        if (!winner) {
+
+          officialResult.textContent =
+            "❌ W tej rundzie nikt nie dodał COMBO.";
+
+          return;
+
+        }
+
+
+        const classes =
+          Array.isArray(
+            winner.classes
+          )
+            ?
+            winner.classes.join(
+              " + "
+            )
+            :
+            winner.classes;
+
+
+        const type =
+          Array.isArray(
+            winner.classes
+          ) &&
+          winner.classes.length > 1
+            ?
+            "🔵 MULTIKLASA"
+            :
+            "🏎️ KLASA AUT";
+
+
+        officialResult.innerHTML =
+
+          `<div class="result-title">
+            🏁 WYBRANY TOR
+          </div>
+
+          <div class="result-value">
+            ${winner.track}
+          </div>
+
+          <br>
+
+          <div class="result-title">
+            ${type}
+          </div>
+
+          <div class="result-value">
+            ${classes}
+          </div>
+
+          <br>
+
+          <div class="result-title">
+            🔢 LICZBA OKRĄŻEŃ
+          </div>
+
+          <div class="result-value">
+            ${winner.laps}
+          </div>`;
+
+      }
+
+    }
+
+
+    // =========================
+    // NASŁUCHIWANIE RUNDY
+    // =========================
+
+    onValue(
+      roundRef,
+
+      snapshot => {
+
+        currentRound =
+          snapshot.val();
+
+        renderRound();
+
+        updateCountdown();
+
+      }
+
+    );
+
+
+    // =========================
+    // NASŁUCHIWANIE COMBO
+    // =========================
+
+    onValue(
+      combosRef,
+
+      snapshot => {
+
+        currentCombos =
+          snapshot.val() ||
+          {};
+
+
+        if (!currentRound) {
+
+          participantCount.textContent =
+            "👥 0 osób dodało COMBO";
+
+          return;
+
+        }
+
+
+        const combos =
+          Object.values(
+            currentCombos
+          ).filter(
+            combo =>
+              combo.roundId ===
+              currentRound.id
+          );
+
+
+        participantCount.textContent =
+          "👥 " +
+          combos.length +
+          " osób dodało COMBO";
+
+
+        const mySavedCombo =
+          currentCombos[
+            playerId
+          ];
+
+
+        if (
+          mySavedCombo &&
+          currentRound &&
+          mySavedCombo.roundId ===
+            currentRound.id
+        ) {
+
+          const myClasses =
+            Array.isArray(
+              mySavedCombo.classes
+            )
+              ?
+              mySavedCombo.classes.join(
+                " + "
+              )
+              :
+              mySavedCombo.classes;
+
+
+          myCombo.innerHTML =
+
+            `<strong>✅ TWOJE COMBO:</strong><br>
+             🏁 ${mySavedCombo.track}<br>
+             🏎️ ${myClasses}<br>
+             🔢 ${mySavedCombo.laps} okr.`;
+
+        }
+
+        else {
+
+          myCombo.innerHTML =
+            "";
+
+        }
+
+      }
+
+    );
+
+
+    // =========================
+    // ZEGAR
+    // =========================
+
+    setInterval(
+      () => {
+
+        updateCountdown();
+
+
+        if (
+
+          currentRound &&
+
+          currentRound.status ===
+            "voting" &&
+
+          !roundIsActive()
+
+        ) {
+
+          finishRound();
+
+        }
+
+      },
+
+      1000
+    );
+
+  </script>
+
+</body>
+</html>
