@@ -21,6 +21,7 @@
     body {
       font-family: Arial, Helvetica, sans-serif;
       color: white;
+
       background:
         linear-gradient(
           rgba(5, 6, 12, 0.75),
@@ -182,7 +183,7 @@
       min-height: 70px;
       background: #15151d;
       border: 2px solid #444;
-      font-size: 18px;
+      font-size: 17px;
     }
 
     .class-btn.selected {
@@ -242,17 +243,19 @@
       color: #ff6666;
     }
 
-    @media (max-width: 750px) {
+    @media (max-width: 850px) {
       .classes {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (max-width: 650px) {
+      .classes {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
     @media (max-width: 500px) {
-      .classes {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
       .admin-row {
         flex-direction: column;
       }
@@ -270,6 +273,7 @@
   <div class="container">
 
     <h1>🎮 SRS LOBBY COMBO</h1>
+
 
     <div class="card">
 
@@ -364,6 +368,7 @@
         🏎️ WYBIERZ KLASĘ / MULTIKLASĘ
       </label>
 
+
       <div class="classes">
 
         <button
@@ -374,6 +379,7 @@
           🏎️ Gr.1
         </button>
 
+
         <button
           type="button"
           class="class-btn"
@@ -381,6 +387,7 @@
         >
           🏁 Gr.2
         </button>
+
 
         <button
           type="button"
@@ -390,6 +397,7 @@
           🚗 Gr.3
         </button>
 
+
         <button
           type="button"
           class="class-btn"
@@ -398,12 +406,58 @@
           🚙 Gr.4
         </button>
 
+
         <button
           type="button"
           class="class-btn"
           data-class="Hypercar"
         >
           🔥 Hypercar
+        </button>
+
+
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Super Formula"
+        >
+          🏎️ Super Formula
+        </button>
+
+
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Gr.B"
+        >
+          🚙 Gr.B
+        </button>
+
+
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Vision Gran Turismo"
+        >
+          ⚡ Vision GT
+        </button>
+
+
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Samochody drogowe"
+        >
+          🚗 Samochody drogowe
+        </button>
+
+
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Open Class"
+        >
+          🏁 Open Class
         </button>
 
       </div>
@@ -632,6 +686,7 @@
 
 
     const ADMIN_PIN = "840416";
+
 
     /* CZAS RUNDY – 5 MINUT */
 
