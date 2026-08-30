@@ -7,6 +7,7 @@
   <title>SRS LOSOWANIE TORU</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -14,142 +15,296 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Arial, sans-serif;
-      background: #111214;
-      color: white;
-      padding: 25px 15px;
+
+      background:
+        linear-gradient(
+          rgba(0, 0, 0, 0.72),
+          rgba(0, 0, 0, 0.85)
+        ),
+        url("background.png.png") center / cover fixed no-repeat;
+
+      color: #f4f4f4;
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
     }
 
     .container {
-      max-width: 700px;
-      margin: 0 auto;
+      width: 100%;
+      max-width: 900px;
+      margin: auto;
+      padding: 25px 20px 50px;
     }
 
-    .header {
-      text-align: center;
+    .admin-box {
       margin-bottom: 25px;
+      padding: 15px;
+      background: rgba(20, 20, 20, 0.92);
+      border: 1px solid #4a0000;
+      border-radius: 14px;
+      backdrop-filter: blur(8px);
+    }
+
+    .admin-title {
+      font-size: 14px;
+      color: #bdbdbd;
+      margin-bottom: 10px;
+    }
+
+    .admin-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    #adminPin {
+      width: 180px;
+      padding: 12px;
+      border: 1px solid #555;
+      border-radius: 8px;
+      background: #151515;
+      color: white;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+    }
+
+    #adminLoginBtn {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #7d0000;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #adminLoginBtn:hover {
+      background: #b00000;
+    }
+
+    #adminStatus {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #aaa;
     }
 
     h1 {
-      margin: 0;
+      margin: 10px 0 5px;
       font-size: 32px;
+      letter-spacing: 1px;
+      text-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
     }
 
     .subtitle {
-      margin-top: 8px;
-      color: #bdbdbd;
-      font-size: 14px;
-      letter-spacing: 2px;
-    }
-
-    .card {
-      background: #202124;
-      border: 2px solid #3b3d42;
-      border-radius: 20px;
-      padding: 35px 20px;
-      text-align: center;
-      margin-bottom: 18px;
-      min-height: 150px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #trackName {
-      font-size: 30px;
-      font-weight: bold;
-      line-height: 1.3;
-    }
-
-    #drawButton {
-      width: 100%;
-      border: none;
-      border-radius: 14px;
-      padding: 20px;
-      font-size: 20px;
-      font-weight: bold;
-      cursor: pointer;
-      background: white;
-      color: #111;
-      transition: 0.2s;
-    }
-
-    #drawButton:hover {
-      transform: scale(1.02);
-    }
-
-    #drawButton:active {
-      transform: scale(0.98);
-    }
-
-    #drawButton:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
-
-    #message {
-      min-height: 35px;
-      padding: 18px 10px;
-      text-align: center;
-      font-size: 17px;
-      font-weight: bold;
-    }
-
-    .ranking {
-      background: #202124;
-      border: 2px solid #3b3d42;
-      border-radius: 20px;
-      padding: 25px;
-    }
-
-    .ranking h2 {
-      text-align: center;
-      margin: 0 0 20px;
-      font-size: 22px;
-    }
-
-    .ranking-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      padding: 15px 8px;
-      border-bottom: 1px solid #393b40;
+      margin-bottom: 25px;
+      color: #ddd;
       font-size: 16px;
     }
 
-    .ranking-item:last-child {
-      border-bottom: none;
-    }
-
-    .track-title {
-      flex: 1;
-    }
-
-    .count {
+    .car-group-title {
+      font-size: 18px;
       font-weight: bold;
-      white-space: nowrap;
+      margin: 25px 0 15px;
     }
 
-    .empty {
+    .car-groups {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+
+    .group-btn {
+      min-width: 120px;
+      padding: 15px 20px;
+      border: 2px solid #555;
+      border-radius: 12px;
+      background: rgba(20, 20, 20, 0.9);
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .group-btn:hover {
+      transform: scale(1.04);
+      border-color: #e60000;
+    }
+
+    .group-btn.selected {
+      background: #e60000;
+      border-color: #ff7777;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+    }
+
+    .group-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    #drawBtn {
+      border: none;
+      border-radius: 14px;
+      background: #e60000;
+      color: white;
+      font-size: 21px;
+      font-weight: bold;
+      padding: 18px 38px;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
+    }
+
+    #drawBtn:hover {
+      transform: scale(1.03);
+      background: #ff1010;
+    }
+
+    #drawBtn:disabled {
+      background: #555;
+      cursor: not-allowed;
+      transform: none;
+      opacity: 0.8;
+    }
+
+    #connectionStatus {
+      min-height: 25px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .card {
+      margin-top: 30px;
+      background: rgba(20, 20, 20, 0.9);
+      border: 1px solid #3d3d3d;
+      border-radius: 16px;
+      padding: 25px 20px;
+      text-align: left;
+      backdrop-filter: blur(8px);
+    }
+
+    .card h2 {
       text-align: center;
-      color: #aaaaaa;
-      padding: 15px;
+      margin: 0 0 20px;
+      font-size: 25px;
     }
 
-    @media (max-width: 500px) {
+    .draw-label {
+      text-align: center;
+      font-size: 16px;
+      color: #ddd;
+      margin-bottom: 12px;
+    }
+
+    #drawnGroup {
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      color: #ffc400;
+      min-height: 35px;
+      margin-bottom: 12px;
+    }
+
+    #drawnTrack {
+      text-align: center;
+      font-size: 30px;
+      font-weight: bold;
+      color: #ff1a1a;
+      min-height: 45px;
+      text-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+    }
+
+    #results {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .result-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(10, 10, 10, 0.8);
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #292929;
+    }
+
+    .result-position {
+      width: 35px;
+      font-weight: bold;
+      text-align: center;
+      color: #ffc400;
+    }
+
+    .result-track {
+      flex: 1;
+      font-weight: bold;
+    }
+
+    .result-count {
+      font-weight: bold;
+      color: #ff3333;
+    }
+
+    .empty-results {
+      text-align: center;
+      color: #aaa;
+      padding: 20px;
+    }
+
+    .winner {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      background: rgba(10, 10, 10, 0.85);
+      text-align: center;
+      font-size: 17px;
+      border: 1px solid #4a0000;
+    }
+
+    .winner strong {
+      color: #ff3333;
+    }
+
+    .info {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(15, 15, 15, 0.85);
+      border-radius: 10px;
+      color: #ccc;
+      line-height: 1.6;
+      backdrop-filter: blur(6px);
+    }
+
+    @media (max-width: 600px) {
+
       h1 {
-        font-size: 26px;
+        font-size: 25px;
       }
 
-      #trackName {
-        font-size: 24px;
+      #drawnTrack {
+        font-size: 23px;
       }
 
-      .ranking-item {
+      .card h2 {
+        font-size: 21px;
+      }
+
+      .result-track {
         font-size: 14px;
       }
+
+      .group-btn {
+        min-width: 45%;
+      }
+
     }
+
   </style>
 </head>
 
@@ -157,186 +312,725 @@
 
   <div class="container">
 
-    <div class="header">
-      <h1>🏁 SRS LOSOWANIE TORU</h1>
-      <div class="subtitle">SIM RACING SQUAD 🎲</div>
+    <div class="admin-box">
+
+      <div class="admin-title">
+        👑 PANEL ADMINISTRATORA
+      </div>
+
+      <div class="admin-row">
+
+        <input
+          type="password"
+          id="adminPin"
+          placeholder="PIN administratora"
+        >
+
+        <button id="adminLoginBtn">
+          ZALOGUJ ADMINA
+        </button>
+
+      </div>
+
+      <div id="adminStatus">
+        Wpisz PIN administratora.
+      </div>
+
+    </div>
+
+    <h1>🏁 SRS LOSOWANIE TORU</h1>
+
+    <div class="subtitle">
+      Wybierz grupę auta, a następnie wylosuj tor.
+      Każdy użytkownik może losować raz na 2 dni.
+    </div>
+
+    <div class="car-group-title">
+      🏎️ WYBIERZ GRUPĘ AUTA
+    </div>
+
+    <div class="car-groups">
+
+      <button class="group-btn" data-group="Gr.1">
+        🏎️ Gr.1
+      </button>
+
+      <button class="group-btn" data-group="Gr.2">
+        🏁 Gr.2
+      </button>
+
+      <button class="group-btn" data-group="Gr.3">
+        🚗 Gr.3
+      </button>
+
+      <button class="group-btn" data-group="Gr.4">
+        🚙 Gr.4
+      </button>
+
+    </div>
+
+    <button id="drawBtn" disabled>
+      🏎️ NAJPIERW WYBIERZ GRUPĘ
+    </button>
+
+    <div id="connectionStatus">
+      🔄 Łączenie z Firebase...
     </div>
 
     <div class="card">
-      <div id="trackName">
-        🎲 KLIKNIJ PRZYCISK, ABY WYLOSOWAĆ TOR
+
+      <div class="draw-label">
+        WYBRANA GRUPA AUTA:
       </div>
+
+      <div id="drawnGroup">
+        Jeszcze nie wybrano
+      </div>
+
+      <div class="draw-label">
+        WYLOSOWANY TOR:
+      </div>
+
+      <div id="drawnTrack">
+        Jeszcze nie wylosowano
+      </div>
+
     </div>
 
-    <button id="drawButton" type="button">
-      🎲 LOSUJ TOR
-    </button>
+    <div class="card">
 
-    <div id="message"></div>
+      <h2>📊 WYNIKI LOSOWANIA TORÓW</h2>
 
-    <div class="ranking">
-      <h2>🏆 NAJCZĘŚCIEJ LOSOWANE TORY</h2>
+      <div id="results">
+        <div class="empty-results">
+          🔄 Ładowanie wyników...
+        </div>
+      </div>
 
-      <div id="rankingList"></div>
+      <div class="winner" id="winner">
+        🏆 Najczęściej losowany tor:
+        <strong>brak danych</strong>
+      </div>
+
     </div>
 
   </div>
 
-  <script>
+  <script type="module">
+
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+    import {
+      getDatabase,
+      ref,
+      push,
+      onValue,
+      remove
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDRDAiSlJBPOG8N_c4ctBRLYrwx3ER5rKw",
+      authDomain: "srs-losowanie.firebaseapp.com",
+      databaseURL: "https://srs-losowanie-default-rtdb.firebaseio.com",
+      projectId: "srs-losowanie",
+      storageBucket: "srs-losowanie.firebasestorage.app",
+      messagingSenderId: "212959687651",
+      appId: "1:212959687651:web:0a9a5e647450767bc026d6",
+      measurementId: "G-HGT81Y72HF"
+    };
+
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+
+    /* TUTAJ ZMIENIASZ PIN */
+
+    const ADMIN_PIN = "840416";
+
 
     const tracks = [
-      "Trial Mountain Circuit",
+
+      "Autodrome Lago Maggiore - Full Course",
+      "Autodrome Lago Maggiore - East End",
+      "Autodrome Lago Maggiore - West End",
+      "Autodrome Lago Maggiore - Center",
+
+      "Autopolis - Full Course",
+      "Autopolis - Short Course",
+
+      "Blue Moon Bay Speedway - Infield A",
+      "Blue Moon Bay Speedway - Infield B",
+
+      "Brands Hatch Grand Prix Circuit",
+      "Brands Hatch Indy Circuit",
+
+      "Broad Bean Raceway",
+
+      "Circuit de Barcelona-Catalunya - GP Layout",
+      "Circuit de Barcelona-Catalunya - No Chicane",
+
+      "Circuit de la Sarthe",
+      "Circuit de Spa-Francorchamps",
+
+      "Colorado Springs - Lake",
+
+      "Daytona International Speedway - Road Course",
+      "Daytona International Speedway - Tri-Oval",
+
       "Deep Forest Raceway",
-      "Dragon Trail – Wybrzeże",
+
+      "Dragon Trail - Gardens",
+      "Dragon Trail - Seaside",
+
+      "Fishermans Ranch",
+
+      "Fuji International Speedway",
+      "Fuji International Speedway - Short",
+
+      "Goodwood Motor Circuit",
+
+      "Grand Valley - Highway 1",
+      "Grand Valley - South",
+
+      "High Speed Ring",
+      "High Speed Ring Reverse",
+
+      "Interlagos",
+
+      "Kyoto Driving Park - Yamagiwa",
+      "Kyoto Driving Park - Miyabi",
+
+      "Lake Louise Long Track",
+      "Lake Louise Short Track",
+
+      "Monza Circuit",
+      "Monza No Chicane",
+
+      "Mount Panorama Motor Racing Circuit",
+
+      "Nürburgring GP",
+      "Nürburgring Nordschleife",
+      "Nürburgring 24h",
+
       "Red Bull Ring",
+
+      "Road Atlanta",
+
+      "Sardegna - Road Track A",
+      "Sardegna - Road Track B",
+      "Sardegna - Road Track C",
+
+      "Sardegna - Windmills",
+
+      "Special Stage Route X",
+
       "Suzuka Circuit",
-      "Mount Panorama",
+      "Suzuka Circuit East",
+
+      "Tokyo Expressway - Central",
+      "Tokyo Expressway - East",
+      "Tokyo Expressway - South",
+
+      "Trial Mountain Circuit",
+
+      "Tsukuba Circuit",
+
+      "Watkins Glen Long Course",
+      "Watkins Glen Short Course",
+
       "WeatherTech Raceway Laguna Seca",
-      "Autodromo Nazionale Monza",
-      "Spa-Francorchamps",
-      "Watkins Glen"
+
+      "Willow Springs - Big Willow",
+      "Willow Springs - Horse Thief Mile"
+
     ];
 
-    const button = document.getElementById("drawButton");
-    const trackName = document.getElementById("trackName");
-    const message = document.getElementById("message");
-    const rankingList = document.getElementById("rankingList");
 
-    let isDrawing = false;
+    const drawBtn = document.getElementById("drawBtn");
+    const drawnTrack = document.getElementById("drawnTrack");
+    const drawnGroup = document.getElementById("drawnGroup");
+    const results = document.getElementById("results");
+    const winner = document.getElementById("winner");
+    const connectionStatus = document.getElementById("connectionStatus");
+
+    const adminPin = document.getElementById("adminPin");
+    const adminLoginBtn = document.getElementById("adminLoginBtn");
+    const adminStatus = document.getElementById("adminStatus");
+
+    const groupButtons =
+      document.querySelectorAll(".group-btn");
 
 
-    function getRanking() {
+    let isAdmin = false;
+    let firebaseConnected = false;
+    let selectedGroup = null;
 
-      try {
-        return JSON.parse(
-          localStorage.getItem("srsTrackRanking")
-        ) || {};
-      } catch (error) {
-        return {};
+
+    const USER_KEY =
+      "srs_user_last_draw_time";
+
+    const BLOCK_TIME =
+      2 * 24 * 60 * 60 * 1000;
+
+
+    function userAlreadyDrawn() {
+
+      const lastDrawTime =
+        Number(localStorage.getItem(USER_KEY));
+
+      if (!lastDrawTime) {
+        return false;
       }
+
+      const timePassed =
+        Date.now() - lastDrawTime;
+
+      if (timePassed >= BLOCK_TIME) {
+
+        localStorage.removeItem(USER_KEY);
+
+        return false;
+      }
+
+      return true;
+    }
+
+
+    groupButtons.forEach((button) => {
+
+      button.addEventListener("click", () => {
+
+        if (!isAdmin && userAlreadyDrawn()) {
+          return;
+        }
+
+        selectedGroup = button.dataset.group;
+
+        groupButtons.forEach((btn) => {
+          btn.classList.remove("selected");
+        });
+
+        button.classList.add("selected");
+
+        drawnGroup.textContent =
+          "🏎️ " + selectedGroup;
+
+        updateButton();
+
+      });
+
+    });
+
+
+    function updateButton() {
+
+      const blocked =
+        !isAdmin && userAlreadyDrawn();
+
+      groupButtons.forEach((button) => {
+        button.disabled = blocked;
+      });
+
+
+      if (!firebaseConnected) {
+
+        drawBtn.disabled = true;
+        drawBtn.textContent =
+          "⏳ ŁĄCZENIE Z FIREBASE...";
+
+        return;
+      }
+
+
+      if (blocked) {
+
+        drawBtn.disabled = true;
+        drawBtn.textContent =
+          "⏳ PONOWNIE ZA 2 DNI";
+
+        return;
+      }
+
+
+      if (!selectedGroup) {
+
+        drawBtn.disabled = true;
+        drawBtn.textContent =
+          "🏎️ NAJPIERW WYBIERZ GRUPĘ";
+
+        return;
+      }
+
+
+      drawBtn.disabled = false;
+      drawBtn.textContent =
+        "🎲 LOSUJ TOR";
 
     }
 
 
-    function updateRanking(track) {
+    adminLoginBtn.addEventListener(
+      "click",
+      async () => {
 
-      const ranking = getRanking();
+        const enteredPin =
+          adminPin.value.trim();
 
-      if (!ranking[track]) {
-        ranking[track] = 0;
+
+        if (enteredPin !== ADMIN_PIN) {
+
+          adminStatus.innerHTML =
+            "❌ Nieprawidłowy PIN.";
+
+          adminStatus.style.color =
+            "#ff4444";
+
+          return;
+        }
+
+
+        try {
+
+          adminLoginBtn.disabled = true;
+
+          adminStatus.innerHTML =
+            "🗑️ Czyszczenie wyników...";
+
+          await remove(
+            ref(database, "losowania")
+          );
+
+
+          isAdmin = true;
+
+          selectedGroup = null;
+
+
+          groupButtons.forEach((button) => {
+            button.classList.remove("selected");
+            button.disabled = false;
+          });
+
+
+          drawnGroup.textContent =
+            "Jeszcze nie wybrano";
+
+          drawnTrack.textContent =
+            "Jeszcze nie wylosowano";
+
+
+          adminStatus.innerHTML =
+            "👑 Administrator zalogowany.";
+
+          adminStatus.style.color =
+            "#22c55e";
+
+
+          adminPin.value = "";
+
+          updateButton();
+
+
+        } catch (error) {
+
+          console.error(error);
+
+          adminStatus.innerHTML =
+            "❌ Błąd podczas czyszczenia.";
+
+          adminStatus.style.color =
+            "#ff4444";
+
+        }
+
+        adminLoginBtn.disabled = false;
+
+      }
+    );
+
+
+    adminPin.addEventListener(
+      "keydown",
+      (event) => {
+
+        if (event.key === "Enter") {
+          adminLoginBtn.click();
+        }
+
+      }
+    );
+
+
+    drawBtn.addEventListener(
+      "click",
+      startDraw
+    );
+
+
+    async function startDraw() {
+
+      if (!selectedGroup) {
+
+        alert(
+          "Najpierw wybierz grupę auta!"
+        );
+
+        return;
       }
 
-      ranking[track]++;
 
-      localStorage.setItem(
-        "srsTrackRanking",
-        JSON.stringify(ranking)
+      if (
+        !isAdmin &&
+        userAlreadyDrawn()
+      ) {
+
+        updateButton();
+
+        return;
+      }
+
+
+      drawBtn.disabled = true;
+
+      groupButtons.forEach((button) => {
+        button.disabled = true;
+      });
+
+
+      drawBtn.textContent =
+        "🎲 LOSOWANIE...";
+
+
+      const animation =
+        setInterval(() => {
+
+          const randomTrack =
+            tracks[
+              Math.floor(
+                Math.random() * tracks.length
+              )
+            ];
+
+          drawnTrack.textContent =
+            "🏁 " + randomTrack;
+
+        }, 80);
+
+
+      setTimeout(
+        async () => {
+
+          clearInterval(animation);
+
+
+          const selectedTrack =
+            tracks[
+              Math.floor(
+                Math.random() * tracks.length
+              )
+            ];
+
+
+          drawnGroup.textContent =
+            "🏎️ " + selectedGroup;
+
+
+          drawnTrack.textContent =
+            "🏁 " + selectedTrack;
+
+
+          try {
+
+            await push(
+              ref(database, "losowania"),
+              {
+                track: selectedTrack,
+                carGroup: selectedGroup,
+                time: Date.now(),
+                admin: isAdmin
+              }
+            );
+
+
+            if (!isAdmin) {
+
+              localStorage.setItem(
+                USER_KEY,
+                Date.now().toString()
+              );
+
+            }
+
+
+            connectionStatus.innerHTML =
+              "✅ Wynik zapisany.";
+
+            connectionStatus.style.color =
+              "#22c55e";
+
+
+          } catch (error) {
+
+            console.error(error);
+
+            connectionStatus.innerHTML =
+              "❌ Błąd zapisu.";
+
+            connectionStatus.style.color =
+              "#ff4444";
+
+          }
+
+
+          updateButton();
+
+        },
+        2500
       );
 
     }
 
 
-    function renderRanking() {
-
-      const ranking = getRanking();
-
-      const sortedRanking = Object.entries(ranking)
-        .sort((a, b) => b[1] - a[1]);
-
-      if (sortedRanking.length === 0) {
-
-        rankingList.innerHTML =
-          "<div class='empty'>🎲 Brak losowań. Czas wylosować pierwszy tor!</div>";
-
-        return;
-      }
-
-      rankingList.innerHTML = "";
-
-      sortedRanking.forEach((item, index) => {
-
-        const track = item[0];
-        const count = item[1];
-
-        const div = document.createElement("div");
-
-        div.className = "ranking-item";
-
-        div.innerHTML =
-          "<span class='track-title'>" +
-          (index + 1) +
-          ". 🏁 " +
-          track +
-          "</span>" +
-          "<span class='count'>" +
-          count +
-          "×</span>";
-
-        rankingList.appendChild(div);
-
-      });
-
-    }
+    const drawsRef =
+      ref(database, "losowania");
 
 
-    function drawTrack() {
+    onValue(
 
-      if (isDrawing) {
-        return;
-      }
+      drawsRef,
 
-      isDrawing = true;
+      (snapshot) => {
 
-      button.disabled = true;
+        firebaseConnected = true;
 
-      button.textContent = "🎲 LOSOWANIE...";
+        connectionStatus.innerHTML =
+          "✅ Połączono z Firebase.";
 
-      message.textContent = "🎰 LOSOWANIE TORU...";
+        connectionStatus.style.color =
+          "#22c55e";
 
-      let counter = 0;
 
-      const animation = setInterval(function () {
+        const data =
+          snapshot.val();
 
-        const randomTrack =
-          tracks[Math.floor(Math.random() * tracks.length)];
 
-        trackName.textContent = "🎲 " + randomTrack;
+        if (!data) {
 
-        counter++;
+          results.innerHTML =
+            `<div class="empty-results">
+              Jeszcze nie ma wyników.
+            </div>`;
 
-        if (counter >= 15) {
+          winner.innerHTML =
+            `🏆 Najczęściej losowany tor:
+            <strong>brak danych</strong>`;
 
-          clearInterval(animation);
+          updateButton();
 
-          const finalTrack =
-            tracks[Math.floor(Math.random() * tracks.length)];
+          return;
+        }
 
-          trackName.textContent = "🏆 " + finalTrack;
 
-          message.textContent =
-            "🎉 TOR ZOSTAŁ WYLOSOWANY!";
+        const trackCounts = {};
 
-          updateRanking(finalTrack);
 
-          renderRanking();
+        Object.values(data).forEach((draw) => {
 
-          button.disabled = false;
+          if (!draw.track) return;
 
-          button.textContent = "🎲 LOSUJ TOR";
+          if (!trackCounts[draw.track]) {
+            trackCounts[draw.track] = 0;
+          }
 
-          isDrawing = false;
+          trackCounts[draw.track]++;
+
+        });
+
+
+        const sortedTracks =
+          Object.entries(trackCounts)
+            .sort((a, b) => b[1] - a[1]);
+
+
+        results.innerHTML = "";
+
+
+        sortedTracks.forEach(
+          ([track, count], index) => {
+
+            const row =
+              document.createElement("div");
+
+            row.className =
+              "result-row";
+
+
+            row.innerHTML = `
+              <div class="result-position">
+                ${index + 1}.
+              </div>
+
+              <div class="result-track">
+                ${track}
+              </div>
+
+              <div class="result-count">
+                ${count}×
+              </div>
+            `;
+
+
+            results.appendChild(row);
+
+          }
+        );
+
+
+        if (sortedTracks.length > 0) {
+
+          winner.innerHTML = `
+            🏆 Najczęściej losowany tor:
+            <strong>${sortedTracks[0][0]}</strong>
+            — ${sortedTracks[0][1]} losowań
+          `;
 
         }
 
-      }, 100);
 
-    }
+        updateButton();
+
+      },
+
+      (error) => {
+
+        console.error(error);
+
+        firebaseConnected = false;
+
+        connectionStatus.innerHTML =
+          "⚠️ Problem z Firebase.";
+
+        connectionStatus.style.color =
+          "#ffcc00";
+
+        updateButton();
+
+      }
+
+    );
 
 
-    button.addEventListener("click", drawTrack);
+    setInterval(
+      updateButton,
+      60000
+    );
 
 
-    renderRanking();
+    updateButton();
 
   </script>
 
