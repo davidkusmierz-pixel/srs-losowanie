@@ -7,46 +7,87 @@
   <title>SRS LOSOWANIE TORU</title>
 
   <style>
-
     * {
       box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
     }
 
     body {
       margin: 0;
       min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: white;
+      background: #090b0f;
+      overflow-x: hidden;
+    }
 
-      background-image: url("background.png.png");
+    /* TŁO */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+
+      background-image:
+        linear-gradient(
+          rgba(5, 7, 10, 0.72),
+          rgba(5, 7, 10, 0.88)
+        ),
+        url("background.png.png");
+
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      background-attachment: fixed;
+    }
 
-      color: #f4f4f4;
-      font-family: Arial, Helvetica, sans-serif;
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+
+      background:
+        radial-gradient(
+          circle at top,
+          rgba(210, 0, 0, 0.12),
+          transparent 45%
+        );
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1100px;
+      margin: auto;
+      padding: 25px 18px 50px;
+    }
+
+    /* PANEL */
+    .panel {
+      background: rgba(10, 12, 16, 0.92);
+      border: 1px solid rgba(255, 40, 40, 0.45);
+      border-radius: 18px;
+      box-shadow:
+        0 0 30px rgba(255, 0, 0, 0.08),
+        0 15px 40px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(12px);
+    }
+
+    /* ADMIN */
+    .admin-panel {
+      max-width: 750px;
+      margin: 0 auto 28px;
+      padding: 18px;
       text-align: center;
     }
 
-    .container {
-      width: 100%;
-      max-width: 900px;
-      margin: auto;
-      padding: 25px 20px 50px;
-    }
-
-    .admin-box {
-      margin-bottom: 25px;
-      padding: 15px;
-      background: rgba(20, 20, 20, 0.92);
-      border: 1px solid #4a0000;
-      border-radius: 14px;
-      backdrop-filter: blur(8px);
-    }
-
     .admin-title {
-      font-size: 14px;
-      color: #bdbdbd;
-      margin-bottom: 10px;
+      font-size: 15px;
+      font-weight: bold;
+      color: #ffc9c9;
+      margin-bottom: 14px;
     }
 
     .admin-row {
@@ -57,244 +98,323 @@
     }
 
     #adminPin {
-      width: 180px;
-      padding: 12px;
+      width: 210px;
+      padding: 13px 15px;
+      border-radius: 10px;
       border: 1px solid #555;
-      border-radius: 8px;
-      background: #151515;
+      background: #111318;
       color: white;
       font-size: 16px;
       text-align: center;
       outline: none;
     }
 
+    #adminPin:focus {
+      border-color: #e00000;
+      box-shadow: 0 0 12px rgba(255, 0, 0, 0.25);
+    }
+
     #adminLoginBtn {
-      padding: 12px 20px;
+      padding: 13px 22px;
       border: none;
-      border-radius: 8px;
-      background: #7d0000;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #9d0000, #e00000);
       color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    #adminLoginBtn:hover {
-      background: #b00000;
-    }
-
-    #adminStatus {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #aaa;
-    }
-
-    h1 {
-      margin: 10px 0 5px;
-      font-size: 32px;
-      letter-spacing: 1px;
-      text-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
-    }
-
-    .subtitle {
-      margin-bottom: 25px;
-      color: #fff;
-      font-size: 16px;
-      text-shadow: 0 2px 6px #000;
-    }
-
-    .car-group-title {
-      font-size: 18px;
-      font-weight: bold;
-      margin: 25px 0 15px;
-      text-shadow: 0 2px 6px #000;
-    }
-
-    .car-groups {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 25px;
-    }
-
-    .group-btn {
-      min-width: 120px;
-      padding: 15px 20px;
-      border: 2px solid #555;
-      border-radius: 12px;
-      background: rgba(20, 20, 20, 0.9);
-      color: white;
-      font-size: 18px;
       font-weight: bold;
       cursor: pointer;
       transition: 0.2s;
     }
 
-    .group-btn:hover {
-      transform: scale(1.04);
-      border-color: #e60000;
+    #adminLoginBtn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.15);
+    }
+
+    #adminStatus {
+      margin-top: 12px;
+      min-height: 20px;
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    /* NAGŁÓWEK */
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .logo-small {
+      color: #ff3333;
+      font-weight: bold;
+      letter-spacing: 3px;
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 6vw, 48px);
+      letter-spacing: 2px;
+      text-shadow: 0 0 18px rgba(255, 0, 0, 0.35);
+    }
+
+    .subtitle {
+      max-width: 650px;
+      margin: 12px auto 0;
+      color: #d0d0d0;
+      line-height: 1.5;
+    }
+
+    /* GŁÓWNE LOSOWANIE */
+    .draw-panel {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    .step {
+      color: #ff4b4b;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      margin: 0 0 20px;
+      font-size: 22px;
+    }
+
+    /* GRUPY */
+    .car-groups {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .group-btn {
+      min-height: 100px;
+      border: 1px solid #444;
+      border-radius: 14px;
+      background: linear-gradient(
+        145deg,
+        rgba(35, 38, 45, 0.95),
+        rgba(12, 14, 18, 0.98)
+      );
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .group-btn:hover:not(:disabled) {
+      transform: translateY(-3px);
+      border-color: #ff3333;
+      box-shadow: 0 8px 20px rgba(255, 0, 0, 0.12);
     }
 
     .group-btn.selected {
-      background: #e60000;
-      border-color: #ff7777;
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+      border-color: #ff2020;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(110, 0, 0, 0.95),
+          rgba(25, 5, 5, 0.98)
+        );
+      box-shadow:
+        0 0 0 1px rgba(255, 0, 0, 0.3),
+        0 0 20px rgba(255, 0, 0, 0.18);
     }
 
     .group-btn:disabled {
       opacity: 0.5;
       cursor: not-allowed;
-      transform: none;
     }
 
+    .car-icon {
+      display: block;
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    /* PRZYCISK */
     #drawBtn {
+      width: 100%;
+      max-width: 420px;
+      padding: 17px 25px;
       border: none;
       border-radius: 14px;
-      background: #e60000;
+      background: linear-gradient(135deg, #a60000, #ed0000);
       color: white;
-      font-size: 21px;
+      font-size: 19px;
       font-weight: bold;
-      padding: 18px 38px;
       cursor: pointer;
       transition: 0.2s;
-      box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
+      box-shadow: 0 10px 25px rgba(255, 0, 0, 0.18);
     }
 
-    #drawBtn:hover {
-      transform: scale(1.03);
-      background: #ff1010;
+    #drawBtn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      filter: brightness(1.12);
     }
 
     #drawBtn:disabled {
-      background: #555;
+      background: #444;
       cursor: not-allowed;
-      transform: none;
-      opacity: 0.8;
+      box-shadow: none;
     }
 
     #connectionStatus {
-      min-height: 25px;
-      margin-top: 20px;
+      margin-top: 16px;
+      min-height: 22px;
       font-weight: bold;
-      text-shadow: 0 2px 6px #000;
+      font-size: 14px;
+      color: #aaa;
     }
 
-    .card {
-      margin-top: 30px;
-      background: rgba(20, 20, 20, 0.90);
-      border: 1px solid #3d3d3d;
-      border-radius: 16px;
+    /* WYNIK */
+    .result-panel {
+      max-width: 800px;
+      margin: 22px auto 0;
       padding: 25px 20px;
-      text-align: left;
-      backdrop-filter: blur(8px);
+      text-align: center;
     }
 
-    .card h2 {
-      text-align: center;
-      margin: 0 0 20px;
-      font-size: 25px;
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
     }
 
-    .draw-label {
-      text-align: center;
-      font-size: 16px;
-      color: #ddd;
-      margin-bottom: 12px;
+    .result-box {
+      background: rgba(0, 0, 0, 0.28);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .result-label {
+      color: #aaa;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
 
     #drawnGroup {
-      text-align: center;
-      font-size: 22px;
+      font-size: 24px;
       font-weight: bold;
       color: #ffc400;
-      min-height: 35px;
-      margin-bottom: 12px;
+      min-height: 32px;
     }
 
     #drawnTrack {
-      text-align: center;
-      font-size: 30px;
+      font-size: 24px;
       font-weight: bold;
-      color: #ff1a1a;
-      min-height: 45px;
-      text-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+      color: #ff4545;
+      min-height: 32px;
+      line-height: 1.25;
+    }
+
+    /* RANKING */
+    .ranking-panel {
+      max-width: 800px;
+      margin: 22px auto 0;
+      padding: 25px 20px;
+    }
+
+    .ranking-title {
+      text-align: center;
+      margin: 0 0 20px;
+      font-size: 24px;
     }
 
     #results {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 9px;
     }
 
     .result-row {
-      display: flex;
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
       align-items: center;
       gap: 10px;
-      background: rgba(10, 10, 10, 0.8);
-      padding: 12px;
+      padding: 13px;
       border-radius: 10px;
-      border: 1px solid #292929;
+      background: rgba(0, 0, 0, 0.28);
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .result-position {
-      width: 35px;
+      color: #ffc400;
       font-weight: bold;
       text-align: center;
-      color: #ffc400;
     }
 
     .result-track {
-      flex: 1;
       font-weight: bold;
     }
 
     .result-count {
+      color: #ff4b4b;
       font-weight: bold;
-      color: #ff3333;
     }
 
     .empty-results {
+      padding: 25px;
       text-align: center;
-      color: #aaa;
-      padding: 20px;
+      color: #999;
     }
 
-    .winner {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 10px;
-      background: rgba(10, 10, 10, 0.85);
+    #winner {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 12px;
       text-align: center;
-      font-size: 17px;
-      border: 1px solid #4a0000;
+      background: rgba(100, 0, 0, 0.14);
+      border: 1px solid rgba(255, 0, 0, 0.25);
     }
 
-    .winner strong {
-      color: #ff3333;
+    #winner strong {
+      color: #ff4949;
     }
 
-    @media (max-width: 600px) {
-
-      h1 {
-        font-size: 25px;
+    /* RESPONSYWNOŚĆ */
+    @media (max-width: 650px) {
+      .page {
+        padding: 15px 10px 35px;
       }
 
-      #drawnTrack {
-        font-size: 23px;
-      }
-
-      .card h2 {
-        font-size: 21px;
-      }
-
-      .result-track {
-        font-size: 14px;
+      .car-groups {
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .group-btn {
-        min-width: 45%;
+        min-height: 85px;
       }
 
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-row {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      #adminPin,
+      #adminLoginBtn {
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .result-row {
+        grid-template-columns: 35px 1fr auto;
+        font-size: 14px;
+      }
     }
 
   </style>
@@ -302,9 +422,10 @@
 
 <body>
 
-  <div class="container">
+  <main class="page">
 
-    <div class="admin-box">
+    <!-- PANEL ADMINISTRATORA -->
+    <section class="panel admin-panel">
 
       <div class="admin-title">
         👑 PANEL ADMINISTRATORA
@@ -325,88 +446,133 @@
       </div>
 
       <div id="adminStatus">
-        Wpisz PIN administratora.
+        Wpisz PIN administratora, aby rozpocząć nowe losowanie.
       </div>
 
-    </div>
+    </section>
 
-    <h1>🏁 SRS LOSOWANIE TORU</h1>
 
-    <div class="subtitle">
-      Wybierz grupę auta, a następnie wylosuj tor.
-      Każdy użytkownik może losować raz na 2 dni.
-    </div>
+    <!-- NAGŁÓWEK -->
+    <header class="header">
 
-    <div class="car-group-title">
-      🏎️ WYBIERZ GRUPĘ AUTA
-    </div>
+      <div class="logo-small">
+        SRS RACING
+      </div>
 
-    <div class="car-groups">
+      <h1>🏁 SRS LOSOWANIE TORU</h1>
 
-      <button class="group-btn" data-group="Gr.1">
-        🏎️ Gr.1
+      <p class="subtitle">
+        Wybierz grupę auta, a następnie wylosuj tor.
+        Zwykły użytkownik może losować tylko raz na 2 dni.
+      </p>
+
+    </header>
+
+
+    <!-- LOSOWANIE -->
+    <section class="panel draw-panel">
+
+      <div class="step">
+        KROK 1
+      </div>
+
+      <h2 class="section-title">
+        WYBIERZ GRUPĘ AUTA
+      </h2>
+
+      <div class="car-groups">
+
+        <button class="group-btn" data-group="Gr.1">
+          <span class="car-icon">🏎️</span>
+          Gr.1
+        </button>
+
+        <button class="group-btn" data-group="Gr.2">
+          <span class="car-icon">🏁</span>
+          Gr.2
+        </button>
+
+        <button class="group-btn" data-group="Gr.3">
+          <span class="car-icon">🚗</span>
+          Gr.3
+        </button>
+
+        <button class="group-btn" data-group="Gr.4">
+          <span class="car-icon">🚙</span>
+          Gr.4
+        </button>
+
+      </div>
+
+      <button id="drawBtn" disabled>
+        🏎️ NAJPIERW WYBIERZ GRUPĘ
       </button>
 
-      <button class="group-btn" data-group="Gr.2">
-        🏁 Gr.2
-      </button>
-
-      <button class="group-btn" data-group="Gr.3">
-        🚗 Gr.3
-      </button>
-
-      <button class="group-btn" data-group="Gr.4">
-        🚙 Gr.4
-      </button>
-
-    </div>
-
-    <button id="drawBtn" disabled>
-      🏎️ NAJPIERW WYBIERZ GRUPĘ
-    </button>
-
-    <div id="connectionStatus">
-      🔄 Łączenie z Firebase...
-    </div>
-
-    <div class="card">
-
-      <div class="draw-label">
-        WYBRANA GRUPA AUTA:
+      <div id="connectionStatus">
+        🔄 Łączenie z Firebase...
       </div>
 
-      <div id="drawnGroup">
-        Jeszcze nie wybrano
+    </section>
+
+
+    <!-- WYNIK -->
+    <section class="panel result-panel">
+
+      <div class="result-grid">
+
+        <div class="result-box">
+
+          <div class="result-label">
+            WYBRANA GRUPA AUTA
+          </div>
+
+          <div id="drawnGroup">
+            —
+          </div>
+
+        </div>
+
+        <div class="result-box">
+
+          <div class="result-label">
+            WYLOSOWANY TOR
+          </div>
+
+          <div id="drawnTrack">
+            —
+          </div>
+
+        </div>
+
       </div>
 
-      <div class="draw-label">
-        WYLOSOWANY TOR:
-      </div>
+    </section>
 
-      <div id="drawnTrack">
-        Jeszcze nie wylosowano
-      </div>
 
-    </div>
+    <!-- RANKING -->
+    <section class="panel ranking-panel">
 
-    <div class="card">
-
-      <h2>📊 WYNIKI LOSOWANIA TORÓW</h2>
+      <h2 class="ranking-title">
+        🏆 RANKING TORÓW
+      </h2>
 
       <div id="results">
+
         <div class="empty-results">
           🔄 Ładowanie wyników...
         </div>
+
       </div>
 
-      <div class="winner" id="winner">
+      <div id="winner">
         🏆 Najczęściej losowany tor:
         <strong>brak danych</strong>
       </div>
 
-    </div>
+    </section>
 
-  </div>
+  </main>
+
 
   <script type="module">
 
@@ -422,6 +588,11 @@
       remove
     } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
+
+    /* =========================
+       FIREBASE
+    ========================= */
+
     const firebaseConfig = {
       apiKey: "AIzaSyDRDAiSlJBPOG8N_c4ctBRLYrwx3ER5rKw",
       authDomain: "srs-losowanie.firebaseapp.com",
@@ -433,291 +604,387 @@
       measurementId: "G-HGT81Y72HF"
     };
 
+
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
-    /* TUTAJ ZMIENIASZ PIN */
+
+    /* =========================
+       PIN ADMINISTRATORA
+       TUTAJ ZMIENIASZ PIN
+    ========================= */
 
     const ADMIN_PIN = "840416";
 
+
+    /* =========================
+       TORY
+    ========================= */
+
     const tracks = [
+
       "Autodrome Lago Maggiore - Full Course",
       "Autodrome Lago Maggiore - East End",
       "Autodrome Lago Maggiore - West End",
       "Autodrome Lago Maggiore - Center",
+
       "Autopolis - Full Course",
       "Autopolis - Short Course",
+
       "Blue Moon Bay Speedway - Infield A",
       "Blue Moon Bay Speedway - Infield B",
+
       "Brands Hatch Grand Prix Circuit",
       "Brands Hatch Indy Circuit",
+
       "Broad Bean Raceway",
+
       "Circuit de Barcelona-Catalunya - GP Layout",
       "Circuit de Barcelona-Catalunya - No Chicane",
+
       "Circuit de la Sarthe",
+
       "Circuit de Spa-Francorchamps",
+
       "Colorado Springs - Lake",
+
       "Daytona International Speedway - Road Course",
       "Daytona International Speedway - Tri-Oval",
+
       "Deep Forest Raceway",
+
       "Dragon Trail - Gardens",
       "Dragon Trail - Seaside",
+
       "Fishermans Ranch",
+
       "Fuji International Speedway",
       "Fuji International Speedway - Short",
+
       "Goodwood Motor Circuit",
+
       "Grand Valley - Highway 1",
       "Grand Valley - South",
+
       "High Speed Ring",
       "High Speed Ring Reverse",
+
       "Interlagos",
+
       "Kyoto Driving Park - Yamagiwa",
       "Kyoto Driving Park - Miyabi",
+
       "Lake Louise Long Track",
       "Lake Louise Short Track",
+
       "Monza Circuit",
       "Monza No Chicane",
+
       "Mount Panorama Motor Racing Circuit",
+
       "Nürburgring GP",
       "Nürburgring Nordschleife",
       "Nürburgring 24h",
+
       "Red Bull Ring",
+
       "Road Atlanta",
+
       "Sardegna - Road Track A",
       "Sardegna - Road Track B",
       "Sardegna - Road Track C",
       "Sardegna - Windmills",
+
       "Special Stage Route X",
+
       "Suzuka Circuit",
       "Suzuka Circuit East",
+
       "Tokyo Expressway - Central",
       "Tokyo Expressway - East",
       "Tokyo Expressway - South",
+
       "Trial Mountain Circuit",
+
       "Tsukuba Circuit",
+
       "Watkins Glen Long Course",
       "Watkins Glen Short Course",
+
       "WeatherTech Raceway Laguna Seca",
+
       "Willow Springs - Big Willow",
       "Willow Springs - Horse Thief Mile"
+
     ];
 
-    const drawBtn = document.getElementById("drawBtn");
-    const drawnTrack = document.getElementById("drawnTrack");
-    const drawnGroup = document.getElementById("drawnGroup");
-    const results = document.getElementById("results");
-    const winner = document.getElementById("winner");
-    const connectionStatus = document.getElementById("connectionStatus");
 
-    const adminPin = document.getElementById("adminPin");
-    const adminLoginBtn = document.getElementById("adminLoginBtn");
-    const adminStatus = document.getElementById("adminStatus");
+    /* =========================
+       ELEMENTY
+    ========================= */
+
+    const drawBtn =
+      document.getElementById("drawBtn");
+
+    const drawnGroup =
+      document.getElementById("drawnGroup");
+
+    const drawnTrack =
+      document.getElementById("drawnTrack");
+
+    const results =
+      document.getElementById("results");
+
+    const winner =
+      document.getElementById("winner");
+
+    const connectionStatus =
+      document.getElementById("connectionStatus");
+
+    const adminPin =
+      document.getElementById("adminPin");
+
+    const adminLoginBtn =
+      document.getElementById("adminLoginBtn");
+
+    const adminStatus =
+      document.getElementById("adminStatus");
 
     const groupButtons =
       document.querySelectorAll(".group-btn");
 
+
+    /* =========================
+       ZMIENNE
+    ========================= */
+
+    let selectedGroup = null;
     let isAdmin = false;
     let firebaseConnected = false;
-    let selectedGroup = null;
 
-    const USER_KEY = "srs_user_last_draw_time";
+
+    /* =========================
+       BLOKADA 2 DNI
+    ========================= */
+
+    const USER_KEY =
+      "srs_user_last_draw_time_v3";
 
     const BLOCK_TIME =
       2 * 24 * 60 * 60 * 1000;
 
-    function userAlreadyDrawn() {
+
+    function getRemainingTime() {
 
       const lastDrawTime =
         Number(localStorage.getItem(USER_KEY));
 
       if (!lastDrawTime) {
-        return false;
+        return 0;
       }
 
-      const timePassed =
+      const elapsed =
         Date.now() - lastDrawTime;
 
-      if (timePassed >= BLOCK_TIME) {
+      const remaining =
+        BLOCK_TIME - elapsed;
+
+      if (remaining <= 0) {
+
         localStorage.removeItem(USER_KEY);
-        return false;
+
+        return 0;
       }
 
-      return true;
+      return remaining;
+
     }
 
-    groupButtons.forEach((button) => {
 
-      button.addEventListener("click", () => {
+    function isBlocked() {
 
-        if (!isAdmin && userAlreadyDrawn()) {
-          return;
-        }
+      return !isAdmin &&
+        getRemainingTime() > 0;
 
-        selectedGroup = button.dataset.group;
+    }
 
-        groupButtons.forEach((btn) => {
-          btn.classList.remove("selected");
-        });
 
-        button.classList.add("selected");
+    function formatRemainingTime(milliseconds) {
 
-        drawnGroup.textContent =
-          "🏎️ " + selectedGroup;
+      const totalHours =
+        Math.ceil(milliseconds / (60 * 60 * 1000));
 
-        updateButton();
+      const days =
+        Math.floor(totalHours / 24);
 
-      });
+      const hours =
+        totalHours % 24;
 
-    });
+      if (days > 0) {
 
-    function updateButton() {
+        return `${days} dni ${hours} godz.`;
 
-      const blocked =
-        !isAdmin && userAlreadyDrawn();
+      }
+
+      return `${hours} godz.`;
+
+    }
+
+
+    /* =========================
+       AKTUALIZACJA PRZYCISKU
+    ========================= */
+
+    function updateInterface() {
+
+      const blocked = isBlocked();
 
       groupButtons.forEach((button) => {
+
         button.disabled = blocked;
+
       });
+
 
       if (!firebaseConnected) {
 
         drawBtn.disabled = true;
+
         drawBtn.textContent =
           "⏳ ŁĄCZENIE Z FIREBASE...";
 
         return;
+
       }
+
 
       if (blocked) {
 
+        const remaining =
+          formatRemainingTime(
+            getRemainingTime()
+          );
+
         drawBtn.disabled = true;
+
         drawBtn.textContent =
-          "⏳ PONOWNIE ZA 2 DNI";
+          "⏳ PONOWNIE ZA " + remaining;
 
         return;
+
       }
+
 
       if (!selectedGroup) {
 
         drawBtn.disabled = true;
+
         drawBtn.textContent =
           "🏎️ NAJPIERW WYBIERZ GRUPĘ";
 
         return;
+
       }
 
+
       drawBtn.disabled = false;
+
       drawBtn.textContent =
         "🎲 LOSUJ TOR";
 
     }
 
-    adminLoginBtn.addEventListener(
-      "click",
-      async () => {
 
-        const enteredPin =
-          adminPin.value.trim();
+    /* =========================
+       WYBÓR GRUPY
+    ========================= */
 
-        if (enteredPin !== ADMIN_PIN) {
+    groupButtons.forEach((button) => {
 
-          adminStatus.innerHTML =
-            "❌ Nieprawidłowy PIN.";
+      button.addEventListener(
+        "click",
+        () => {
 
-          adminStatus.style.color =
-            "#ff4444";
+          if (isBlocked()) {
+            updateInterface();
+            return;
+          }
 
-          return;
-        }
 
-        try {
+          selectedGroup =
+            button.dataset.group;
 
-          adminLoginBtn.disabled = true;
 
-          adminStatus.innerHTML =
-            "🗑️ Czyszczenie wyników...";
+          groupButtons.forEach((btn) => {
 
-          await remove(
-            ref(database, "losowania")
-          );
+            btn.classList.remove("selected");
 
-          isAdmin = true;
-          selectedGroup = null;
-
-          groupButtons.forEach((button) => {
-            button.classList.remove("selected");
-            button.disabled = false;
           });
 
+
+          button.classList.add("selected");
+
+
           drawnGroup.textContent =
-            "Jeszcze nie wybrano";
+            selectedGroup;
 
-          drawnTrack.textContent =
-            "Jeszcze nie wylosowano";
 
-          adminStatus.innerHTML =
-            "👑 Administrator zalogowany.";
-
-          adminStatus.style.color =
-            "#22c55e";
-
-          adminPin.value = "";
-
-          updateButton();
-
-        } catch (error) {
-
-          console.error(error);
-
-          adminStatus.innerHTML =
-            "❌ Błąd podczas czyszczenia.";
-
-          adminStatus.style.color =
-            "#ff4444";
+          updateInterface();
 
         }
+      );
 
-        adminLoginBtn.disabled = false;
+    });
 
-      }
-    );
 
-    adminPin.addEventListener(
-      "keydown",
-      (event) => {
-
-        if (event.key === "Enter") {
-          adminLoginBtn.click();
-        }
-
-      }
-    );
+    /* =========================
+       LOSOWANIE TORU
+    ========================= */
 
     drawBtn.addEventListener(
       "click",
       startDraw
     );
 
+
     async function startDraw() {
 
       if (!selectedGroup) {
-        alert("Najpierw wybierz grupę auta!");
+
+        alert(
+          "Najpierw wybierz grupę auta!"
+        );
+
         return;
+
       }
 
-      if (!isAdmin && userAlreadyDrawn()) {
-        updateButton();
+
+      if (isBlocked()) {
+
+        updateInterface();
+
         return;
+
       }
+
 
       drawBtn.disabled = true;
 
+
       groupButtons.forEach((button) => {
+
         button.disabled = true;
+
       });
+
 
       drawBtn.textContent =
         "🎲 LOSOWANIE...";
+
+
+      let counter = 0;
+
 
       const animation =
         setInterval(() => {
@@ -725,44 +992,64 @@
           const randomTrack =
             tracks[
               Math.floor(
-                Math.random() * tracks.length
+                Math.random() *
+                tracks.length
               )
             ];
 
-          drawnTrack.textContent =
-            "🏁 " + randomTrack;
 
-        }, 80);
+          drawnTrack.textContent =
+            randomTrack;
+
+
+          counter++;
+
+        }, 75);
+
 
       setTimeout(
         async () => {
 
           clearInterval(animation);
 
+
           const selectedTrack =
             tracks[
               Math.floor(
-                Math.random() * tracks.length
+                Math.random() *
+                tracks.length
               )
             ];
 
+
           drawnGroup.textContent =
-            "🏎️ " + selectedGroup;
+            selectedGroup;
+
 
           drawnTrack.textContent =
-            "🏁 " + selectedTrack;
+            selectedTrack;
+
 
           try {
 
             await push(
               ref(database, "losowania"),
               {
+
                 track: selectedTrack,
-                carGroup: selectedGroup,
-                time: Date.now(),
-                admin: isAdmin
+
+                carGroup:
+                  selectedGroup,
+
+                time:
+                  Date.now(),
+
+                admin:
+                  isAdmin
+
               }
             );
+
 
             if (!isAdmin) {
 
@@ -773,25 +1060,29 @@
 
             }
 
-            connectionStatus.innerHTML =
-              "✅ Wynik zapisany.";
+
+            connectionStatus.textContent =
+              "✅ Wynik został zapisany.";
 
             connectionStatus.style.color =
-              "#22c55e";
+              "#42e879";
+
 
           } catch (error) {
 
             console.error(error);
 
-            connectionStatus.innerHTML =
-              "❌ Błąd zapisu.";
+
+            connectionStatus.textContent =
+              "❌ Błąd podczas zapisywania wyniku.";
 
             connectionStatus.style.color =
-              "#ff4444";
+              "#ff4b4b";
 
           }
 
-          updateButton();
+
+          updateInterface();
 
         },
         2500
@@ -799,8 +1090,127 @@
 
     }
 
+
+    /* =========================
+       ADMIN
+    ========================= */
+
+    adminLoginBtn.addEventListener(
+      "click",
+      adminLogin
+    );
+
+
+    adminPin.addEventListener(
+      "keydown",
+      (event) => {
+
+        if (event.key === "Enter") {
+
+          adminLogin();
+
+        }
+
+      }
+    );
+
+
+    async function adminLogin() {
+
+      const enteredPin =
+        adminPin.value.trim();
+
+
+      if (enteredPin !== ADMIN_PIN) {
+
+        adminStatus.textContent =
+          "❌ Nieprawidłowy PIN.";
+
+        adminStatus.style.color =
+          "#ff4b4b";
+
+        return;
+
+      }
+
+
+      try {
+
+        adminLoginBtn.disabled = true;
+
+        adminStatus.textContent =
+          "🔄 Rozpoczynanie nowego losowania...";
+
+
+        await remove(
+          ref(database, "losowania")
+        );
+
+
+        isAdmin = true;
+
+
+        selectedGroup = null;
+
+
+        groupButtons.forEach((button) => {
+
+          button.classList.remove(
+            "selected"
+          );
+
+          button.disabled = false;
+
+        });
+
+
+        drawnGroup.textContent =
+          "—";
+
+        drawnTrack.textContent =
+          "—";
+
+
+        adminPin.value = "";
+
+
+        adminStatus.textContent =
+          "👑 Administrator zalogowany. Nowe losowanie rozpoczęte.";
+
+        adminStatus.style.color =
+          "#42e879";
+
+
+        updateInterface();
+
+
+      } catch (error) {
+
+        console.error(error);
+
+
+        adminStatus.textContent =
+          "❌ Błąd podczas rozpoczynania nowego losowania.";
+
+        adminStatus.style.color =
+          "#ff4b4b";
+
+      }
+
+
+      adminLoginBtn.disabled = false;
+
+    }
+
+
+    /* =========================
+       FIREBASE
+       RANKING
+    ========================= */
+
     const drawsRef =
       ref(database, "losowania");
+
 
     onValue(
 
@@ -810,50 +1220,72 @@
 
         firebaseConnected = true;
 
-        connectionStatus.innerHTML =
+
+        connectionStatus.textContent =
           "✅ Połączono z Firebase.";
 
         connectionStatus.style.color =
-          "#22c55e";
+          "#42e879";
+
 
         const data =
           snapshot.val();
 
+
         if (!data) {
 
-          results.innerHTML =
-            `<div class="empty-results">
-              Jeszcze nie ma wyników.
-            </div>`;
+          results.innerHTML = `
+            <div class="empty-results">
+              🎲 Jeszcze nie ma wyników losowania.
+            </div>
+          `;
 
-          winner.innerHTML =
-            `🏆 Najczęściej losowany tor:
-            <strong>brak danych</strong>`;
 
-          updateButton();
+          winner.innerHTML = `
+            🏆 Najczęściej losowany tor:
+            <strong>brak danych</strong>
+          `;
+
+
+          updateInterface();
 
           return;
+
         }
+
 
         const trackCounts = {};
 
+
         Object.values(data).forEach((draw) => {
 
-          if (!draw.track) return;
+          if (!draw.track) {
+            return;
+          }
+
 
           if (!trackCounts[draw.track]) {
+
             trackCounts[draw.track] = 0;
+
           }
+
 
           trackCounts[draw.track]++;
 
         });
 
+
         const sortedTracks =
           Object.entries(trackCounts)
-            .sort((a, b) => b[1] - a[1]);
+            .sort(
+              (a, b) =>
+                b[1] - a[1]
+            );
+
 
         results.innerHTML = "";
+
 
         sortedTracks.forEach(
           ([track, count], index) => {
@@ -861,10 +1293,13 @@
             const row =
               document.createElement("div");
 
+
             row.className =
               "result-row";
 
+
             row.innerHTML = `
+
               <div class="result-position">
                 ${index + 1}.
               </div>
@@ -876,51 +1311,75 @@
               <div class="result-count">
                 ${count}×
               </div>
+
             `;
+
 
             results.appendChild(row);
 
           }
         );
 
+
         if (sortedTracks.length > 0) {
 
+          const topTrack =
+            sortedTracks[0];
+
+
           winner.innerHTML = `
+
             🏆 Najczęściej losowany tor:
-            <strong>${sortedTracks[0][0]}</strong>
-            — ${sortedTracks[0][1]} losowań
+
+            <strong>
+              ${topTrack[0]}
+            </strong>
+
+            — ${topTrack[1]}× losowań
+
           `;
 
         }
 
-        updateButton();
+
+        updateInterface();
 
       },
+
 
       (error) => {
 
         console.error(error);
 
+
         firebaseConnected = false;
 
-        connectionStatus.innerHTML =
-          "⚠️ Problem z Firebase.";
+
+        connectionStatus.textContent =
+          "⚠️ Problem z połączeniem Firebase.";
 
         connectionStatus.style.color =
           "#ffcc00";
 
-        updateButton();
+
+        updateInterface();
 
       }
 
     );
 
+
+    /* =========================
+       SPRAWDZANIE BLOKADY
+    ========================= */
+
     setInterval(
-      updateButton,
+      updateInterface,
       60000
     );
 
-    updateButton();
+
+    updateInterface();
 
   </script>
 
