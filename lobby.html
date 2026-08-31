@@ -397,16 +397,45 @@
 
       <div class="classes">
 
-        <button type="button" class="class-btn" data-class="Gr.1">🏎️ Gr.1</button>
-        <button type="button" class="class-btn" data-class="Gr.2">🏁 Gr.2</button>
-        <button type="button" class="class-btn" data-class="Gr.3">🚗 Gr.3</button>
-        <button type="button" class="class-btn" data-class="Gr.4">🚙 Gr.4</button>
-        <button type="button" class="class-btn" data-class="Hypercar">🔥 Hypercar</button>
-        <button type="button" class="class-btn" data-class="Super Formula">🏎️ Super Formula</button>
-        <button type="button" class="class-btn" data-class="Gr.B">🚙 Gr.B</button>
-        <button type="button" class="class-btn" data-class="Vision Gran Turismo">⚡ Vision GT</button>
-        <button type="button" class="class-btn" data-class="Samochody drogowe">🚗 Drogowe</button>
-        <button type="button" class="class-btn" data-class="Open Class">🏁 Open Class</button>
+        <button type="button" class="class-btn" data-class="Gr.1">
+          🏎️ Gr.1
+        </button>
+
+        <button type="button" class="class-btn" data-class="Gr.2">
+          🏁 Gr.2
+        </button>
+
+        <button type="button" class="class-btn" data-class="Gr.3">
+          🚗 Gr.3
+        </button>
+
+        <button type="button" class="class-btn" data-class="Gr.4">
+          🚙 Gr.4
+        </button>
+
+        <button type="button" class="class-btn" data-class="Hypercar">
+          🔥 Hypercar
+        </button>
+
+        <button type="button" class="class-btn" data-class="Super Formula">
+          🏎️ Super Formula
+        </button>
+
+        <button type="button" class="class-btn" data-class="Gr.B">
+          🚙 Gr.B
+        </button>
+
+        <button type="button" class="class-btn" data-class="Vision Gran Turismo">
+          ⚡ Vision GT
+        </button>
+
+        <button type="button" class="class-btn" data-class="Samochody drogowe">
+          🚗 Drogowe
+        </button>
+
+        <button type="button" class="class-btn" data-class="Open Class">
+          🏁 Open Class
+        </button>
 
       </div>
 
@@ -447,7 +476,7 @@
           id="lapsInput"
           min="1"
           max="500"
-          placeholder="Np. 15"
+          placeholder="Np. 25"
         >
 
       </div>
@@ -462,7 +491,8 @@
         <input
           type="text"
           id="raceTimeInput"
-          placeholder="Np. 45 minut lub 1:45"
+          inputmode="numeric"
+          placeholder="Np. 45"
         >
 
       </div>
@@ -471,25 +501,31 @@
       <label class="label">🌦️ POGODA</label>
 
       <select id="weatherSelect">
+
         <option value="">-- WYBIERZ POGODĘ --</option>
+
         <option>☀️ Słonecznie</option>
         <option>🌤️ Lekko pochmurno</option>
         <option>🌥️ Pochmurno</option>
         <option>🌦️ Zmienna pogoda</option>
         <option>🌧️ Deszcz</option>
+
       </select>
 
 
       <label class="label">🌅 PORA DNIA</label>
 
       <select id="timeOfDaySelect">
+
         <option value="">-- WYBIERZ PORĘ DNIA --</option>
+
         <option>🌄 Świt</option>
         <option>☀️ Rano</option>
         <option>🌞 Dzień</option>
         <option>🌇 Popołudnie</option>
         <option>🌅 Zachód słońca</option>
         <option>🌙 Noc</option>
+
       </select>
 
 
@@ -508,8 +544,7 @@
         </button>
 
         <button type="button" class="tire-btn" data-tire="🔴 Wyścigowe miękkie">
-          🔴
-          Wyścigowe miękkie
+          🔴 Wyścigowe miękkie
         </button>
 
         <button type="button" class="tire-btn" data-tire="🟢 Sportowe twarde">
@@ -544,9 +579,11 @@
       </label>
 
       <select id="mandatoryTiresMode">
+
         <option value="">-- WYBIERZ --</option>
         <option value="none">❌ Brak obowiązkowych opon</option>
         <option value="required">✅ Opony obowiązkowe</option>
+
       </select>
 
 
@@ -602,17 +639,21 @@
       <label class="label">🔧 PIT STOP</label>
 
       <select id="pitSelect">
+
         <option value="">-- WYBIERZ PIT STOP --</option>
         <option>Brak obowiązkowego PIT STOP</option>
         <option>1 obowiązkowy PIT STOP</option>
         <option>2 obowiązkowe PIT STOPY</option>
+
       </select>
 
 
       <label class="label">⛽ ZUŻYCIE PALIWA</label>
 
       <select id="fuelSelect">
+
         <option value="">-- WYBIERZ ZUŻYCIE PALIWA --</option>
+
         <option>x1</option>
         <option>x2</option>
         <option>x3</option>
@@ -621,13 +662,16 @@
         <option>x6</option>
         <option>x8</option>
         <option>x10</option>
+
       </select>
 
 
       <label class="label">🛞 ZUŻYCIE OPON</label>
 
       <select id="tireWearSelect">
+
         <option value="">-- WYBIERZ ZUŻYCIE OPON --</option>
+
         <option>x1</option>
         <option>x2</option>
         <option>x3</option>
@@ -637,36 +681,46 @@
         <option>x7</option>
         <option>x8</option>
         <option>x10</option>
+
       </select>
 
 
       <label class="label">🚦 TYP STARTU</label>
 
       <select id="startTypeSelect">
+
         <option value="">-- WYBIERZ TYP STARTU --</option>
+
         <option>🚦 Start zatrzymany</option>
         <option>🏁 Start lotny</option>
+
       </select>
 
 
       <label class="label">⏱️ KWALIFIKACJE</label>
 
       <select id="qualifyingSelect">
+
         <option value="">-- WYBIERZ KWALIFIKACJE --</option>
+
         <option>Brak kwalifikacji</option>
         <option>5 minut</option>
         <option>10 minut</option>
         <option>15 minut</option>
         <option>20 minut</option>
+
       </select>
 
 
       <label class="label">⚖️ BOP</label>
 
       <select id="bopSelect">
+
         <option value="">-- WYBIERZ BOP --</option>
+
         <option>🟢 BOP Włączony</option>
         <option>🔴 BOP Wyłączony</option>
+
       </select>
 
 
@@ -739,7 +793,7 @@
       projectId: "srs-losowanie",
       storageBucket: "srs-losowanie.firebasestorage.app",
       messagingSenderId: "212959687651",
-      appId: "1:212959687651:web:0a9a5e647450767bc026d6"
+      appId: "1:212959973858506751:web:0a9a5e647450767bc026d6"
     };
 
 
@@ -749,23 +803,39 @@
 
     const ADMIN_PIN = "840416";
 
-    // WKLEJ TUTAJ SWÓJ WEBHOOK DISCORDA
-    const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1543742170157158550/pRsAgoyhhswi7kD57RFc1wERkVtLNlsgky7BI-JoYq7sTmWwMo5brD_kVf7Wa7PWWwmz";
+    const DISCORD_WEBHOOK =
+      "https://discord.com/api/webhooks/1543742170157158550/pRsAgoyhhswi7kD57RFc1wERkVtLNlsgky7BI-JoYq7sTmWwMo5brD_kVf7Wa7PWWwmz";
 
 
-    const adminPin = document.getElementById("adminPin");
-    const roundEndDateTime = document.getElementById("roundEndDateTime");
-    const newRoundBtn = document.getElementById("newRoundBtn");
-    const adminInfo = document.getElementById("adminInfo");
+    const adminPin =
+      document.getElementById("adminPin");
 
-    const phaseStatus = document.getElementById("phaseStatus");
-    const countdown = document.getElementById("countdown");
-    const phaseInfo = document.getElementById("phaseInfo");
+    const roundEndDateTime =
+      document.getElementById("roundEndDateTime");
 
-    const comboSection = document.getElementById("comboSection");
+    const newRoundBtn =
+      document.getElementById("newRoundBtn");
 
-    const trackSelect = document.getElementById("trackSelect");
-    const classButtons = document.querySelectorAll(".class-btn");
+    const adminInfo =
+      document.getElementById("adminInfo");
+
+    const phaseStatus =
+      document.getElementById("phaseStatus");
+
+    const countdown =
+      document.getElementById("countdown");
+
+    const phaseInfo =
+      document.getElementById("phaseInfo");
+
+    const comboSection =
+      document.getElementById("comboSection");
+
+    const trackSelect =
+      document.getElementById("trackSelect");
+
+    const classButtons =
+      document.querySelectorAll(".class-btn");
 
     const raceTypeButtons =
       document.querySelectorAll(".race-type-btn");
@@ -1409,7 +1479,7 @@
 
 
           raceLength =
-            laps + " okrążeń";
+            laps + " okr.";
 
         }
 
@@ -1430,8 +1500,39 @@
           }
 
 
+          if (
+            !/^\d+$/.test(raceTime)
+          ) {
+
+            showError(
+              "❌ Podaj samą liczbę minut, np. 45."
+            );
+
+            return;
+
+          }
+
+
+          const minutes =
+            Number(raceTime);
+
+
+          if (
+            minutes < 1 ||
+            minutes > 600
+          ) {
+
+            showError(
+              "❌ Czas musi być od 1 do 600 minut."
+            );
+
+            return;
+
+          }
+
+
           raceLength =
-            raceTime;
+            minutes + " min";
 
         }
 
