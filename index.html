@@ -1,1389 +1,1770 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRS COMBO</title>
 
-  <title>SRS LOSOWANIE TORU</title>
+<style>
+* {
+  box-sizing: border-box;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #0b0b0b;
+  color: #fff;
+}
 
-    html,
-    body {
-      margin: 0;
-      min-height: 100%;
-      overflow-x: hidden;
-    }
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 25px 15px 50px;
+}
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      color: white;
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 30px;
+}
 
-      background:
-        linear-gradient(
-          rgba(5, 6, 12, 0.72),
-          rgba(5, 6, 12, 0.92)
-        ),
-        url("background.png.png");
+.card {
+  background: #151515;
+  border: 1px solid #2d2d2d;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.25);
+}
 
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-    }
+.card h2 {
+  margin-top: 0;
+  font-size: 20px;
+}
 
-    .container {
-      width: min(950px, 94%);
-      margin: auto;
-      padding: 20px 0 60px;
-    }
+input,
+select {
+  width: 100%;
+  padding: 12px;
+  background: #0d0d0d;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  color: #fff;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
 
-    .card {
-      width: 100%;
-      background: rgba(10, 11, 20, 0.94);
-      border: 1px solid rgba(220, 0, 0, 0.55);
-      border-radius: 18px;
-      padding: 22px;
-      margin-bottom: 20px;
+button {
+  border: none;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #fff;
+  background: #9b111e;
+  transition: .2s;
+}
 
-      box-shadow:
-        0 10px 35px rgba(0,0,0,0.6),
-        0 0 30px rgba(180,0,0,0.08);
+button:hover {
+  background: #c41627;
+}
 
-      backdrop-filter: blur(8px);
-    }
+button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
 
-    .hidden {
-      display: none !important;
-    }
+.admin-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 8px;
+}
 
-    button {
-      border: none;
-      border-radius: 11px;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+.admin-buttons button {
+  flex: 1;
+  min-width: 160px;
+}
 
-    button:hover:not(:disabled) {
-      transform: translateY(-2px);
-    }
+.stop-btn {
+  background: #6b1118;
+}
 
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+.resume-btn {
+  background: #176b35;
+}
 
-    h1 {
-      margin: 20px 0 25px;
-      text-align: center;
-      font-size: clamp(34px, 7vw, 60px);
-      line-height: 1.05;
-      text-shadow: 0 4px 25px black;
-    }
+.resume-btn:hover {
+  background: #218a46;
+}
 
-    .new-round-card {
-      text-align: center;
-    }
+.secondary-btn {
+  background: #333;
+}
 
-    .admin-row {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
+.secondary-btn:hover {
+  background: #444;
+}
 
-    #adminPin {
-      width: 220px;
-      height: 58px;
-      background: #15151d;
-      color: white;
-      border: 1px solid #555;
-      border-radius: 11px;
-      padding: 0 15px;
-      text-align: center;
-      font-size: 17px;
-    }
+.status {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+}
 
-    #newRoundBtn {
-      min-width: 280px;
-      height: 58px;
-      font-size: 17px;
+.countdown {
+  text-align: center;
+  font-size: 34px;
+  margin: 12px 0;
+  font-weight: bold;
+}
 
-      background:
-        linear-gradient(
-          135deg,
-          #e30000,
-          #850000
-        );
-    }
+.info {
+  text-align: center;
+  color: #aaa;
+}
 
-    #adminInfo {
-      margin-top: 12px;
-      min-height: 20px;
-      color: #aaa;
-      font-size: 14px;
-    }
+.pool-count {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 10px 0;
+}
 
-    .status-card {
-      text-align: center;
-    }
+.pool-list {
+  max-height: 350px;
+  overflow-y: auto;
+}
 
-    #phaseStatus {
-      font-size: clamp(24px, 5vw, 31px);
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
+.track-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0d0d0d;
+  border: 1px solid #292929;
+  padding: 10px 12px;
+  border-radius: 7px;
+  margin-bottom: 6px;
+}
 
-    #countdown {
-      font-size: clamp(55px, 12vw, 82px);
-      font-weight: bold;
-      line-height: 1;
-      color: #ffe000;
-      text-shadow: 0 0 25px rgba(255,220,0,0.35);
-    }
+.track-item button {
+  padding: 7px 10px;
+  margin: 0;
+  font-size: 12px;
+}
 
-    #phaseInfo {
-      margin-top: 15px;
-      color: #cfcfcf;
-      font-size: 16px;
-    }
+.group-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
 
-    .section-title {
-      text-align: center;
-      font-size: clamp(21px, 4vw, 26px);
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
+.group-btn {
+  margin: 0;
+  background: #252525;
+  border: 1px solid #444;
+}
 
-    .groups {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
+.group-btn.selected {
+  background: #9b111e;
+  border-color: #c41627;
+}
 
-    .group-btn {
-      min-height: 100px;
-      font-size: 20px;
-      background: rgba(20, 22, 31, 0.96);
-      border: 2px solid #444;
-    }
+.result {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #3a3a3a;
+  border-radius: 10px;
+  background: #0d0d0d;
+}
 
-    .group-btn.selected {
-      border-color: #ff2020;
+.result .track {
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 10px;
+}
 
-      background:
-        linear-gradient(
-          135deg,
-          #5e0000,
-          #210000
-        );
-    }
+.hidden {
+  display: none !important;
+}
 
-    #drawBtn {
-      display: block;
-      width: min(100%, 450px);
-      min-height: 58px;
-      margin: 25px auto 0;
-      font-size: 18px;
+.message {
+  margin-top: 10px;
+  text-align: center;
+  color: #aaa;
+}
 
-      background:
-        linear-gradient(
-          135deg,
-          #e30000,
-          #850000
-        );
-    }
+.success {
+  color: #45d477;
+}
 
-    .player-result {
-      margin-top: 28px;
-      text-align: center;
-    }
+.error {
+  color: #ff5964;
+}
 
-    .result-label {
-      color: #aaa;
-      font-size: 13px;
-      margin-top: 18px;
-    }
+.warning {
+  color: #ffc857;
+}
 
-    #drawnGroup {
-      color: #ffe000;
-      font-size: clamp(25px, 5vw, 34px);
-      font-weight: bold;
-      margin-top: 8px;
-    }
+.date-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
 
-    #drawnTrack {
-      color: #ff5b5b;
-      font-size: clamp(21px, 4vw, 29px);
-      font-weight: bold;
-      margin-top: 8px;
-    }
+@media(max-width:600px) {
+  .group-buttons {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-    .official-result {
-      text-align: center;
-      line-height: 1.7;
-    }
+  .date-row {
+    grid-template-columns: 1fr;
+  }
 
-    .winner-group {
-      color: #ffe000;
-      font-size: clamp(30px, 7vw, 42px);
-      font-weight: bold;
-    }
-
-    .winner-track {
-      color: #ff5555;
-      font-size: clamp(23px, 5vw, 34px);
-      font-weight: bold;
-    }
-
-    @media (max-width: 700px) {
-      .groups {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 600px) {
-      .card {
-        padding: 17px 13px;
-      }
-
-      .admin-row {
-        flex-direction: column;
-      }
-
-      #adminPin,
-      #newRoundBtn {
-        width: 100%;
-      }
-    }
-  </style>
+  .admin-buttons {
+    flex-direction: column;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <h1>🏁 SRS LOSOWANIE TORU</h1>
+  <h1>🏁 SRS COMBO</h1>
 
-    <div class="card new-round-card">
+  <!-- ========================= -->
+  <!-- PANEL ADMINA -->
+  <!-- ========================= -->
 
-      <div class="admin-row">
+  <div class="card">
 
-        <input
-          type="password"
-          id="adminPin"
-          placeholder="🔒 PIN administratora"
-        >
+    <h2>🔐 Panel administratora</h2>
 
-        <button id="newRoundBtn">
-          🔄 NOWA RUNDA
-        </button>
+    <input
+      type="password"
+      id="adminPin"
+      placeholder="Wpisz hasło administratora"
+    >
 
-      </div>
+    <div class="admin-buttons">
 
-      <div id="adminInfo">
-        Wpisz PIN, aby rozpocząć nową rundę.
-      </div>
-
-    </div>
-
-    <div class="card status-card">
-
-      <div id="phaseStatus">
-        ⏳ BRAK AKTYWNEJ RUNDY
-      </div>
-
-      <div id="countdown">
-        00:00
-      </div>
-
-      <div id="phaseInfo">
-        Czekamy na rozpoczęcie nowej rundy.
-      </div>
-
-    </div>
-
-    <div id="votingSection" class="card hidden">
-
-      <div class="section-title">
-        🏎️ WYBIERZ GRUPĘ AUTA
-      </div>
-
-      <div class="groups">
-
-        <button class="group-btn" data-group="Gr.1">
-          🏎️<br>Gr.1
-        </button>
-
-        <button class="group-btn" data-group="Gr.2">
-          🏁<br>Gr.2
-        </button>
-
-        <button class="group-btn" data-group="Gr.3">
-          🚗<br>Gr.3
-        </button>
-
-        <button class="group-btn" data-group="Gr.4">
-          🚙<br>Gr.4
-        </button>
-
-      </div>
-
-      <button id="drawBtn" disabled>
-        🎲 NAJPIERW WYBIERZ GRUPĘ
+      <button id="newComboBtn">
+        🆕 NOWE COMBO
       </button>
 
-      <div class="player-result">
+      <button id="stopBtn" class="stop-btn">
+        ⏸️ STOP
+      </button>
 
-        <div class="result-label">
-          WYBRANA GRUPA AUT
-        </div>
+      <button id="resumeBtn" class="resume-btn">
+        ▶️ WZNÓW
+      </button>
 
-        <div id="drawnGroup">—</div>
+      <button id="changeDateBtn" class="secondary-btn">
+        📅 ZMIEŃ DATĘ I GODZINĘ
+      </button>
 
-        <div class="result-label">
-          WYLOSOWANY TOR
-        </div>
+    </div>
 
-        <div id="drawnTrack">—</div>
+    <div id="adminInfo" class="message"></div>
 
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- STATUS -->
+  <!-- ========================= -->
+
+  <div class="card">
+
+    <h2>📊 Status COMBO</h2>
+
+    <div id="phaseStatus" class="status">
+      Brak aktywnego COMBO
+    </div>
+
+    <div id="countdown" class="countdown">
+      --
+    </div>
+
+    <div id="phaseInfo" class="info">
+      Utwórz nowe COMBO
+    </div>
+
+    <div class="pool-count">
+      Torów w puli: <span id="poolCount">0</span>
+    </div>
+
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- TERMIN -->
+  <!-- ========================= -->
+
+  <div id="dateSection" class="card hidden">
+
+    <h2>📅 Termin COMBO</h2>
+
+    <div class="date-row">
+
+      <div>
+        <label>Data</label>
+        <input type="date" id="comboDate">
+      </div>
+
+      <div>
+        <label>Godzina</label>
+        <input type="time" id="comboTime">
       </div>
 
     </div>
 
-    <div class="card">
+    <button id="saveDateBtn">
+      💾 ZAPISZ TERMIN
+    </button>
 
-      <div class="section-title">
-        🏆 OFICJALNY WYNIK RUNDY
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- DODAWANIE TORÓW -->
+  <!-- ========================= -->
+
+  <div id="addTrackSection" class="card hidden">
+
+    <h2>➕ Dodaj tor do puli</h2>
+
+    <select id="trackSelect">
+      <option value="">-- wybierz tor --</option>
+    </select>
+
+    <button id="addTrackBtn">
+      ➕ DODAJ TOR
+    </button>
+
+    <div id="trackMessage" class="message"></div>
+
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- PULA TORÓW -->
+  <!-- ========================= -->
+
+  <div class="card">
+
+    <h2>🏁 Aktualna pula torów</h2>
+
+    <div id="poolList" class="pool-list">
+      <div class="message">
+        Pula jest pusta.
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- GŁOSOWANIE -->
+  <!-- ========================= -->
+
+  <div id="votingSection" class="card hidden">
+
+    <h2>🎯 Wybierz grupę</h2>
+
+    <div class="group-buttons">
+
+      <button class="group-btn" data-group="Gr.1">
+        Gr.1
+      </button>
+
+      <button class="group-btn" data-group="Gr.2">
+        Gr.2
+      </button>
+
+      <button class="group-btn" data-group="Gr.3">
+        Gr.3
+      </button>
+
+      <button class="group-btn" data-group="Gr.4">
+        Gr.4
+      </button>
+
+    </div>
+
+    <button id="drawBtn" disabled>
+      🎲 LOSUJ
+    </button>
+
+    <div id="drawResult" class="result hidden">
+
+      <div>Wylosowana grupa:</div>
+
+      <div id="drawnGroup" class="track"></div>
+
+      <div style="margin-top:15px;">
+        Wylosowany tor:
       </div>
 
-      <div id="officialResult" class="official-result">
-        Wynik pojawi się po zakończeniu rundy.
-      </div>
+      <div id="drawnTrack" class="track"></div>
 
     </div>
 
   </div>
 
-  <script type="module">
 
-    import {
-      initializeApp
-    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+  <!-- ========================= -->
+  <!-- WYNIK OFICJALNY -->
+  <!-- ========================= -->
 
-    import {
-      getDatabase,
-      ref,
-      push,
-      set,
-      get,
-      onValue,
-      remove
-    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+  <div id="officialResult" class="card hidden">
+
+    <h2>🏆 Oficjalny wynik COMBO</h2>
+
+    <div class="result">
+
+      <div>Grupa</div>
+
+      <div id="officialGroup" class="track"></div>
+
+      <div style="margin-top:15px;">
+        Tor
+      </div>
+
+      <div id="officialTrack" class="track"></div>
+
+    </div>
+
+  </div>
+
+</div>
 
 
-    /* FIREBASE */
+<script type="module">
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDRDAiSlJBPOG8N_c4ctBRLYrwx3ER5rKw",
-      authDomain: "srs-losowanie.firebaseapp.com",
-      databaseURL: "https://srs-losowanie-default-rtdb.firebaseio.com",
-      projectId: "srs-losowanie",
-      storageBucket: "srs-losowanie.firebasestorage.app",
-      messagingSenderId: "212959687651",
-      appId: "1:212959687651:web:0a9a5e647450767bc026d6"
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+  getDatabase,
+  ref,
+  set,
+  get,
+  remove,
+  onValue,
+  push
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+
+/* ==================================================
+   FIREBASE
+================================================== */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDRDAiSlJBPOG8N_c4ctBRLYrwx3ER5rKw",
+  authDomain: "srs-losowanie.firebaseapp.com",
+  databaseURL: "https://srs-losowanie-default-rtdb.firebaseio.com",
+  projectId: "srs-losowanie",
+  storageBucket: "srs-losowanie.firebasestorage.app",
+  messagingSenderId: "212959687651",
+  appId: "1:212959687651:web:0a9a5e647450767bc026d6"
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+
+/* ==================================================
+   USTAWIENIA
+================================================== */
+
+const ADMIN_PIN = "840416";
+
+const WEEK = 7 * 24 * 60 * 60 * 1000;
+
+
+/* ==================================================
+   TORY
+================================================== */
+
+const tracks = [
+
+  "Autodrome Lago Maggiore - Full Course",
+  "Autopolis - Full Course",
+  "Blue Moon Bay Speedway",
+  "Brands Hatch Grand Prix Circuit",
+  "Circuit de Barcelona-Catalunya",
+  "Circuit de la Sarthe",
+  "Circuit de Spa-Francorchamps",
+  "Daytona International Speedway - Road Course",
+  "Deep Forest Raceway",
+  "Dragon Trail - Seaside",
+  "Fuji International Speedway",
+  "Goodwood Motor Circuit",
+  "Grand Valley - Highway 1",
+  "High Speed Ring",
+  "Interlagos",
+  "Kyoto Driving Park - Yamagiwa",
+  "Monza Circuit",
+  "Mount Panorama",
+  "Nürburgring GP",
+  "Nürburgring Nordschleife",
+  "Nürburgring 24h",
+  "Red Bull Ring",
+  "Road Atlanta",
+  "Sardegna - Road Track A",
+  "Sardegna - Windmills",
+  "Suzuka Circuit",
+  "Tokyo Expressway - South",
+  "Trial Mountain Circuit",
+  "Watkins Glen Long Course",
+  "WeatherTech Raceway Laguna Seca"
+
+];
+
+
+/* ==================================================
+   REFERENCJE FIREBASE
+================================================== */
+
+const comboRef = ref(database, "srsCombo");
+const poolRef = ref(database, "srsComboPool");
+const votesRef = ref(database, "srsComboVotes");
+
+
+/* ==================================================
+   ZMIENNE
+================================================== */
+
+let currentCombo = null;
+let currentPool = {};
+
+let selectedGroup = null;
+let finishingCombo = false;
+
+
+/* ==================================================
+   PLAYER ID
+================================================== */
+
+let playerId = localStorage.getItem("srsPlayerId");
+
+if (!playerId) {
+
+  playerId =
+    "player_" +
+    Date.now() +
+    "_" +
+    Math.random()
+      .toString(36)
+      .substring(2, 10);
+
+  localStorage.setItem("srsPlayerId", playerId);
+}
+
+
+/* ==================================================
+   ELEMENTY
+================================================== */
+
+const adminPin = document.getElementById("adminPin");
+
+const newComboBtn = document.getElementById("newComboBtn");
+const stopBtn = document.getElementById("stopBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const changeDateBtn = document.getElementById("changeDateBtn");
+
+const adminInfo = document.getElementById("adminInfo");
+
+const phaseStatus = document.getElementById("phaseStatus");
+const countdown = document.getElementById("countdown");
+const phaseInfo = document.getElementById("phaseInfo");
+
+const poolCount = document.getElementById("poolCount");
+const poolList = document.getElementById("poolList");
+
+const addTrackSection = document.getElementById("addTrackSection");
+const trackSelect = document.getElementById("trackSelect");
+const addTrackBtn = document.getElementById("addTrackBtn");
+const trackMessage = document.getElementById("trackMessage");
+
+const dateSection = document.getElementById("dateSection");
+const comboDate = document.getElementById("comboDate");
+const comboTime = document.getElementById("comboTime");
+const saveDateBtn = document.getElementById("saveDateBtn");
+
+const votingSection = document.getElementById("votingSection");
+
+const drawBtn = document.getElementById("drawBtn");
+const drawResult = document.getElementById("drawResult");
+
+const drawnGroup = document.getElementById("drawnGroup");
+const drawnTrack = document.getElementById("drawnTrack");
+
+const officialResult = document.getElementById("officialResult");
+const officialGroup = document.getElementById("officialGroup");
+const officialTrack = document.getElementById("officialTrack");
+
+
+/* ==================================================
+   LISTA TORÓW
+================================================== */
+
+tracks.forEach(track => {
+
+  const option = document.createElement("option");
+
+  option.value = track;
+  option.textContent = track;
+
+  trackSelect.appendChild(option);
+
+});
+
+
+/* ==================================================
+   SPRAWDZANIE ADMINA
+================================================== */
+
+function isAdmin() {
+
+  return adminPin.value === ADMIN_PIN;
+
+}
+
+
+function requireAdmin() {
+
+  if (!isAdmin()) {
+
+    adminInfo.textContent =
+      "❌ Nieprawidłowe hasło administratora.";
+
+    adminInfo.className =
+      "message error";
+
+    return false;
+  }
+
+  return true;
+}
+
+
+/* ==================================================
+   NOWE COMBO
+================================================== */
+
+newComboBtn.addEventListener("click", async () => {
+
+  if (!requireAdmin()) return;
+
+  const confirmation = confirm(
+    "Utworzenie NOWEGO COMBO usunie całą aktualną pulę torów i rozpocznie nowe COMBO.\n\nCzy na pewno?"
+  );
+
+  if (!confirmation) return;
+
+
+  try {
+
+    await remove(poolRef);
+    await remove(votesRef);
+
+
+    const now = new Date();
+
+    const defaultStart =
+      now.getTime() + 5 * 60 * 1000;
+
+
+    const combo = {
+
+      id: "combo_" + Date.now(),
+
+      status: "active",
+
+      startTime: defaultStart,
+
+      nextStartTime: defaultStart,
+
+      repeatWeekly: true,
+
+      winnerGroup: null,
+
+      winnerTrack: null,
+
+      finishedAt: null,
+
+      createdAt: Date.now()
+
     };
 
 
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
+    await set(comboRef, combo);
 
 
-    /* USTAWIENIA */
+    adminInfo.textContent =
+      "✅ Utworzono nowe COMBO. Pula została wyczyszczona.";
 
-    const ADMIN_PIN = "840416";
-
-    /* CZAS RUNDY – 5 MINUT */
-
-    const ROUND_TIME = 10 * 60 * 1000;
+    adminInfo.className =
+      "message success";
 
 
-    /* TORY */
-
-    const tracks = [
-      "Autodrome Lago Maggiore - Full Course",
-      "Autopolis - Full Course",
-      "Blue Moon Bay Speedway",
-      "Brands Hatch Grand Prix Circuit",
-      "Circuit de Barcelona-Catalunya",
-      "Circuit de la Sarthe",
-      "Circuit de Spa-Francorchamps",
-      "Daytona International Speedway - Road Course",
-      "Deep Forest Raceway",
-      "Dragon Trail - Seaside",
-      "Fuji International Speedway",
-      "Goodwood Motor Circuit",
-      "Grand Valley - Highway 1",
-      "High Speed Ring",
-      "Interlagos",
-      "Kyoto Driving Park - Yamagiwa",
-      "Monza Circuit",
-      "Mount Panorama",
-      "Nürburgring GP",
-      "Nürburgring Nordschleife",
-      "Nürburgring 24h",
-      "Red Bull Ring",
-      "Road Atlanta",
-      "Sardegna - Road Track A",
-      "Sardegna - Windmills",
-      "Suzuka Circuit",
-      "Tokyo Expressway - South",
-      "Trial Mountain Circuit",
-      "Watkins Glen Long Course",
-      "WeatherTech Raceway Laguna Seca"
-    ];
+    dateSection.classList.remove("hidden");
+    addTrackSection.classList.remove("hidden");
 
 
-    /* ELEMENTY */
+  } catch (error) {
 
-    const adminPin =
-      document.getElementById("adminPin");
+    console.error(error);
 
-    const newRoundBtn =
-      document.getElementById("newRoundBtn");
+    adminInfo.textContent =
+      "❌ Wystąpił błąd podczas tworzenia COMBO.";
 
-    const adminInfo =
-      document.getElementById("adminInfo");
+    adminInfo.className =
+      "message error";
 
-    const phaseStatus =
-      document.getElementById("phaseStatus");
+  }
 
-    const countdown =
-      document.getElementById("countdown");
-
-    const phaseInfo =
-      document.getElementById("phaseInfo");
-
-    const votingSection =
-      document.getElementById("votingSection");
-
-    const groupButtons =
-      document.querySelectorAll(".group-btn");
-
-    const drawBtn =
-      document.getElementById("drawBtn");
-
-    const drawnGroup =
-      document.getElementById("drawnGroup");
-
-    const drawnTrack =
-      document.getElementById("drawnTrack");
-
-    const officialResult =
-      document.getElementById("officialResult");
+});
 
 
-    /* FIREBASE */
+/* ==================================================
+   STOP
+================================================== */
 
-    const roundRef =
-      ref(database, "srsRound");
+stopBtn.addEventListener("click", async () => {
 
-    const votesRef =
-      ref(database, "srsVotes");
+  if (!requireAdmin()) return;
+
+  if (!currentCombo) {
+
+    adminInfo.textContent =
+      "Brak aktywnego COMBO.";
+
+    return;
+  }
 
 
-    /* ZMIENNE */
+  if (currentCombo.status === "stopped") {
 
-    let currentRound = null;
-    let selectedGroup = null;
-    let finishingRound = false;
+    adminInfo.textContent =
+      "COMBO jest już zatrzymane.";
+
+    return;
+  }
 
 
-    /* ID UŻYTKOWNIKA */
-
-    let playerId =
-      localStorage.getItem("srsPlayerId");
-
-    if (!playerId) {
-
-      playerId =
-        "player_" +
-        Date.now() +
-        "_" +
-        Math.random()
-          .toString(36)
-          .substring(2, 10);
-
-      localStorage.setItem(
-        "srsPlayerId",
-        playerId
-      );
-
+  await set(
+    comboRef,
+    {
+      ...currentCombo,
+      status: "stopped",
+      stoppedAt: Date.now()
     }
+  );
 
 
-    /* NOWA RUNDA */
+  adminInfo.textContent =
+    "⏸️ COMBO zostało zatrzymane.";
 
-    newRoundBtn.addEventListener(
-      "click",
-      async () => {
+  adminInfo.className =
+    "message warning";
 
-        if (
-          adminPin.value.trim() !==
-          ADMIN_PIN
-        ) {
+});
 
-          adminInfo.textContent =
-            "❌ Nieprawidłowy PIN.";
 
-          adminInfo.style.color =
-            "#ff5555";
+/* ==================================================
+   WZNÓW
+================================================== */
 
-          return;
+resumeBtn.addEventListener("click", async () => {
 
-        }
+  if (!requireAdmin()) return;
 
+  if (!currentCombo) {
 
-        const roundIsRunning =
-          currentRound &&
-          currentRound.status === "voting" &&
-          Date.now() < Number(currentRound.endTime);
+    adminInfo.textContent =
+      "Brak COMBO.";
 
+    return;
+  }
 
-        let confirmMessage =
-          "Rozpocząć nową rundę na 5 minut?";
 
-        if (roundIsRunning) {
+  if (currentCombo.status !== "stopped") {
 
-          confirmMessage =
-            "⚠️ Runda już trwa!\n\n" +
-            "Czy na pewno chcesz ją przerwać i rozpocząć NOWĄ rundę na 5 minut?\n\n" +
-            "Stare głosy zostaną usunięte.";
+    adminInfo.textContent =
+      "COMBO nie jest zatrzymane.";
 
-        }
+    return;
+  }
 
 
-        const confirmStart =
-          confirm(confirmMessage);
+  await set(
+    comboRef,
+    {
+      ...currentCombo,
+      status: "active",
+      resumedAt: Date.now()
+    }
+  );
 
-        if (!confirmStart) {
-          return;
-        }
 
+  adminInfo.textContent =
+    "▶️ COMBO zostało wznowione.";
 
-        try {
+  adminInfo.className =
+    "message success";
 
-          newRoundBtn.disabled = true;
+});
 
-          adminInfo.textContent =
-            "⏳ Rozpoczynanie nowej rundy...";
 
-          adminInfo.style.color =
-            "#ffe000";
+/* ==================================================
+   ZMIANA DATY I GODZINY
+================================================== */
 
+changeDateBtn.addEventListener("click", () => {
 
-          await remove(votesRef);
+  if (!requireAdmin()) return;
 
+  if (!currentCombo) {
 
-          const now =
-            Date.now();
+    adminInfo.textContent =
+      "Najpierw utwórz COMBO.";
 
+    return;
+  }
 
-          const newRound = {
 
-            id: String(now),
-
-            status: "voting",
-
-            startTime: now,
-
-            endTime:
-              now + ROUND_TIME,
-
-            winnerGroup: null,
-
-            winnerTrack: null
-
-          };
-
-
-          await set(
-            roundRef,
-            newRound
-          );
-
-
-          selectedGroup = null;
-
-          drawnGroup.textContent = "—";
-          drawnTrack.textContent = "—";
-
-
-          groupButtons.forEach(
-            button => {
-
-              button.disabled = false;
-
-              button.classList.remove(
-                "selected"
-              );
-
-            }
-          );
-
-
-          drawBtn.disabled = true;
-
-          drawBtn.textContent =
-            "🎲 NAJPIERW WYBIERZ GRUPĘ";
-
-
-          officialResult.textContent =
-            "Wynik pojawi się po zakończeniu rundy.";
-
-
-          adminPin.value = "";
-
-
-          adminInfo.textContent =
-            "🟢 Nowa runda została rozpoczęta na 5 minut.";
-
-          adminInfo.style.color =
-            "#4ade80";
-
-        }
-
-        catch (error) {
-
-          adminInfo.textContent =
-            "❌ Błąd: " +
-            error.message;
-
-          adminInfo.style.color =
-            "#ff5555";
-
-        }
-
-
-        newRoundBtn.disabled = false;
-
-      }
+  const date =
+    new Date(
+      currentCombo.nextStartTime ||
+      currentCombo.startTime
     );
 
 
-    /* CZY RUNDA TRWA */
+  const year =
+    date.getFullYear();
 
-    function votingIsActive() {
+  const month =
+    String(date.getMonth() + 1)
+      .padStart(2, "0");
 
-      return (
-        currentRound &&
-        currentRound.status === "voting" &&
-        Date.now() <
-          Number(currentRound.endTime)
-      );
+  const day =
+    String(date.getDate())
+      .padStart(2, "0");
 
-    }
+  const hours =
+    String(date.getHours())
+      .padStart(2, "0");
 
-
-    /* CZY UŻYTKOWNIK JUŻ BRAŁ UDZIAŁ */
-
-    async function playerAlreadyVoted() {
-
-      if (!currentRound) {
-        return false;
-      }
-
-      try {
-
-        const snapshot =
-          await get(votesRef);
-
-        const votes =
-          snapshot.val() || {};
+  const minutes =
+    String(date.getMinutes())
+      .padStart(2, "0");
 
 
-        return Object.values(votes).some(
-          vote =>
-            vote.playerId === playerId &&
-            vote.roundId === currentRound.id
-        );
+  comboDate.value =
+    `${year}-${month}-${day}`;
 
-      }
-
-      catch {
-
-        return false;
-
-      }
-
-    }
+  comboTime.value =
+    `${hours}:${minutes}`;
 
 
-    /* WYBÓR GRUPY */
+  dateSection.classList.remove("hidden");
 
-    groupButtons.forEach(
-      button => {
+  dateSection.scrollIntoView({
+    behavior: "smooth"
+  });
 
-        button.addEventListener(
-          "click",
-          async () => {
-
-            if (!votingIsActive()) {
-              return;
-            }
+});
 
 
-            const alreadyVoted =
-              await playerAlreadyVoted();
+/* ==================================================
+   ZAPIS DATY
+================================================== */
+
+saveDateBtn.addEventListener("click", async () => {
+
+  if (!requireAdmin()) return;
+
+  if (!comboDate.value || !comboTime.value) {
+
+    adminInfo.textContent =
+      "Wybierz datę i godzinę.";
+
+    adminInfo.className =
+      "message error";
+
+    return;
+  }
 
 
-            if (alreadyVoted) {
-
-              alert(
-                "Już brałeś udział w tej rundzie."
-              );
-
-              return;
-
-            }
-
-
-            selectedGroup =
-              button.dataset.group;
-
-
-            groupButtons.forEach(
-              btn => {
-                btn.classList.remove(
-                  "selected"
-                );
-              }
-            );
-
-
-            button.classList.add(
-              "selected"
-            );
-
-
-            drawnGroup.textContent =
-              selectedGroup;
-
-
-            drawBtn.disabled =
-              false;
-
-            drawBtn.textContent =
-              "🎲 LOSUJ TOR";
-
-          }
-        );
-
-      }
+  const newDate =
+    new Date(
+      `${comboDate.value}T${comboTime.value}`
     );
 
 
-    /* LOSOWANIE */
+  if (isNaN(newDate.getTime())) {
 
-    drawBtn.addEventListener(
+    adminInfo.textContent =
+      "Nieprawidłowa data.";
+
+    return;
+  }
+
+
+  await set(
+    comboRef,
+    {
+      ...currentCombo,
+
+      nextStartTime:
+        newDate.getTime(),
+
+      startTime:
+        newDate.getTime()
+    }
+  );
+
+
+  adminInfo.textContent =
+    "✅ Data i godzina zostały zmienione.";
+
+  adminInfo.className =
+    "message success";
+
+
+  dateSection.classList.add("hidden");
+
+});
+
+
+/* ==================================================
+   DODAWANIE TORU
+================================================== */
+
+addTrackBtn.addEventListener("click", async () => {
+
+  if (!requireAdmin()) return;
+
+  const track =
+    trackSelect.value;
+
+
+  if (!track) {
+
+    trackMessage.textContent =
+      "Wybierz tor.";
+
+    trackMessage.className =
+      "message error";
+
+    return;
+  }
+
+
+  /* sprawdzenie czy tor już istnieje */
+
+  const existing =
+    Object.values(currentPool)
+      .some(item =>
+        item.track === track
+      );
+
+
+  if (existing) {
+
+    trackMessage.textContent =
+      "⚠️ Ten tor jest już w puli.";
+
+    trackMessage.className =
+      "message warning";
+
+    return;
+  }
+
+
+  const newTrackRef =
+    push(poolRef);
+
+
+  await set(
+    newTrackRef,
+    {
+      track: track,
+      addedAt: Date.now()
+    }
+  );
+
+
+  trackSelect.value = "";
+
+  trackMessage.textContent =
+    "✅ Tor został dodany do puli.";
+
+  trackMessage.className =
+    "message success";
+
+});
+
+
+/* ==================================================
+   USUWANIE TORU Z PULI
+================================================== */
+
+async function removeTrack(key) {
+
+  if (!requireAdmin()) return;
+
+  const confirmation =
+    confirm(
+      "Czy na pewno usunąć ten tor z puli?"
+    );
+
+  if (!confirmation) return;
+
+  await remove(
+    ref(database, "srsComboPool/" + key)
+  );
+
+}
+
+
+/* ==================================================
+   RENDER PULI
+================================================== */
+
+function renderPool() {
+
+  const entries =
+    Object.entries(currentPool);
+
+
+  poolCount.textContent =
+    entries.length;
+
+
+  poolList.innerHTML = "";
+
+
+  if (entries.length === 0) {
+
+    poolList.innerHTML =
+      `<div class="message">
+        Pula jest pusta.
+      </div>`;
+
+    return;
+  }
+
+
+  entries.forEach(([key, item]) => {
+
+    const div =
+      document.createElement("div");
+
+    div.className =
+      "track-item";
+
+
+    const name =
+      document.createElement("span");
+
+    name.textContent =
+      item.track;
+
+
+    const removeBtn =
+      document.createElement("button");
+
+    removeBtn.textContent =
+      "🗑️";
+
+    removeBtn.className =
+      "secondary-btn";
+
+
+    removeBtn.addEventListener(
+      "click",
+      () => removeTrack(key)
+    );
+
+
+    div.appendChild(name);
+    div.appendChild(removeBtn);
+
+    poolList.appendChild(div);
+
+  });
+
+}
+
+
+/* ==================================================
+   SPRAWDZENIE GŁOSU
+================================================== */
+
+async function playerAlreadyVoted() {
+
+  if (!currentCombo) return false;
+
+
+  const snapshot =
+    await get(votesRef);
+
+
+  if (!snapshot.exists())
+    return false;
+
+
+  const votes =
+    snapshot.val();
+
+
+  return Object.values(votes)
+    .some(vote =>
+      vote.playerId === playerId &&
+      vote.comboId === currentCombo.id
+    );
+
+}
+
+
+/* ==================================================
+   WYBÓR GRUPY
+================================================== */
+
+document
+  .querySelectorAll(".group-btn")
+  .forEach(button => {
+
+    button.addEventListener(
       "click",
       async () => {
 
-        if (
-          !selectedGroup ||
-          !votingIsActive()
-        ) {
+        if (!currentCombo) return;
+
+        if (currentCombo.status !== "active")
           return;
-        }
 
 
-        const alreadyVoted =
+        if (
+          Date.now() <
+          currentCombo.nextStartTime
+        )
+          return;
+
+
+        if (
+          currentCombo.winnerTrack
+        )
+          return;
+
+
+        const already =
           await playerAlreadyVoted();
 
 
-        if (alreadyVoted) {
+        if (already) {
 
-          drawBtn.disabled = true;
-
-          drawBtn.textContent =
-            "✅ JUŻ WZIĄŁEŚ UDZIAŁ";
+          alert(
+            "Twój głos został już zapisany."
+          );
 
           return;
-
         }
 
 
-        drawBtn.disabled = true;
-
-
-        groupButtons.forEach(
-          button => {
-            button.disabled = true;
-          }
-        );
-
-
-        drawBtn.textContent =
-          "🎲 LOSOWANIE...";
-
-
-        const animation =
-          setInterval(
-            () => {
-
-              const randomTrack =
-                tracks[
-                  Math.floor(
-                    Math.random() *
-                    tracks.length
-                  )
-                ];
-
-
-              drawnTrack.textContent =
-                "🏁 " + randomTrack;
-
-            },
-            70
+        document
+          .querySelectorAll(".group-btn")
+          .forEach(btn =>
+            btn.classList.remove("selected")
           );
 
 
-        setTimeout(
-          async () => {
+        button.classList.add("selected");
 
-            clearInterval(animation);
-
-
-            const finalTrack =
-              tracks[
-                Math.floor(
-                  Math.random() *
-                  tracks.length
-                )
-              ];
+        selectedGroup =
+          button.dataset.group;
 
 
-            drawnTrack.textContent =
-              "🏁 " + finalTrack;
-
-
-            try {
-
-              await push(
-                votesRef,
-                {
-
-                  playerId: playerId,
-
-                  roundId: currentRound.id,
-
-                  group: selectedGroup,
-
-                  track: finalTrack,
-
-                  time: Date.now()
-
-                }
-              );
-
-
-              drawBtn.textContent =
-                "✅ ZAPISANO";
-
-            }
-
-            catch (error) {
-
-              alert(
-                "Błąd zapisu: " +
-                error.message
-              );
-
-
-              groupButtons.forEach(
-                button => {
-                  button.disabled = false;
-                }
-              );
-
-
-              drawBtn.disabled =
-                false;
-
-              drawBtn.textContent =
-                "🎲 LOSUJ TOR";
-
-            }
-
-          },
-          1800
-        );
+        drawBtn.disabled = false;
 
       }
     );
 
+  });
 
-    /* LOSOWANIE PRZY REMISIE */
 
-    function randomItem(array) {
+/* ==================================================
+   LOSOWANIE
+================================================== */
 
-      return array[
-        Math.floor(
-          Math.random() *
-          array.length
-        )
-      ];
+drawBtn.addEventListener(
+  "click",
+  async () => {
 
+    if (!currentCombo)
+      return;
+
+
+    if (
+      currentCombo.status !== "active"
+    )
+      return;
+
+
+    if (
+      Date.now() <
+      currentCombo.nextStartTime
+    )
+      return;
+
+
+    if (!selectedGroup)
+      return;
+
+
+    const already =
+      await playerAlreadyVoted();
+
+
+    if (already) {
+
+      alert(
+        "Twój głos został już zapisany."
+      );
+
+      return;
     }
 
 
-    /* ZAKOŃCZENIE RUNDY */
+    const entries =
+      Object.entries(currentPool);
 
-    async function finishRound() {
 
-      if (
-        finishingRound ||
-        !currentRound
-      ) {
-        return;
+    if (entries.length === 0) {
+
+      alert(
+        "Pula torów jest pusta."
+      );
+
+      return;
+    }
+
+
+    drawBtn.disabled = true;
+
+    finishingCombo = true;
+
+
+    /* zapis głosu */
+
+    const voteRef =
+      push(votesRef);
+
+
+    await set(
+      voteRef,
+      {
+        playerId: playerId,
+
+        comboId:
+          currentCombo.id,
+
+        group:
+          selectedGroup,
+
+        time:
+          Date.now()
       }
+    );
 
 
-      finishingRound = true;
+    /* animacja */
+
+    let animationCount = 0;
 
 
-      try {
+    const animation =
+      setInterval(() => {
 
-        const roundSnapshot =
-          await get(roundRef);
-
-        const latestRound =
-          roundSnapshot.val();
-
-
-        if (
-          !latestRound ||
-          latestRound.status !== "voting" ||
-          Date.now() <
-            Number(latestRound.endTime)
-        ) {
-
-          finishingRound = false;
-
-          return;
-
-        }
-
-
-        const votesSnapshot =
-          await get(votesRef);
-
-        const allVotes =
-          votesSnapshot.val() || {};
-
-
-        const votes =
-          Object.values(allVotes)
-            .filter(
-              vote =>
-                vote.roundId ===
-                latestRound.id
-            );
-
-
-        /* BRAK GŁOSÓW */
-
-        if (votes.length === 0) {
-
-          await set(
-            roundRef,
-            {
-              ...latestRound,
-              status: "finished"
-            }
-          );
-
-
-          finishingRound = false;
-
-          return;
-
-        }
-
-
-        /* LICZENIE GRUP */
-
-        const groupCounts = {};
-
-
-        votes.forEach(
-          vote => {
-
-            groupCounts[
-              vote.group
-            ] =
-              (
-                groupCounts[
-                  vote.group
-                ] || 0
-              ) + 1;
-
-          }
-        );
-
-
-        const maxGroup =
-          Math.max(
-            ...Object.values(
-              groupCounts
+        const random =
+          entries[
+            Math.floor(
+              Math.random() *
+              entries.length
             )
-          );
+          ];
 
 
-        const bestGroups =
-          Object.keys(groupCounts)
-            .filter(
-              group =>
-                groupCounts[group] ===
-                maxGroup
-            );
+        drawnTrack.textContent =
+          random[1].track;
 
+        drawnGroup.textContent =
+          selectedGroup;
 
-        const winnerGroup =
-          randomItem(bestGroups);
 
-
-        /* GŁOSY Z WYGRANEJ GRUPY */
-
-        const winningVotes =
-          votes.filter(
-            vote =>
-              vote.group ===
-              winnerGroup
-          );
-
-
-        /* LICZENIE TORÓW */
-
-        const trackCounts = {};
-
-
-        winningVotes.forEach(
-          vote => {
-
-            trackCounts[
-              vote.track
-            ] =
-              (
-                trackCounts[
-                  vote.track
-                ] || 0
-              ) + 1;
-
-          }
-        );
-
-
-        const maxTrack =
-          Math.max(
-            ...Object.values(
-              trackCounts
-            )
-          );
-
-
-        const bestTracks =
-          Object.keys(trackCounts)
-            .filter(
-              track =>
-                trackCounts[track] ===
-                maxTrack
-            );
-
-
-        const winnerTrack =
-          randomItem(bestTracks);
-
-
-        /* ZAPIS WYNIKU */
-
-        await set(
-          roundRef,
-          {
-
-            ...latestRound,
-
-            status:
-              "finished",
-
-            winnerGroup:
-              winnerGroup,
-
-            winnerTrack:
-              winnerTrack,
-
-            finishedAt:
-              Date.now()
-
-          }
-        );
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "Błąd kończenia rundy:",
-          error
-        );
-
-      }
-
-
-      finishingRound = false;
-
-    }
-
-
-    /* ODLiCZANIE */
-
-    function updateCountdown() {
-
-      if (
-        !currentRound ||
-        currentRound.status !== "voting"
-      ) {
-        return;
-      }
-
-
-      const left =
-        Number(currentRound.endTime) -
-        Date.now();
-
-
-      if (left <= 0) {
-
-        countdown.textContent =
-          "00:00";
-
-        finishRound();
-
-        return;
-
-      }
-
-
-      const seconds =
-        Math.floor(left / 1000);
-
-      const minutes =
-        Math.floor(seconds / 60);
-
-      const remainingSeconds =
-        seconds % 60;
-
-
-      countdown.textContent =
-        String(minutes).padStart(2, "0") +
-        ":" +
-        String(remainingSeconds).padStart(2, "0");
-
-    }
-
-
-    /* WYŚWIETLANIE */
-
-    function renderRound() {
-
-      if (!currentRound) {
-
-        phaseStatus.textContent =
-          "⏳ BRAK AKTYWNEJ RUNDY";
-
-        phaseStatus.style.color =
-          "#dddddd";
-
-        countdown.textContent =
-          "00:00";
-
-        phaseInfo.textContent =
-          "Czekamy na rozpoczęcie nowej rundy.";
-
-        votingSection.classList.add(
-          "hidden"
-        );
-
-        officialResult.textContent =
-          "Wynik pojawi się po zakończeniu rundy.";
-
-        return;
-
-      }
-
-
-      if (
-        currentRound.status === "voting"
-      ) {
-
-        if (votingIsActive()) {
-
-          phaseStatus.textContent =
-            "🟢 GŁOSOWANIE TRWA";
-
-          phaseStatus.style.color =
-            "#4ade80";
-
-          phaseInfo.textContent =
-            "Masz czas do końca rundy.";
-
-          votingSection.classList.remove(
-            "hidden"
-          );
-
-          officialResult.textContent =
-            "Wynik pojawi się po zakończeniu rundy.";
-
-        }
-
-        else {
-
-          phaseStatus.textContent =
-            "🏁 LICZENIE WYNIKU...";
-
-          phaseStatus.style.color =
-            "#ffe000";
-
-          phaseInfo.textContent =
-            "System liczy głosy.";
-
-          votingSection.classList.add(
-            "hidden"
-          );
-
-          finishRound();
-
-        }
-
-      }
-
-
-      if (
-        currentRound.status === "finished"
-      ) {
-
-        phaseStatus.textContent =
-          "🏆 RUNDA ZAKOŃCZONA";
-
-        phaseStatus.style.color =
-          "#ff6b6b";
-
-        countdown.textContent =
-          "00:00";
-
-        phaseInfo.textContent =
-          "Wpisz PIN i rozpocznij nową rundę.";
-
-        votingSection.classList.add(
+        drawResult.classList.remove(
           "hidden"
         );
 
 
-        if (
-          currentRound.winnerGroup &&
-          currentRound.winnerTrack
-        ) {
+        animationCount++;
 
-          officialResult.innerHTML = `
-            <div>
-              🏎️ WYBRANA GRUPA AUT
-            </div>
 
-            <div class="winner-group">
-              ${currentRound.winnerGroup}
-            </div>
+        if (animationCount >= 25) {
 
-            <br>
+          clearInterval(animation);
 
-            <div>
-              🏁 WYLOSOWANY TOR
-            </div>
-
-            <div class="winner-track">
-              ${currentRound.winnerTrack}
-            </div>
-          `;
+          finishCombo();
 
         }
 
-        else {
+      }, 70);
 
-          officialResult.textContent =
-            "W tej rundzie nie było żadnych wyborów.";
+  }
+);
 
-        }
 
-      }
+/* ==================================================
+   ZAKOŃCZENIE COMBO
+================================================== */
+
+async function finishCombo() {
+
+  if (!currentCombo)
+    return;
+
+
+  const poolEntries =
+    Object.entries(currentPool);
+
+
+  if (poolEntries.length === 0)
+    return;
+
+
+  /*
+    W tej wersji każdy użytkownik wybiera grupę,
+    a tor jest losowany z aktualnej puli.
+  */
+
+
+  const randomEntry =
+    poolEntries[
+      Math.floor(
+        Math.random() *
+        poolEntries.length
+      )
+    ];
+
+
+  const key =
+    randomEntry[0];
+
+  const track =
+    randomEntry[1].track;
+
+
+  drawnGroup.textContent =
+    selectedGroup;
+
+  drawnTrack.textContent =
+    track;
+
+
+  /*
+    Usuwamy wylosowany tor z puli.
+  */
+
+  await remove(
+    ref(
+      database,
+      "srsComboPool/" + key
+    )
+  );
+
+
+  /*
+    Następny termin = +7 dni
+  */
+
+  const currentStart =
+    currentCombo.nextStartTime ||
+    Date.now();
+
+
+  const nextStart =
+    currentStart + WEEK;
+
+
+  const finishedCombo = {
+
+    ...currentCombo,
+
+    status: "active",
+
+    winnerGroup:
+      selectedGroup,
+
+    winnerTrack:
+      track,
+
+    finishedAt:
+      Date.now(),
+
+    nextStartTime:
+      nextStart,
+
+    startTime:
+      nextStart
+
+  };
+
+
+  await set(
+    comboRef,
+    finishedCombo
+  );
+
+
+  officialGroup.textContent =
+    selectedGroup;
+
+  officialTrack.textContent =
+    track;
+
+
+  officialResult.classList.remove(
+    "hidden"
+  );
+
+
+  finishingCombo = false;
+
+
+  selectedGroup = null;
+
+
+  document
+    .querySelectorAll(".group-btn")
+    .forEach(btn =>
+      btn.classList.remove("selected")
+    );
+
+
+  drawBtn.disabled = true;
+
+}
+
+
+/* ==================================================
+   RENDER COMBO
+================================================== */
+
+function renderCombo() {
+
+  if (!currentCombo) {
+
+    phaseStatus.textContent =
+      "Brak aktywnego COMBO";
+
+    countdown.textContent =
+      "--";
+
+    phaseInfo.textContent =
+      "Utwórz nowe COMBO.";
+
+    votingSection.classList.add(
+      "hidden"
+    );
+
+    officialResult.classList.add(
+      "hidden"
+    );
+
+    return;
+  }
+
+
+  const now =
+    Date.now();
+
+
+  if (
+    currentCombo.status ===
+    "stopped"
+  ) {
+
+    phaseStatus.textContent =
+      "⏸️ COMBO ZATRZYMANE";
+
+    countdown.textContent =
+      "--";
+
+    phaseInfo.textContent =
+      "COMBO jest zatrzymane. Pula torów pozostaje zachowana.";
+
+    votingSection.classList.add(
+      "hidden"
+    );
+
+    return;
+  }
+
+
+  const start =
+    currentCombo.nextStartTime ||
+    currentCombo.startTime;
+
+
+  if (now < start) {
+
+    phaseStatus.textContent =
+      "⏳ OCZEKIWANIE NA COMBO";
+
+    countdown.textContent =
+      formatCountdown(start - now);
+
+    phaseInfo.textContent =
+      "Następne COMBO rozpocznie się: " +
+      formatDate(start);
+
+    votingSection.classList.add(
+      "hidden"
+    );
+
+  } else {
+
+    phaseStatus.textContent =
+      "🟢 COMBO AKTYWNE";
+
+    countdown.textContent =
+      "TRWA";
+
+    phaseInfo.textContent =
+      "Wybierz grupę i oddaj swój głos.";
+
+    if (
+      currentCombo.winnerTrack
+    ) {
+
+      votingSection.classList.add(
+        "hidden"
+      );
+
+    } else {
+
+      votingSection.classList.remove(
+        "hidden"
+      );
 
     }
 
+  }
 
-    /* NASŁUCHIWANIE FIREBASE */
 
-    onValue(
-      roundRef,
+  if (
+    currentCombo.winnerTrack
+  ) {
 
-      snapshot => {
+    officialResult.classList.remove(
+      "hidden"
+    );
 
-        currentRound =
-          snapshot.val();
+    officialGroup.textContent =
+      currentCombo.winnerGroup;
 
-        renderRound();
+    officialTrack.textContent =
+      currentCombo.winnerTrack;
 
-        updateCountdown();
+  }
 
-      },
+}
 
-      error => {
 
-        console.error(
-          "Błąd Firebase:",
-          error
-        );
+/* ==================================================
+   FORMAT CZASU
+================================================== */
 
-      }
+function formatCountdown(ms) {
 
+  if (ms <= 0)
+    return "00:00:00";
+
+
+  const totalSeconds =
+    Math.floor(ms / 1000);
+
+
+  const days =
+    Math.floor(
+      totalSeconds / 86400
     );
 
 
-    /* ZEGAR */
-
-    setInterval(
-      () => {
-
-        updateCountdown();
-
-
-        if (
-          currentRound &&
-          currentRound.status === "voting" &&
-          !votingIsActive()
-        ) {
-
-          finishRound();
-
-        }
-
-      },
-      1000
+  const hours =
+    Math.floor(
+      (totalSeconds % 86400) / 3600
     );
 
-  </script>
+
+  const minutes =
+    Math.floor(
+      (totalSeconds % 3600) / 60
+    );
+
+
+  const seconds =
+    totalSeconds % 60;
+
+
+  if (days > 0) {
+
+    return (
+      days + "d " +
+      String(hours).padStart(2, "0") + ":" +
+      String(minutes).padStart(2, "0") + ":" +
+      String(seconds).padStart(2, "0")
+    );
+
+  }
+
+
+  return (
+    String(hours).padStart(2, "0") + ":" +
+    String(minutes).padStart(2, "0") + ":" +
+    String(seconds).padStart(2, "0")
+  );
+
+}
+
+
+function formatDate(timestamp) {
+
+  const date =
+    new Date(timestamp);
+
+
+  return date.toLocaleString(
+    "pl-PL",
+    {
+      dateStyle: "short",
+      timeStyle: "short"
+    }
+  );
+
+}
+
+
+/* ==================================================
+   FIREBASE - COMBO
+================================================== */
+
+onValue(
+  comboRef,
+  snapshot => {
+
+    currentCombo =
+      snapshot.exists()
+        ? snapshot.val()
+        : null;
+
+
+    renderCombo();
+
+  }
+);
+
+
+/* ==================================================
+   FIREBASE - PULA
+================================================== */
+
+onValue(
+  poolRef,
+  snapshot => {
+
+    currentPool =
+      snapshot.exists()
+        ? snapshot.val()
+        : {};
+
+
+    renderPool();
+
+  }
+);
+
+
+/* ==================================================
+   TIMER
+================================================== */
+
+setInterval(
+  () => {
+
+    renderCombo();
+
+  },
+  1000
+);
+
+
+/* ==================================================
+   POKAZYWANIE PANELU PO HAŚLE
+================================================== */
+
+adminPin.addEventListener(
+  "input",
+  () => {
+
+    if (isAdmin()) {
+
+      addTrackSection.classList.remove(
+        "hidden"
+      );
+
+      adminInfo.textContent =
+        "🔓 Dostęp administratora aktywny.";
+
+      adminInfo.className =
+        "message success";
+
+    } else {
+
+      addTrackSection.classList.add(
+        "hidden"
+      );
+
+      dateSection.classList.add(
+        "hidden"
+      );
+
+      adminInfo.textContent = "";
+
+    }
+
+  }
+);
+
+
+/* ==================================================
+   START
+================================================== */
+
+renderPool();
+renderCombo();
+
+</script>
 
 </body>
 </html>
