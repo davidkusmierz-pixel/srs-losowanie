@@ -295,13 +295,6 @@
       font-weight: bold;
     }
 
-    .tire-category-title {
-      margin-top: 10px;
-      color: #aaa;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
     @media (max-width: 850px) {
       .classes {
         grid-template-columns: repeat(4, 1fr);
@@ -387,7 +380,9 @@
 
       <select id="trackSelect">
 
-        <option value="">-- WYBIERZ TOR --</option>
+        <option value="">
+          -- WYBIERZ TOR --
+        </option>
 
         <option>Autodrome Lago Maggiore</option>
         <option>Autopolis</option>
@@ -427,46 +422,85 @@
         🏎️ WYBIERZ KLASĘ / MULTIKLASĘ
       </label>
 
-
       <div class="classes">
 
-        <button type="button" class="class-btn" data-class="Gr.1">
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Gr.1"
+        >
           🏎️ Gr.1
         </button>
 
-        <button type="button" class="class-btn" data-class="Gr.2">
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Gr.2"
+        >
           🏁 Gr.2
         </button>
 
-        <button type="button" class="class-btn" data-class="Gr.3">
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Gr.3"
+        >
           🚗 Gr.3
         </button>
 
-        <button type="button" class="class-btn" data-class="Gr.4">
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Gr.4"
+        >
           🚙 Gr.4
         </button>
 
-        <button type="button" class="class-btn" data-class="Hypercar">
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Hypercar"
+        >
           🔥 Hypercar
         </button>
 
-        <button type="button" class="class-btn" data-class="Super Formula">
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Super Formula"
+        >
           🏎️ Super Formula
         </button>
 
-        <button type="button" class="class-btn" data-class="Gr.B">
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Gr.B"
+        >
           🚙 Gr.B
         </button>
 
-        <button type="button" class="class-btn" data-class="Vision Gran Turismo">
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Vision Gran Turismo"
+        >
           ⚡ Vision GT
         </button>
 
-        <button type="button" class="class-btn" data-class="Samochody drogowe">
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Samochody drogowe"
+        >
           🚗 Samochody drogowe
         </button>
 
-        <button type="button" class="class-btn" data-class="Open Class">
+        <button
+          type="button"
+          class="class-btn"
+          data-class="Open Class"
+        >
           🏁 Open Class
         </button>
 
@@ -497,7 +531,7 @@
       >
 
       <div class="tire-info">
-        Czas wyścigu jest dodatkowy i nie zastępuje liczby okrążeń.
+        Czas wyścigu jest dodatkowym parametrem.
       </div>
 
 
@@ -506,12 +540,31 @@
       </label>
 
       <select id="weatherSelect">
-        <option value="">-- WYBIERZ POGODĘ --</option>
-        <option>☀️ Słonecznie</option>
-        <option>🌤️ Lekko pochmurno</option>
-        <option>🌥️ Pochmurno</option>
-        <option>🌦️ Zmienna pogoda</option>
-        <option>🌧️ Deszcz</option>
+
+        <option value="">
+          -- WYBIERZ POGODĘ --
+        </option>
+
+        <option>
+          ☀️ Słonecznie
+        </option>
+
+        <option>
+          🌤️ Lekko pochmurno
+        </option>
+
+        <option>
+          🌥️ Pochmurno
+        </option>
+
+        <option>
+          🌦️ Zmienna pogoda
+        </option>
+
+        <option>
+          🌧️ Deszcz
+        </option>
+
       </select>
 
 
@@ -520,13 +573,35 @@
       </label>
 
       <select id="timeOfDaySelect">
-        <option value="">-- WYBIERZ PORĘ DNIA --</option>
-        <option>🌄 Świt</option>
-        <option>☀️ Rano</option>
-        <option>🌞 Dzień</option>
-        <option>🌇 Popołudnie</option>
-        <option>🌅 Zachód słońca</option>
-        <option>🌙 Noc</option>
+
+        <option value="">
+          -- WYBIERZ PORĘ DNIA --
+        </option>
+
+        <option>
+          🌄 Świt
+        </option>
+
+        <option>
+          ☀️ Rano
+        </option>
+
+        <option>
+          🌞 Dzień
+        </option>
+
+        <option>
+          🌇 Popołudnie
+        </option>
+
+        <option>
+          🌅 Zachód słońca
+        </option>
+
+        <option>
+          🌙 Noc
+        </option>
+
       </select>
 
 
@@ -538,10 +613,6 @@
 
         <option value="">
           -- WYBIERZ TYP OPON --
-        </option>
-
-        <option value="Dowolne">
-          Dowolne
         </option>
 
         <option value="Comfort">
@@ -563,7 +634,10 @@
         🛞 OPONY DOSTĘPNE
       </label>
 
-      <div id="usableTiresContainer" class="tire-group">
+      <div
+        id="usableTiresContainer"
+        class="tire-group"
+      >
 
         <div class="tire-info">
           Najpierw wybierz typ opon.
@@ -576,7 +650,10 @@
         🔧 OPONY OBOWIĄZKOWE
       </label>
 
-      <div id="requiredTiresContainer" class="tire-group">
+      <div
+        id="requiredTiresContainer"
+        class="tire-group"
+      >
 
         <div class="tire-info">
           Najpierw wybierz typ opon.
@@ -586,8 +663,8 @@
 
 
       <div class="tire-info">
-        Możesz zaznaczyć kilka mieszanek, ale tylko w obrębie jednej kategorii.
-        Przykład: RM + RS jest dozwolone, ale RM + SM nie.
+        Możesz wybrać kilka mieszanek w ramach jednej kategorii.
+        Przykład: RM + RS jest dozwolone.
       </div>
 
 
@@ -731,7 +808,10 @@
 
       <div id="comboInfo"></div>
 
-      <div id="myCombo" class="my-combo"></div>
+      <div
+        id="myCombo"
+        class="my-combo"
+      ></div>
 
     </div>
 
@@ -814,7 +894,9 @@
 
 
     const app =
-      initializeApp(firebaseConfig);
+      initializeApp(
+        firebaseConfig
+      );
 
     const database =
       getDatabase(app);
@@ -823,52 +905,79 @@
     const ADMIN_PIN =
       "840416";
 
-
     const ROUND_TIME =
       5 * 60 * 1000;
 
 
     const adminPin =
-      document.getElementById("adminPin");
+      document.getElementById(
+        "adminPin"
+      );
 
     const newRoundBtn =
-      document.getElementById("newRoundBtn");
+      document.getElementById(
+        "newRoundBtn"
+      );
 
     const adminInfo =
-      document.getElementById("adminInfo");
+      document.getElementById(
+        "adminInfo"
+      );
 
     const phaseStatus =
-      document.getElementById("phaseStatus");
+      document.getElementById(
+        "phaseStatus"
+      );
 
     const countdown =
-      document.getElementById("countdown");
+      document.getElementById(
+        "countdown"
+      );
 
     const phaseInfo =
-      document.getElementById("phaseInfo");
+      document.getElementById(
+        "phaseInfo"
+      );
 
     const comboSection =
-      document.getElementById("comboSection");
+      document.getElementById(
+        "comboSection"
+      );
 
     const trackSelect =
-      document.getElementById("trackSelect");
+      document.getElementById(
+        "trackSelect"
+      );
 
     const classButtons =
-      document.querySelectorAll(".class-btn");
+      document.querySelectorAll(
+        ".class-btn"
+      );
 
     const lapsInput =
-      document.getElementById("lapsInput");
+      document.getElementById(
+        "lapsInput"
+      );
 
     const raceTimeInput =
-      document.getElementById("raceTimeInput");
+      document.getElementById(
+        "raceTimeInput"
+      );
 
     const weatherSelect =
-      document.getElementById("weatherSelect");
+      document.getElementById(
+        "weatherSelect"
+      );
 
     const timeOfDaySelect =
-      document.getElementById("timeOfDaySelect");
+      document.getElementById(
+        "timeOfDaySelect"
+      );
 
     const tireCategorySelect =
-      document.getElementById("tireCategorySelect");
+      document.getElementById(
+        "tireCategorySelect"
+      );
 
     const usableTiresContainer =
       document.getElementById(
@@ -881,10 +990,14 @@
       );
 
     const pitSelect =
-      document.getElementById("pitSelect");
+      document.getElementById(
+        "pitSelect"
+      );
 
     const fuelSelect =
-      document.getElementById("fuelSelect");
+      document.getElementById(
+        "fuelSelect"
+      );
 
     const tireWearSelect =
       document.getElementById(
@@ -902,7 +1015,9 @@
       );
 
     const bopSelect =
-      document.getElementById("bopSelect");
+      document.getElementById(
+        "bopSelect"
+      );
 
     const saveComboBtn =
       document.getElementById(
@@ -915,7 +1030,9 @@
       );
 
     const myCombo =
-      document.getElementById("myCombo");
+      document.getElementById(
+        "myCombo"
+      );
 
     const participantCount =
       document.getElementById(
@@ -942,11 +1059,8 @@
 
 
     let currentRound = null;
-
     let currentCombos = {};
-
     let selectedClasses = [];
-
     let finishingRound = false;
 
 
@@ -1093,24 +1207,10 @@
       }
 
 
-      if (category === "Dowolne") {
-
-        container.innerHTML = `
-          <div class="tire-info">
-            Dostępne są wszystkie kategorie:
-            Comfort, Sport i Racing.
-            Wymagane opony również muszą być
-            z jednej wybranej kategorii.
-          </div>
-        `;
-
-        return;
-
-      }
-
-
       const tires =
-        tireDefinitions[category];
+        tireDefinitions[
+          category
+        ];
 
 
       if (!tires) {
@@ -1484,28 +1584,22 @@
         const track =
           trackSelect.value;
 
-
         const laps =
           Number(
             lapsInput.value
           );
 
-
         const raceTime =
           raceTimeInput.value.trim();
-
 
         const weather =
           weatherSelect.value;
 
-
         const timeOfDay =
           timeOfDaySelect.value;
 
-
         const tireCategory =
           tireCategorySelect.value;
-
 
         const usableTires =
           getCheckedTires(
@@ -1513,33 +1607,26 @@
             "usable"
           );
 
-
         const requiredTires =
           getCheckedTires(
             requiredTiresContainer,
             "required"
           );
 
-
         const pit =
           pitSelect.value;
-
 
         const fuel =
           fuelSelect.value;
 
-
         const tireWear =
           tireWearSelect.value;
-
 
         const startType =
           startTypeSelect.value;
 
-
         const qualifying =
           qualifyingSelect.value;
-
 
         const bop =
           bopSelect.value;
@@ -1557,8 +1644,7 @@
 
 
         if (
-          selectedClasses.length ===
-          0
+          selectedClasses.length === 0
         ) {
 
           showError(
@@ -1618,8 +1704,6 @@
 
 
         if (
-          tireCategory !==
-            "Dowolne" &&
           usableTires.length === 0
         ) {
 
@@ -1633,8 +1717,6 @@
 
 
         if (
-          tireCategory !==
-            "Dowolne" &&
           requiredTires.length === 0
         ) {
 
@@ -1647,50 +1729,24 @@
         }
 
 
+        const requiredNotAvailable =
+          requiredTires.some(
+            tire =>
+              !usableTires.includes(
+                tire
+              )
+          );
+
+
         if (
-          tireCategory !==
-            "Dowolne"
+          requiredNotAvailable
         ) {
 
-          const allowed =
-            tireDefinitions[
-              tireCategory
-            ].map(
-              tire =>
-                tire.value
-            );
+          showError(
+            "❌ Opony obowiązkowe muszą znajdować się wśród opon dostępnych."
+          );
 
-
-          const invalidUsable =
-            usableTires.some(
-              tire =>
-                !allowed.includes(
-                  tire
-                )
-            );
-
-
-          const invalidRequired =
-            requiredTires.some(
-              tire =>
-                !allowed.includes(
-                  tire
-                )
-            );
-
-
-          if (
-            invalidUsable ||
-            invalidRequired
-          ) {
-
-            showError(
-              "❌ Nie można mieszać kategorii opon."
-            );
-
-            return;
-
-          }
+          return;
 
         }
 
@@ -1958,8 +2014,7 @@
 
 
         if (
-          combos.length ===
-          0
+          combos.length === 0
         ) {
 
           await set(
@@ -2065,12 +2120,10 @@
           left / 1000
         );
 
-
       const minutes =
         Math.floor(
           seconds / 60
         );
-
 
       const remainingSeconds =
         seconds % 60;
@@ -2215,27 +2268,19 @@
           Array.isArray(
             winner.classes
           ) &&
-          winner.classes.length >
-            1
-
+          winner.classes.length > 1
             ? "🔵 MULTIKLASA"
-
             : "🏎️ KLASA AUT";
 
 
         const usableTiresText =
-          winner.tireCategory ===
-            "Dowolne"
-
-            ? "Dowolne — Comfort / Sport / Racing"
-
-            : Array.isArray(
-                winner.usableTires
+          Array.isArray(
+            winner.usableTires
+          )
+            ? winner.usableTires.join(
+                " + "
               )
-              ? winner.usableTires.join(
-                  " + "
-                )
-              : winner.usableTires;
+            : winner.usableTires;
 
 
         const requiredTiresText =
@@ -2280,7 +2325,6 @@
           ${
             winner.raceTime
               ? `
-
                 <div class="result-title">
                   ⏱️ CZAS WYŚCIGU
                 </div>
@@ -2288,7 +2332,6 @@
                 <div class="result-value">
                   ${winner.raceTime}
                 </div>
-
               `
               : ""
           }
@@ -2472,18 +2515,13 @@
 
 
           const myUsableTires =
-            mySavedCombo.tireCategory ===
-              "Dowolne"
-
-              ? "Dowolne — Comfort / Sport / Racing"
-
-              : Array.isArray(
-                  mySavedCombo.usableTires
+            Array.isArray(
+              mySavedCombo.usableTires
+            )
+              ? mySavedCombo.usableTires.join(
+                  " + "
                 )
-                ? mySavedCombo.usableTires.join(
-                    " + "
-                  )
-                : mySavedCombo.usableTires;
+              : mySavedCombo.usableTires;
 
 
           const myRequiredTires =
@@ -2517,12 +2555,9 @@
             ${
               mySavedCombo.raceTime
                 ? `
-
                   <br>
-
                   ⏱️ Czas:
                   ${mySavedCombo.raceTime}
-
                 `
                 : ""
             }
