@@ -51,9 +51,9 @@ def post_discord(race, manual=False):
 
     # Two embeds keep the post readable and within Discord's embed limits.
     embed1 = {
-        "title": "🏁 SRS WEEKLY | COMBO TYGODNIA",
+        "title": "🏁 SRS WEEKLY RACE | SPECYFIKACJA WYŚCIGU",
         "description": (
-            ("" if manual else f"**Termin:** {date_pl} • **Godzina:** {due.strftime('%H:%M')} (Polska)\n")
+            f"**Data wyścigu:** {date_pl} • **Godzina:** {due.strftime('%H:%M')} (Polska)\n"
             + f"**Tor:** {race['track']} • **Kategoria:** {race['className']}\n"
             f"**Dystans:** {race['laps']} okr. • **Kwalifikacje:** {race['qualifying']}\n"
             f"**Szacowany czas jazdy:** ok. {race['estimatedMinutes']} min.\n"
@@ -132,7 +132,7 @@ def post_discord(race, manual=False):
         ],
         "footer": {"text": "SRS • Wartości do przepisania w lobby GT7 • niektóre opcje zależą od toru/trybu"},
     }
-    payload = {"content": "🏁 **SRS WEEKLY | COMBO TYGODNIA**", "embeds": [embed1, embed2]}
+    payload = {"content": "🏁 **SRS WEEKLY RACE | SPECYFIKACJA WYŚCIGU**", "embeds": [embed1, embed2]}
     data = json.dumps(payload, ensure_ascii=False).encode()
     req = urllib.request.Request(DISCORD_WEBHOOK, data=data, method="POST",
                                  headers={"Content-Type": "application/json", "User-Agent": "SRS-Weekly-Race/1.0"})
@@ -216,38 +216,30 @@ def main():
     if manual.get("status") == "pending":
         race = manual.get("race") or fb("srsAutoRace")
         if not race:
-            raise RuntimeError("Brak combo do wysłania na Discorda.")
-
-        # Ręczne combo z formularza mogą nie zawierać wszystkich pól wymaganych
-        # przez Discord embed. Uzupełnij brakujące wartości, zachowując ustawienia
-        # wybrane przez użytkownika.
-        now = datetime.now(TZ)
+            raise RuntimeError("Brak wyścigu do wysłania na Discorda.")
+        # Strona wysyła podstawowe pola wyścigu. Uzupełnij brakujące ustawienia,
+        # których wymaga pełna specyfikacja Discorda, zanim utworzysz wiadomość.
         try:
-            event_date = race.get("eventDate")
-            event_time = race.get("eventTime", now.strftime("%H:%M"))
-            due = datetime.fromisoformat(f"{event_date}T{event_time}").replace(tzinfo=TZ) if event_date else now
-        except (TypeError, ValueError):
-            due = now
-
-        defaults = make_race_settings(
-            {},
-            race.get("className", race.get("class", "Gr.3")),
+            due = datetime.fromisoformat(race["eventDate"] + "T" + race["eventTime"]).replace(tzinfo=TZ)
+        except (KeyError, TypeError, ValueError):
+            raise RuntimeError("Wyścig w Firebase nie ma prawidłowej daty i godziny.") from None
+        run_key = str(race.get("scheduleKey") or race.get("eventDate"))
+        race = make_race_settings(
+            race,
+            race.get("className", "Gr.3"),
             race.get("track", "Trial Mountain Circuit"),
-            race.get("laps", race.get("raceLength", 15)),
+            race.get("laps", 15),
             race.get("fuel", "×2"),
-            race.get("tireWear", race.get("wear", "×4")),
+            race.get("tireWear", "×4"),
             race.get("tires", "Racing Hard + Racing Medium"),
             race.get("weather", "S03 — sucho, pochmurno i przyjemnie"),
             race.get("timeOfDay", "Popołudnie"),
-            race.get("estimatedMinutes", 40),
-            due, now, "manual"
+            race.get("estimatedMinutes", 40), due, now, run_key
         )
-        defaults.update(race)
-        race = defaults
-
+        fb("srsAutoRace", "PUT", race)
         post_discord(race, manual=True)
         fb("srsManualDiscordSend", "PATCH", {"status": "sent", "sentAt": now.isoformat()})
-        print("SUKCES: ręczne combo wysłane na Discorda.")
+        print("SUKCES: ręczny wyścig wysłany na Discorda.")
         return
 
     schedule = fb("srsWeeklyRaceSchedule") or {}
