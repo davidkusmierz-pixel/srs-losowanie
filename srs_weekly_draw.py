@@ -217,6 +217,34 @@ def main():
         race = manual.get("race") or fb("srsAutoRace")
         if not race:
             raise RuntimeError("Brak combo do wysłania na Discorda.")
+
+        # Ręczne combo z formularza mogą nie zawierać wszystkich pól wymaganych
+        # przez Discord embed. Uzupełnij brakujące wartości, zachowując ustawienia
+        # wybrane przez użytkownika.
+        now = datetime.now(TZ)
+        try:
+            event_date = race.get("eventDate")
+            event_time = race.get("eventTime", now.strftime("%H:%M"))
+            due = datetime.fromisoformat(f"{event_date}T{event_time}").replace(tzinfo=TZ) if event_date else now
+        except (TypeError, ValueError):
+            due = now
+
+        defaults = make_race_settings(
+            {},
+            race.get("className", race.get("class", "Gr.3")),
+            race.get("track", "Trial Mountain Circuit"),
+            race.get("laps", race.get("raceLength", 15)),
+            race.get("fuel", "×2"),
+            race.get("tireWear", race.get("wear", "×4")),
+            race.get("tires", "Racing Hard + Racing Medium"),
+            race.get("weather", "S03 — sucho, pochmurno i przyjemnie"),
+            race.get("timeOfDay", "Popołudnie"),
+            race.get("estimatedMinutes", 40),
+            due, now, "manual"
+        )
+        defaults.update(race)
+        race = defaults
+
         post_discord(race, manual=True)
         fb("srsManualDiscordSend", "PATCH", {"status": "sent", "sentAt": now.isoformat()})
         print("SUKCES: ręczne combo wysłane na Discorda.")
