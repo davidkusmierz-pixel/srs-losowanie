@@ -24,3 +24,4 @@ jobs:
           FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: python srs_weekly_draw.py
+        # SRS weekly race automation
