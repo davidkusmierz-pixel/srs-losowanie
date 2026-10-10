@@ -162,7 +162,9 @@
     }
 
     select,
-    input[type="number"] {
+    input[type="number"],
+    input[type="date"],
+    input[type="time"] {
       width: 100%;
       min-height: 52px;
       border-radius: 10px;
@@ -175,7 +177,7 @@
 
     .classes {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 10px;
     }
 
@@ -298,6 +300,24 @@
     </div>
 
 
+
+    <div class="card" id="weeklyAdminCard">
+      <div class="section-title">📅 AUTOMATYCZNY WYŚCIG TYGODNIA</div>
+      <p style="color:#ccc;line-height:1.6;text-align:center">
+        System dobiera realistyczny wyścig wyłącznie dla Gr.1, Gr.2, Gr.3 lub Gr.4
+        i publikuje wynik na Discordzie. Harmonogram działa także wtedy, gdy strona jest zamknięta.
+      </p>
+      <label class="label" for="weeklyStart">📆 Data pierwszego losowania</label>
+      <input id="weeklyStart" type="date" style="width:100%;min-height:52px;border-radius:10px;border:1px solid #555;background:#15151d;color:white;padding:0 15px;font-size:16px">
+      <label class="label" for="weeklyTime">⏰ Godzina losowania (czas polski)</label>
+      <input id="weeklyTime" type="time" value="18:00" style="width:100%;min-height:52px;border-radius:10px;border:1px solid #555;background:#15151d;color:white;padding:0 15px;font-size:16px">
+      <div class="admin-row" style="margin-top:18px">
+        <button id="startWeeklyBtn" style="min-height:52px;padding:0 22px;background:linear-gradient(135deg,#16803c,#075523)">🟢 URUCHOM CO TYDZIEŃ</button>
+        <button id="stopWeeklyBtn" style="min-height:52px;padding:0 22px;background:linear-gradient(135deg,#e30000,#850000)">🔴 ZATRZYMAJ</button>
+      </div>
+      <div id="weeklyStatus" style="margin-top:14px;text-align:center;color:#ccc;line-height:1.6">Odczytywanie harmonogramu…</div>
+    </div>
+
     <div class="card status-card">
 
       <div id="phaseStatus">
@@ -404,60 +424,6 @@
           data-class="Gr.4"
         >
           🚙 Gr.4
-        </button>
-
-
-        <button
-          type="button"
-          class="class-btn"
-          data-class="Hypercar"
-        >
-          🔥 Hypercar
-        </button>
-
-
-        <button
-          type="button"
-          class="class-btn"
-          data-class="Super Formula"
-        >
-          🏎️ Super Formula
-        </button>
-
-
-        <button
-          type="button"
-          class="class-btn"
-          data-class="Gr.B"
-        >
-          🚙 Gr.B
-        </button>
-
-
-        <button
-          type="button"
-          class="class-btn"
-          data-class="Vision Gran Turismo"
-        >
-          ⚡ Vision GT
-        </button>
-
-
-        <button
-          type="button"
-          class="class-btn"
-          data-class="Samochody drogowe"
-        >
-          🚗 Samochody drogowe
-        </button>
-
-
-        <button
-          type="button"
-          class="class-btn"
-          data-class="Open Class"
-        >
-          🏁 Open Class
         </button>
 
       </div>
@@ -616,40 +582,7 @@
       <div id="myCombo" class="my-combo"></div>
 
     </div>
-
-
-    <div class="card">
-
-      <div class="section-title">
-        👥 UCZESTNICY
-      </div>
-
-      <div
-        id="participantCount"
-        class="participant-count"
-      >
-        👥 0 osób dodało COMBO
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="section-title">
-        🏆 WYLOSOWANE COMBO
-      </div>
-
-      <div
-        id="officialResult"
-        class="result"
-      >
-        Wynik pojawi się automatycznie po zakończeniu czasu.
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 
   <script type="module">
@@ -758,21 +691,26 @@
 
     const myCombo =
       document.getElementById("myCombo");
-
-    const participantCount =
-      document.getElementById("participantCount");
-
-    const officialResult =
-      document.getElementById("officialResult");
-
-
-    const roundRef =
+const roundRef =
       ref(database, "srsLobbyRound");
 
     const combosRef =
       ref(database, "srsLobbyCombos");
 
+    // Trwała pula torów: wylosowany tor odpada, pozostałe zostają.
+    const trackPoolRef =
+      ref(database, "srsLobbyTrackPool");
 
+    const weeklyScheduleRef =
+      ref(database, "srsWeeklySchedule");
+
+    const weeklyStart = document.getElementById("weeklyStart");
+    const weeklyTime = document.getElementById("weeklyTime");
+    const startWeeklyBtn = document.getElementById("startWeeklyBtn");
+    const stopWeeklyBtn = document.getElementById("stopWeeklyBtn");
+    const weeklyStatus = document.getElementById("weeklyStatus");
+
+    let availableTracks = [];
     let currentRound = null;
     let currentCombos = {};
     let selectedClasses = [];
@@ -800,6 +738,128 @@
 
     }
 
+
+    function getAllTracks() {
+      return Array.from(trackSelect.options)
+        .map(option => option.value || option.textContent.trim())
+        .filter(track => track && track !== "-- WYBIERZ TOR --");
+    }
+
+    function renderTrackPool() {
+      const selectedTrack = trackSelect.value;
+      const tracks = availableTracks;
+
+      trackSelect.innerHTML = "";
+
+      const placeholder = document.createElement("option");
+      placeholder.value = "";
+      placeholder.textContent = "-- WYBIERZ TOR --";
+      trackSelect.appendChild(placeholder);
+
+      tracks.forEach(track => {
+        const option = document.createElement("option");
+        option.value = track;
+        option.textContent = track;
+        trackSelect.appendChild(option);
+      });
+
+      if (tracks.includes(selectedTrack)) {
+        trackSelect.value = selectedTrack;
+      }
+    }
+
+    async function initializeTrackPool() {
+      const snapshot = await get(trackPoolRef);
+      const savedPool = snapshot.val();
+
+      if (Array.isArray(savedPool)) {
+        availableTracks = savedPool;
+      } else {
+        availableTracks = getAllTracks();
+        await set(trackPoolRef, availableTracks);
+      }
+
+      renderTrackPool();
+    }
+
+
+
+    function formatWeeklySchedule(schedule) {
+      if (!schedule || !schedule.enabled) {
+        weeklyStatus.textContent = "🔴 Harmonogram tygodniowy jest zatrzymany.";
+        return;
+      }
+      const start = schedule.startDate || "—";
+      const time = schedule.time || "18:00";
+      weeklyStatus.textContent =
+        "🟢 Harmonogram aktywny • pierwszy termin: " + start +
+        " o " + time + " (czas polski) • kolejne losowania co 7 dni. " +
+        "Ostatni wynik: " + (schedule.lastRunAt || "jeszcze nie było");
+    }
+
+    startWeeklyBtn.addEventListener("click", async () => {
+      if (adminPin.value.trim() !== ADMIN_PIN) {
+        weeklyStatus.textContent = "❌ Wpisz poprawny PIN administratora w polu u góry.";
+        weeklyStatus.style.color = "#ff5555";
+        return;
+      }
+      if (!weeklyStart.value || !weeklyTime.value) {
+        weeklyStatus.textContent = "❌ Ustaw datę i godzinę pierwszego losowania.";
+        weeklyStatus.style.color = "#ff5555";
+        return;
+      }
+      try {
+        startWeeklyBtn.disabled = true;
+        const oldSnap = await get(weeklyScheduleRef);
+        const old = oldSnap.val() || {};
+        await set(weeklyScheduleRef, {
+          enabled: true,
+          startDate: weeklyStart.value,
+          time: weeklyTime.value,
+          timezone: "Europe/Warsaw",
+          lastRunKey: old.lastRunKey || "",
+          lastRunAt: old.lastRunAt || "",
+          updatedAt: Date.now()
+        });
+        weeklyStatus.style.color = "#4ade80";
+        weeklyStatus.textContent = "🟢 Zapisano. Cotygodniowe losowanie jest uruchomione.";
+        adminPin.value = "";
+      } catch (error) {
+        weeklyStatus.style.color = "#ff5555";
+        weeklyStatus.textContent = "❌ Nie udało się zapisać harmonogramu: " + error.message;
+      } finally {
+        startWeeklyBtn.disabled = false;
+      }
+    });
+
+    stopWeeklyBtn.addEventListener("click", async () => {
+      if (adminPin.value.trim() !== ADMIN_PIN) {
+        weeklyStatus.textContent = "❌ Wpisz poprawny PIN administratora w polu u góry.";
+        weeklyStatus.style.color = "#ff5555";
+        return;
+      }
+      try {
+        stopWeeklyBtn.disabled = true;
+        const snap = await get(weeklyScheduleRef);
+        const old = snap.val() || {};
+        await set(weeklyScheduleRef, { ...old, enabled: false, updatedAt: Date.now() });
+        weeklyStatus.style.color = "#ff6666";
+        weeklyStatus.textContent = "🔴 Cotygodniowe losowanie zatrzymane.";
+        adminPin.value = "";
+      } catch (error) {
+        weeklyStatus.style.color = "#ff5555";
+        weeklyStatus.textContent = "❌ Nie udało się zatrzymać: " + error.message;
+      } finally {
+        stopWeeklyBtn.disabled = false;
+      }
+    });
+
+    onValue(weeklyScheduleRef, snapshot => {
+      const schedule = snapshot.val();
+      formatWeeklySchedule(schedule);
+      if (schedule && schedule.startDate) weeklyStart.value = schedule.startDate;
+      if (schedule && schedule.time) weeklyTime.value = schedule.time;
+    });
 
     function resetComboForm() {
 
@@ -847,6 +907,13 @@
       );
 
     }
+
+
+    initializeTrackPool().catch(error => {
+      console.error("Nie udało się wczytać puli torów:", error);
+      adminInfo.textContent = "❌ Nie udało się wczytać puli torów: " + error.message;
+      adminInfo.style.color = "#ff5555";
+    });
 
 
     newRoundBtn.addEventListener(
@@ -917,12 +984,7 @@
           adminPin.value = "";
 
 
-          participantCount.textContent =
-            "👥 0 osób dodało COMBO";
-
-
-          officialResult.textContent =
-            "🎰 Losowanie odbędzie się automatycznie po zakończeniu czasu.";
+          
 
 
           adminInfo.textContent =
@@ -1053,6 +1115,12 @@
 
         if (!track) {
           showError("❌ Wybierz tor.");
+          return;
+        }
+
+        if (!availableTracks.includes(track)) {
+          showError("❌ Ten tor został już wylosowany i wypada z puli. Wybierz inny tor.");
+          renderTrackPool();
           return;
         }
 
@@ -1321,6 +1389,14 @@
         const winner =
           randomItem(combos);
 
+        // Usuwamy wyłącznie wylosowany tor. Wszystkie pozostałe zostają w puli.
+        const poolSnapshot = await get(trackPoolRef);
+        const savedPool = poolSnapshot.val();
+        const pool = Array.isArray(savedPool) ? savedPool : getAllTracks();
+        availableTracks = pool.filter(track => track !== winner.track);
+        await set(trackPoolRef, availableTracks);
+        renderTrackPool();
+
 
         await set(
           roundRef,
@@ -1423,9 +1499,6 @@
           "hidden"
         );
 
-        officialResult.textContent =
-          "Wynik pojawi się po zakończeniu czasu.";
-
         return;
 
       }
@@ -1450,9 +1523,6 @@
           comboSection.classList.remove(
             "hidden"
           );
-
-          officialResult.textContent =
-            "🎰 Losowanie odbędzie się automatycznie po zakończeniu czasu.";
 
         }
 
@@ -1500,136 +1570,27 @@
         );
 
 
-        const winner =
-          currentRound.winner;
-
-
-        if (!winner) {
-
-          officialResult.textContent =
-            "❌ Nikt nie dodał COMBO.";
-
-          return;
-
-        }
-
-
-        const classes =
-          Array.isArray(winner.classes)
-            ? winner.classes.join(" + ")
-            : winner.classes;
-
-
-        const classType =
-          Array.isArray(winner.classes) &&
-          winner.classes.length > 1
-            ? "🔵 MULTIKLASA"
-            : "🏎️ KLASA AUT";
-
-
-        officialResult.innerHTML = `
-
-          <div class="result-title">
-            🏁 WYBRANY TOR
-          </div>
-
-          <div class="result-value">
-            ${winner.track}
-          </div>
-
-          <div class="result-title">
-            ${classType}
-          </div>
-
-          <div class="result-value">
-            ${classes}
-          </div>
-
-          <div class="result-title">
-            🔢 OKRĄŻENIA
-          </div>
-
-          <div class="result-value">
-            ${winner.laps}
-          </div>
-
-          <div class="result-title">
-            🌦️ POGODA
-          </div>
-
-          <div class="result-value">
-            ${winner.weather}
-          </div>
-
-          <div class="result-title">
-            🌅 PORA DNIA
-          </div>
-
-          <div class="result-value">
-            ${winner.timeOfDay}
-          </div>
-
-          <div class="result-title">
-            🛞 OPONY
-          </div>
-
-          <div class="result-value">
-            ${winner.tires}
-          </div>
-
-          <div class="result-title">
-            🔧 PIT STOP
-          </div>
-
-          <div class="result-value">
-            ${winner.pit}
-          </div>
-
-          <div class="result-title">
-            ⛽ ZUŻYCIE PALIWA
-          </div>
-
-          <div class="result-value">
-            ${winner.fuel}
-          </div>
-
-          <div class="result-title">
-            🛞 ZUŻYCIE OPON
-          </div>
-
-          <div class="result-value">
-            ${winner.tireWear}
-          </div>
-
-          <div class="result-title">
-            🚦 TYP STARTU
-          </div>
-
-          <div class="result-value">
-            ${winner.startType}
-          </div>
-
-          <div class="result-title">
-            ⏱️ KWALIFIKACJE
-          </div>
-
-          <div class="result-value">
-            ${winner.qualifying}
-          </div>
-
-          <div class="result-title">
-            ⚖️ BOP
-          </div>
-
-          <div class="result-value">
-            ${winner.bop}
-          </div>
-
-        `;
-
+        // Sekcja "Wylosowane combo" została usunięta z interfejsu.
       }
 
     }
+
+
+    onValue(
+      trackPoolRef,
+      snapshot => {
+        const pool = snapshot.val();
+
+        if (Array.isArray(pool)) {
+          availableTracks = pool;
+          renderTrackPool();
+        } else if (pool === null) {
+          initializeTrackPool().catch(error => {
+            console.error("Nie udało się zainicjalizować puli torów:", error);
+          });
+        }
+      }
+    );
 
 
     onValue(
@@ -1657,8 +1618,7 @@
 
         if (!currentRound) {
 
-          participantCount.textContent =
-            "👥 0 osób dodało COMBO";
+          
 
           return;
 
@@ -1672,12 +1632,6 @@
                 combo.roundId ===
                 currentRound.id
             );
-
-
-        participantCount.textContent =
-          "👥 " +
-          combos.length +
-          " osób dodało COMBO";
 
 
         const mySavedCombo =
