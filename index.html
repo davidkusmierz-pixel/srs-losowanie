@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SRS LOBBY COMBO — Automatyczny wyścig</title>
+<title>SRS WEEKLY — Combo</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(rgba(5,6,12,.88),rgba(5,6,12,.96)),url("background.png.png") center/cover fixed;color:#fff;font-family:Arial,sans-serif}
 .container{width:min(900px,94%);margin:auto;padding:24px 0 50px}h1{text-align:center;font-size:clamp(30px,6vw,48px);margin:10px 0 24px;text-shadow:0 4px 20px #000}
@@ -35,6 +35,10 @@ button{border:0;color:#fff;background:linear-gradient(135deg,#e30000,#850000);fo
   <div id="eventDisplay">—</div>
   <div id="phaseInfo" class="muted">Tutaj pojawią się szczegóły wyścigu.</div>
   <div id="autoRaceDetails" class="details"></div>
+  <label class="label" for="sendPin">🔒 PIN administratora do wysyłki</label>
+  <input id="sendPin" type="password" placeholder="Wpisz PIN administratora">
+  <button id="sendDiscordBtn" style="background:linear-gradient(135deg,#5865F2,#3543a8)">📢 WYŚLIJ COMBO NA DISCORD</button>
+  <div id="sendDiscordStatus" class="muted" aria-live="polite"></div>
 </div>
 </div>
 <script type="module">
@@ -60,6 +64,7 @@ const phaseStatus = $("phaseStatus"), eventDisplay = $("eventDisplay");
 const phaseInfo = $("phaseInfo"), details = $("autoRaceDetails");
 const raceRef = ref(db, "srsAutoRace");
 const historyRef = ref(db, "srsAutoRaceHistory");
+const manualSendRef = ref(db, "srsManualDiscordSend");
 
 const presets = {
  "Gr.1": [
@@ -167,6 +172,20 @@ onValue(scheduleRef,snapshot=>{
   : "Harmonogram nieaktywny.";
 });
 onValue(raceRef,snapshot=>{const race=snapshot.val();if(race)renderRace(race);});
+$("sendDiscordBtn").addEventListener("click", async () => {
+ const status = $("sendDiscordStatus");
+ if($("sendPin").value.trim() !== ADMIN_PIN){status.textContent="❌ Nieprawidłowy PIN administratora.";return;}
+ const snap = await get(raceRef), race = snap.val();
+ if(!race){status.textContent="❌ Najpierw wygeneruj combo na stronie.";return;}
+ const btn = $("sendDiscordBtn"); btn.disabled = true;
+ status.textContent="⏳ Zlecam wysłanie combo na Discorda…";
+ try {
+   await set(manualSendRef, {requestId:String(Date.now()), status:"pending", requestedAt:Date.now(), race});
+   status.textContent="✅ Zlecenie zapisane. Discord otrzyma combo przy najbliższym uruchomieniu GitHub Actions.";
+   $("sendPin").value="";
+ } catch(e) { status.textContent="❌ Nie udało się zlecić wysyłki: "+e.message; }
+ finally { btn.disabled=false; }
+});
 </script>
 </body>
 </html>
