@@ -3,7 +3,7 @@ name: SRS Weekly Race Draw
 on:
   schedule:
     # GitHub Actions schedules are UTC. Poll every 5 minutes; Python checks Europe/Warsaw.
-    - cron: "*/15 * * * *"
+    - cron: "*/1 * * * *"
   workflow_dispatch:
 
 permissions:
