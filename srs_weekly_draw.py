@@ -132,7 +132,7 @@ def post_discord(race):
         ],
         "footer": {"text": "SRS • Wartości do przepisania w lobby GT7 • niektóre opcje zależą od toru/trybu"},
     }
-    payload = {"content": "🏁 **SRS — nowe combo tygodnia | komplet ustawień lobby GT7**", "embeds": [embed1, embed2]}
+    payload = {"content": "🏁 **🏁 SRS | WEEKLY COMBO**", "embeds": [embed1, embed2]}
     data = json.dumps(payload, ensure_ascii=False).encode()
     req = urllib.request.Request(DISCORD_WEBHOOK, data=data, method="POST",
                                  headers={"Content-Type": "application/json", "User-Agent": "SRS-Weekly-Race/1.0"})
