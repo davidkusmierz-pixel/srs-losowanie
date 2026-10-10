@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+import json, os, random, urllib.request
+from datetime import datetime, date, time, timedelta
+from zoneinfo import ZoneInfo
+
+DB_URL = os.environ["FIREBASE_DATABASE_URL"].rstrip("/")
+DISCORD_WEBHOOK = os.environ["DISCORD_WEBHOOK"]
+TZ = ZoneInfo("Europe/Warsaw")
+
+# Race formats aimed at roughly 35–50 minutes of racing, plus 10-minute qualifying.
+PRESETS = {
+ "Gr.1": [
+  ("Circuit de la Sarthe", 8, "×2", "×3", "Racing Hard + Racing Medium"),
+  ("Suzuka Circuit", 10, "×2", "×3", "Racing Hard + Racing Medium"),
+  ("Mount Panorama", 8, "×2", "×3", "Racing Hard + Racing Medium"),
+ ],
+ "Gr.2": [
+  ("Autopolis", 12, "×2", "×3", "Racing Medium + Racing Soft"),
+  ("Fuji International Speedway", 12, "×2", "×3", "Racing Medium + Racing Soft"),
+  ("Monza Circuit", 12, "×2", "×3", "Racing Medium + Racing Soft"),
+ ],
+ "Gr.3": [
+  ("Circuit de Spa-Francorchamps", 8, "×2", "×3", "Racing Hard + Racing Medium"),
+  ("Red Bull Ring", 16, "×2", "×4", "Racing Medium + Racing Soft"),
+  ("Deep Forest Raceway", 16, "×2", "×4", "Racing Medium + Racing Soft"),
+  ("Watkins Glen", 14, "×2", "×3", "Racing Hard + Racing Medium"),
+  ("Dragon Trail - Seaside", 14, "×2", "×4", "Racing Medium + Racing Soft"),
+ ],
+ "Gr.4": [
+  ("Brands Hatch", 20, "×2", "×4", "Sports Hard + Sports Medium"),
+  ("Dragon Trail - Seaside", 16, "×2", "×4", "Sports Hard + Sports Medium"),
+  ("Trial Mountain Circuit", 18, "×2", "×4", "Sports Hard + Sports Medium"),
+  ("Red Bull Ring", 20, "×2", "×4", "Sports Hard + Sports Medium"),
+ ],
+}
+def fb(path, method="GET", payload=None):
+    url = f"{DB_URL}/{path.strip('/')}.json"
+    data = None if payload is None else json.dumps(payload, ensure_ascii=False).encode()
+    req = urllib.request.Request(url, data=data, method=method, headers={"Content-Type":"application/json"})
+    with urllib.request.urlopen(req, timeout=30) as r:
+        raw = r.read().decode()
+        return json.loads(raw) if raw else None
+def post_discord(message):
+    data = json.dumps({"content": message}, ensure_ascii=False).encode()
+    req = urllib.request.Request(DISCORD_WEBHOOK, data=data, method="POST", headers={"Content-Type":"application/json"})
+    with urllib.request.urlopen(req, timeout=30) as r: r.read()
+def main():
+    now = datetime.now(TZ)
+    schedule = fb("srsWeeklyRaceSchedule") or {}
+    if not schedule.get("enabled"):
+        print("Harmonogram nieaktywny.")
+        return
+    try:
+        first_date = date.fromisoformat(schedule["startDate"])
+        hh, mm = map(int, schedule.get("time", "18:00").split(":"))
+    except (KeyError, ValueError):
+        raise RuntimeError("Harmonogram ma nieprawidłową datę lub godzinę.")
+    first = datetime.combine(first_date, time(hh, mm), TZ)
+    if now < first:
+        print("Pierwszy termin jeszcze nie nadszedł.")
+        return
+    weeks = (now.date() - first.date()).days // 7
+    due = first + timedelta(days=7 * weeks)
+    if due > now: due -= timedelta(days=7)
+    run_key = due.date().isoformat()
+    if schedule.get("lastRunKey") == run_key:
+        print("Wyścig dla tego tygodnia już został utworzony.")
+        return
+
+    previous = fb("srsAutoRace") or {}
+    last_track = previous.get("track", "")
+    cls = random.choice(list(PRESETS))
+    options = [x for x in PRESETS[cls] if x[0] != last_track] or PRESETS[cls]
+    track, laps, fuel, wear, tires = random.choice(options)
+    weather = random.choices(["Słonecznie", "Lekko pochmurno", "Zmienna pogoda"], [6, 3, 1])[0]
+    timeofday = random.choice(["Dzień", "Popołudnie", "Zachód słońca"])
+    estimated = random.choice([35, 40, 45, 50])
+    race = {
+      "id": str(int(now.timestamp() * 1000)), "status": "scheduled",
+      "eventDate": due.date().isoformat(), "eventTime": due.strftime("%H:%M"),
+      "eventDateTime": int(due.timestamp() * 1000), "className": cls, "track": track,
+      "laps": laps, "fuel": fuel, "tireWear": wear, "tires": tires, "weather": weather,
+      "timeOfDay": timeofday, "pit": "1 obowiązkowy PIT STOP", "startType": "Start lotny",
+      "qualifying": "10 minut", "bop": "BOP włączony", "estimatedMinutes": estimated,
+      "createdAt": int(now.timestamp() * 1000), "scheduleKey": run_key
+    }
+    fb("srsAutoRace", "PUT", race)
+    fb("srsAutoRaceHistory/" + race["id"], "PUT", race)
+    fb("srsWeeklyRaceSchedule", "PATCH", {"lastRunKey": run_key, "lastRunAt": now.isoformat()})
+    date_pl = due.strftime("%d.%m.%Y")
+    msg = (
+      "🏁 **SRS WEEKLY RACE — NOWY WYŚCIG** 🏁\n"
+      f"📅 **Termin:** {date_pl}, godz. {due.strftime('%H:%M')} (czas polski)\n"
+      f"🛣️ **Tor:** {track}\n🏎️ **Klasa:** {cls}\n"
+      f"🔢 **Dystans:** {laps} okrążeń\n"
+      f"⌛ **Szacowany czas jazdy:** {estimated} min + kwalifikacje 10 min\n"
+      f"🌦️ **Pogoda:** {weather}\n🌅 **Pora dnia:** {timeofday}\n"
+      f"🛞 **Opony:** {tires}\n🔧 **Pit stop:** 1 obowiązkowy\n"
+      f"⛽ **Paliwo:** {fuel}\n🛞 **Zużycie opon:** {wear}\n"
+      "🚦 **Start:** lotny\n⚖️ **BOP:** włączony\n\n"
+      "ℹ️ Czas jest orientacyjny i zależy od tempa kierowców."
+    )
+    post_discord(msg)
+    print("Utworzono wyścig tygodnia:", run_key, track, cls)
+if __name__ == "__main__":
+    main()
