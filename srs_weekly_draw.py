@@ -40,7 +40,7 @@ def fb(path, method="GET", payload=None):
     with urllib.request.urlopen(req, timeout=30) as r:
         raw = r.read().decode()
         return json.loads(raw) if raw else None
-def post_discord(race):
+def post_discord(race, manual=False):
     """Publikuje ustawienia zgodne z kategoriami opcji w lobby Gran Turismo 7."""
     due = datetime.fromisoformat(race["eventDate"] + "T" + race["eventTime"]).replace(tzinfo=TZ)
     date_pl = due.strftime("%d.%m.%Y")
@@ -51,10 +51,10 @@ def post_discord(race):
 
     # Two embeds keep the post readable and within Discord's embed limits.
     embed1 = {
-        "title": "🏁 SRS WEEKLY RACE | USTAWIENIA LOBBY GT7",
+        "title": "🏁 SRS WEEKLY | COMBO TYGODNIA",
         "description": (
-            f"**Termin:** {date_pl} • **Godzina:** {due.strftime('%H:%M')} (Polska)\n"
-            f"**Tor:** {race['track']} • **Kategoria:** {race['className']}\n"
+            ("" if manual else f"**Termin:** {date_pl} • **Godzina:** {due.strftime('%H:%M')} (Polska)\n")
+            + f"**Tor:** {race['track']} • **Kategoria:** {race['className']}\n"
             f"**Dystans:** {race['laps']} okr. • **Kwalifikacje:** {race['qualifying']}\n"
             f"**Szacowany czas jazdy:** ok. {race['estimatedMinutes']} min.\n"
             "Ustawienia poniżej przepisz w odpowiednich sekcjach tworzenia lobby. Nazwy/opcje mogą się różnić zależnie od toru i trybu."
@@ -132,7 +132,7 @@ def post_discord(race):
         ],
         "footer": {"text": "SRS • Wartości do przepisania w lobby GT7 • niektóre opcje zależą od toru/trybu"},
     }
-    payload = {"content": "🏁 **🏁 SRS | WEEKLY COMBO**", "embeds": [embed1, embed2]}
+    payload = {"content": "🏁 **SRS WEEKLY | COMBO TYGODNIA**", "embeds": [embed1, embed2]}
     data = json.dumps(payload, ensure_ascii=False).encode()
     req = urllib.request.Request(DISCORD_WEBHOOK, data=data, method="POST",
                                  headers={"Content-Type": "application/json", "User-Agent": "SRS-Weekly-Race/1.0"})
@@ -211,9 +211,20 @@ def make_race_settings(race, cls, track, laps, fuel, wear, tires, weather, timeo
 
 def main():
     now = datetime.now(TZ)
+    # Manual requests from the website are processed even when the weekly schedule is disabled.
+    manual = fb("srsManualDiscordSend") or {}
+    if manual.get("status") == "pending":
+        race = manual.get("race") or fb("srsAutoRace")
+        if not race:
+            raise RuntimeError("Brak combo do wysłania na Discorda.")
+        post_discord(race, manual=True)
+        fb("srsManualDiscordSend", "PATCH", {"status": "sent", "sentAt": now.isoformat()})
+        print("SUKCES: ręczne combo wysłane na Discorda.")
+        return
+
     schedule = fb("srsWeeklyRaceSchedule") or {}
     if not schedule.get("enabled"):
-        print("Harmonogram nieaktywny.")
+        print("Brak ręcznego zlecenia; harmonogram nieaktywny.")
         return
     try:
         first_date = date.fromisoformat(schedule["startDate"])
