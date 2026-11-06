@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SRS • Zgłoszenie wyścigowe</title>
+<style>
+:root{color-scheme:dark;--bg:#0b0d11;--panel:#151922;--line:#2b3340;--red:#d62828;--text:#f2f4f7;--muted:#9aa4b2}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#202633 0,#0b0d11 48%);font:15px Arial,sans-serif;color:var(--text);padding:22px}
+.wrap{max-width:820px;margin:auto}.head{border-bottom:2px solid var(--red);padding:8px 0 18px;margin-bottom:20px}.tag{color:#ff5555;font-weight:bold;letter-spacing:3px;font-size:12px}.head h1{margin:8px 0 5px;font-size:29px}.head p{color:var(--muted);margin:0;line-height:1.5}
+.card{background:rgba(21,25,34,.97);border:1px solid var(--line);border-radius:14px;padding:20px;margin:15px 0;box-shadow:0 12px 35px #0005}
+h2{font-size:17px;margin:0 0 16px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{margin-bottom:14px}.full{grid-column:1/-1}
+label{display:block;color:#cbd2dc;font-size:13px;font-weight:bold;margin:0 0 7px}
+input,select,textarea{width:100%;background:#0d1118;border:1px solid #374151;border-radius:8px;padding:12px;color:#fff;font:inherit;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--red)}textarea{min-height:125px;resize:vertical}
+.proof{border:1px dashed #596273;padding:15px;border-radius:10px;background:#10141c}.hint{color:var(--muted);font-size:12px;line-height:1.5;margin-top:7px}
+button{border:0;border-radius:9px;padding:14px 18px;font-weight:bold;cursor:pointer}.primary{background:var(--red);color:white;width:100%;font-size:15px}.primary:disabled{opacity:.4;cursor:not-allowed}
+.preview{white-space:pre-wrap;background:#0d1118;padding:14px;border-radius:8px;color:#d7dce5;min-height:40px}
+.status{padding:12px;border-radius:8px;margin:12px 0;display:none;line-height:1.45}.ok{display:block;background:#123522;color:#a8f0c2}.err{display:block;background:#431d22;color:#ffb8be}
+.footer{color:var(--muted);font-size:12px;text-align:center;margin:22px 0}
+@media(max-width:620px){body{padding:12px}.grid{grid-template-columns:1fr}.full{grid-column:auto}.head h1{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="head">
+  <div class="tag">SIM RACING SQUAD</div>
+  <h1>🏁 ZGŁOSZENIE WYŚCIGOWE</h1>
+  <p>Formularz dla kierowców • Zgłoszenie incydentu do rozpatrzenia przez Zarząd SRS</p>
+</header>
+
+<form id="reportForm" novalidate>
+<section class="card">
+  <h2>📋 Informacje o zgłoszeniu</h2>
+  <div class="grid">
+    <div class="field"><label for="reporter">👤 Zgłaszający *</label><input id="reporter" required maxlength="100" placeholder="Twój nick w GT7 / Discord"></div>
+    <div class="field"><label for="driver">🏎️ Zgłaszany kierowca *</label><input id="driver" required maxlength="100" placeholder="Nick kierowcy, którego dotyczy zgłoszenie"></div>
+    <div class="field"><label for="round">🏆 Numer rundy / wyścigu *</label><input id="round" required maxlength="100" placeholder="Np. Runda 1"></div>
+    <div class="field"><label for="lap">🔄 Numer okrążenia *</label><input id="lap" required maxlength="50" placeholder="Np. 5"></div>
+    <div class="field full"><label for="track">🏁 Tor / wydarzenie *</label><input id="track" required maxlength="150" placeholder="Nazwa toru lub wydarzenia"></div>
+    <div class="field full"><label for="type">⚠️ Rodzaj naruszenia *</label>
+      <select id="type" required>
+        <option value="">Wybierz rodzaj incydentu</option>
+        <option>Kontakt na torze</option><option>Wypchnięcie poza tor</option><option>Niebezpieczny powrót na tor</option>
+        <option>Blokowanie / zmiana toru jazdy</option><option>Wyprzedzanie / obrona pozycji</option>
+        <option>Naruszenie limitów toru</option><option>Inne naruszenie</option>
+      </select>
+    </div>
+    <div class="field full"><label for="description">📝 Opis sytuacji *</label><textarea id="description" required maxlength="3000" placeholder="Opisz dokładnie, co się wydarzyło. Podaj okoliczności incydentu i jego wpływ na wyścig."></textarea></div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>📎 Materiał dowodowy — wymagany</h2>
+  <div class="proof">
+    <div class="field"><label for="proofUrl">🔗 Link do nagrania / dowodu</label><input id="proofUrl" type="url" placeholder="Wklej link https://..."></div>
+    <div style="text-align:center;color:var(--muted);font-weight:bold;margin:4px 0 12px">LUB</div>
+    <div class="field" style="margin:0"><label for="proofFile">📁 Dodaj plik z urządzenia</label><input id="proofFile" type="file" accept="image/*,video/*,.pdf"></div>
+    <div class="hint">Dodaj co najmniej jeden materiał: link albo plik. Możesz również dodać oba. Plik zostanie wysłany bezpośrednio na kanał Discord z tym zgłoszeniem.</div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>👁️ Podgląd zgłoszenia</h2>
+  <div id="preview" class="preview">Uzupełnij formularz, aby zobaczyć podgląd.</div>
+  <div id="status" class="status" role="status" aria-live="polite"></div>
+  <button class="primary" id="sendBtn" type="submit">🔴 WYŚLIJ ZGŁOSZENIE NA DISCORD</button>
+</section>
+</form>
+<div class="footer">SIM RACING SQUAD • SYSTEM ZGŁOSZEŃ WYŚCIGOWYCH</div>
+</div>
+
+<script>
+// =====================================================
+// WEBHOOK DISCORDA — WKLEJ SWÓJ ADRES MIĘDZY CUDZYSŁOWIA
+// UWAGA: publiczny plik HTML na GitHubie ujawnia webhook.
+// =====================================================
+const DISCORD_WEBHOOK = "WKLEJ_TUTAJ_SWÓJ_WEBHOOK";
+
+const $ = id => document.getElementById(id);
+const ids = ['reporter','driver','round','lap','track','type','description','proofUrl'];
+
+function makeReportNumber() {
+  // Prosta numeracja 001, 002, 003... zapamiętywana w tej przeglądarce.
+  const next = Number(localStorage.getItem('srs_report_counter') || 0) + 1;
+  localStorage.setItem('srs_report_counter', String(next));
+  return String(next).padStart(3, '0');
+}
+let currentReportNumber = makeReportNumber();
+$('reportNumber').textContent = currentReportNumber;
+
+function showStatus(message, success) {
+  const el = $('status');
+  el.textContent = message;
+  el.className = 'status ' + (success ? 'ok' : 'err');
+}
+function validProof() {
+  const url = $('proofUrl').value.trim();
+  const file = $('proofFile').files[0];
+  if (!url && !file) return false;
+  if (url) {
+    try { const parsed = new URL(url); if (!['http:','https:'].includes(parsed.protocol)) return false; }
+    catch { return false; }
+  }
+  return true;
+}
+function updatePreview() {
+  const file = $('proofFile').files[0];
+  const url = $('proofUrl').value.trim();
+  $('preview').textContent =
+`🔢 Numer zgłoszenia: ${currentReportNumber}
+👤 Zgłaszający: ${$('reporter').value || '—'}
+🏎️ Zgłaszany kierowca: ${$('driver').value || '—'}
+🏆 Runda / wyścig: ${$('round').value || '—'}
+🔄 Okrążenie: ${$('lap').value || '—'}
+🏁 Tor / wydarzenie: ${$('track').value || '—'}
+⚠️ Rodzaj naruszenia: ${$('type').value || '—'}
+📝 Opis: ${$('description').value || '—'}
+📎 Dowód: ${url || (file ? 'Plik: ' + file.name : 'BRAK — wymagany')}`;
+  $('sendBtn').disabled = !validProof();
+}
+ids.forEach(id => $(id).addEventListener('input', updatePreview));
+$('proofFile').addEventListener('change', updatePreview);
+updatePreview();
+
+$('reportForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  if (!$('reportForm').reportValidity()) return;
+  if (!validProof()) {
+    showStatus('Nie można wysłać zgłoszenia. Dodaj link do dowodu albo wybierz plik.', false);
+    return;
+  }
+  if (!/^https:\/\/(discord\.com|discordapp\.com)\/api\/webhooks\/\d+\/[\w-]+/.test(DISCORD_WEBHOOK)) {
+    showStatus('Webhook nie został ustawiony. W kodzie HTML uzupełnij DISCORD_WEBHOOK na końcu pliku.', false);
+    return;
+  }
+
+  const file = $('proofFile').files[0];
+  const url = $('proofUrl').value.trim();
+  const embed = {
+    title: '🚨 NOWE ZGŁOSZENIE WYŚCIGOWE SRS',
+    color: 14177041,
+    fields: [
+      {name:'🔢 Numer zgłoszenia',value:'#' + currentReportNumber,inline:false},
+      {name:'👤 Zgłaszający',value:$('reporter').value.trim().slice(0,1024),inline:true},
+      {name:'🏎️ Zgłaszany kierowca',value:$('driver').value.trim().slice(0,1024),inline:true},
+      {name:'🏆 Runda / wyścig',value:$('round').value.trim().slice(0,1024),inline:true},
+      {name:'🔄 Okrążenie',value:$('lap').value.trim().slice(0,1024),inline:true},
+      {name:'🏁 Tor / wydarzenie',value:$('track').value.trim().slice(0,1024),inline:false},
+      {name:'⚠️ Rodzaj naruszenia',value:$('type').value,inline:false},
+      {name:'📝 Opis sytuacji',value:$('description').value.trim().slice(0,1024),inline:false},
+      ...(url ? [{name:'🔗 Link do materiału',value:url.slice(0,1024),inline:false}] : [])
+    ],
+    footer:{text:'SIM RACING SQUAD • ZARZĄD'}
+  };
+  if (file && file.type.startsWith('image/')) embed.image = {url:'attachment://' + file.name};
+  const payload = {username:'SRS • Zgłoszenia',embeds:[embed]};
+  const btn = $('sendBtn');
+  btn.disabled = true; btn.textContent = '⏳ WYSYŁANIE ZGŁOSZENIA...';
+  try {
+    let response;
+    if (file) {
+      const data = new FormData();
+      data.append('payload_json', JSON.stringify(payload));
+      data.append('files[0]', file, file.name);
+      response = await fetch(DISCORD_WEBHOOK + '?wait=true', {method:'POST',body:data});
+    } else {
+      response = await fetch(DISCORD_WEBHOOK + '?wait=true', {
+        method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)
+      });
+    }
+    if (!response.ok) {
+      const details = await response.text();
+      throw new Error('Discord: ' + response.status + ' — ' + details.slice(0,300));
+    }
+    showStatus('Zgłoszenie zostało wysłane na Discord.', true);
+    $('reportForm').reset();
+    currentReportNumber = makeReportNumber();
+   
+    updatePreview();
+  } catch (err) {
+    showStatus('Nie udało się wysłać zgłoszenia: ' + err.message + '. Jeśli przeglądarka zgłasza CORS, bezpieczniej będzie użyć pośrednika zamiast bezpośredniego webhooka w HTML.', false);
+  } finally {
+    btn.textContent = '🔴 WYŚLIJ ZGŁOSZENIE NA DISCORD';
+    updatePreview();
+  }
+});
+</script>
+</body>
+</html>
